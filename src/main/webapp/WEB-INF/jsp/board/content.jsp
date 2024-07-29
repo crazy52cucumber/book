@@ -21,11 +21,8 @@
 
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
   <jsp:include page="/WEB-INF/jsp/common/bottom_menu.jsp"/>
-  <div class="book-wrapper">
-    <div class="book-container">
-      <button id="bookBtn" class="btn btn-warning">예약하기 (${book.bookCnt}/${book.totalBookLimit})</button>
-    </div>
-  </div>
+
+  <jsp:include page="/WEB-INF/jsp/board/book.jsp"/>
 </main>
 </body>
 </html>

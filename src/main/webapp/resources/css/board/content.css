@@ -128,6 +128,7 @@ li {
     display: flex;
 }
 
+/* 예약 */
 .book-wrapper {
     display: flex;
     justify-content: center;
@@ -143,4 +144,14 @@ li {
     display: block;
     width: 10rem;
     height: 3rem;
+}
+
+#fullyBookBtn {
+    border-radius: 30px;
+    display: block;
+    width: 10rem;
+    height: 3rem;
+    background-color: #ccc8c8;
+    border: 1px solid #ccc8c8;
+    opacity: 100%;
 }
