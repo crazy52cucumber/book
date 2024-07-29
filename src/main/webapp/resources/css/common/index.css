@@ -2,11 +2,6 @@
     box-sizing: border-box;
 }
 
-.background-wrapper {
-    width: 100%;
-    background-color: #ccc8c8;
-}
-
 main {
     max-width: 500px;
     width: 100%;

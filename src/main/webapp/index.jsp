@@ -9,17 +9,16 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/index.css">
 </head>
 <body>
-<div class="background-wrapper">
-  <main>
-    <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
-    <c:forEach begin="0" end="20" var="i">
-      <section>
-        아 홍보글이에요
-      </section>
-    </c:forEach>
-  </main>
-  <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+<main>
+  <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
+  <c:forEach begin="0" end="10" var="i">
+    <section>
+      아 홍보글이에요
+    </section>
+  </c:forEach>
 
-</div>
+  <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+  <jsp:include page="/WEB-INF/jsp/common/bottom_menu.jsp"/>
+</main>
 </body>
 </html>
