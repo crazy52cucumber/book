@@ -46,9 +46,7 @@ public class MainController extends HttpServlet {
         ArrayList<Main> list = service.searchS(acd_name);
 
         String view = "autosearch.jsp";
-
-
+        RequestDispatcher rd = req.getRequestDispatcher(view);
+        rd.forward(req, res);
     }
-
-
 }

@@ -12,14 +12,7 @@
 
 <main>
   <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
-
-  <c:forEach begin="0" end="10" var="i">
-    <section>
-      <jsp:include page="/WEB-INF/jsp/main/list.jsp"/>
-    </section>
-  </c:forEach>
-
-
+<%--  <jsp:include page="/WEB-INF/jsp/main/list.jsp"/>--%>
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
   <jsp:include page="/WEB-INF/jsp/common/bottom_menu.jsp"/>
 </main>
