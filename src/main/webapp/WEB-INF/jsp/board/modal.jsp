@@ -18,4 +18,4 @@
     </div>
   </div>
 </div>
-<input type="hidden" data-curruser="${member.seq}">
+<input type="hidden" data-curruser="${member.member_seq}">

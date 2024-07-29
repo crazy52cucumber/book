@@ -7,6 +7,8 @@ import board.info.Response2DTO;
 import board.review.ResponseDTO;
 import board.review.ReviewResponseDTO;
 import board.review.ReviewService;
+import book.BookResponseDTO;
+import book.BookService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,10 +23,12 @@ import java.util.List;
 public class BoardController extends HttpServlet {
   private ReviewService reviewService;
   private InfoService infoService;
+  private BookService bookService;
 
   public BoardController() {
     reviewService = ReviewService.getInstance();
     infoService = InfoService.getInstance();
+    bookService = BookService.getInstance();
   }
 
   @Override
@@ -34,16 +38,17 @@ public class BoardController extends HttpServlet {
     int seq = 0;
     if (seqParam != null) {
       seq = Integer.parseInt(seqParam.trim());
-      // 학원 정보 불러오기
+      // info 불러오기
       Response2DTO info = infoService.getInfoByBoardPK(seq);
       req.setAttribute("info", info);
       // reply 불러오기
       ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
       req.setAttribute("review", review);
+      // book 불러오기
+      BookResponseDTO book = bookService.getBookByBoardPK(seq);
+      req.setAttribute("book", book);
       
       req.getRequestDispatcher("WEB-INF/jsp/board/content.jsp?seq=" + seq).forward(req, res);
     }
-
-
   }
 }
