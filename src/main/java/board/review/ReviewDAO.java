@@ -60,6 +60,8 @@ public class ReviewDAO extends BaseDAO {
       if (rs.next()) result = rs.getInt(1);
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeAll(rs, pstmt);
     }
     return result;
   }
@@ -82,9 +84,41 @@ public class ReviewDAO extends BaseDAO {
       result = Math.ceil((double) sum / (double) cnt * 10) / 10.0;
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeAll(rs, pstmt);
     }
 
     return result;
   }
 
+  public Optional<List<ReviewResponseDTO>> selectReviewsByBoardPkWithPaging(long boardPk, RequestDTO dto) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    List<ReviewResponseDTO> list = new ArrayList<>();
+    System.out.println("paging start num: " + dto.getStartNum());
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.SELECT_REVIEW_BY_BOARDPK_WITH_PAGING);
+      pstmt.setLong(1, boardPk);
+      pstmt.setInt(2, dto.getStartNum());
+      rs = pstmt.executeQuery();
+      while (rs.next()) {
+        list.add(ReviewResponseDTO.builder()
+                .boardSeq(rs.getLong("reply_seq"))
+                .memberSeq(rs.getInt("member_seq"))
+                .boardSeq(rs.getInt("board_seq"))
+                .bookSeq(rs.getLong("booK_seq"))
+                .nickname(rs.getString("nickname"))
+                .title(rs.getString("title"))
+                .grade(rs.getString("grade"))
+                .rate(rs.getInt("rate"))
+                .cdate(rs.getDate("cdate"))
+                .build());
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeAll(rs, pstmt);
+    }
+    return Optional.ofNullable(list);
+  }
 }
