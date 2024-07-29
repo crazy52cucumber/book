@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <div class='academy-container'>
 	<div class='academy-item'>
 		<div class='content'>
 			<div class='content-info'>
-				<h3> 해법 수학 </h3>
-				<p> 서울 강남구 대치동 989 태원 리치타운 상가 5,6층 </p>
+				<h3> ${info.dto.academyName} </h3>
+				<p> ${info.dto.addr} </p>
 			</div>
 			<div class='content-img'>
 				이미지??
@@ -13,11 +14,11 @@
 		
 		<div class='academy-score'>
 			<div class='menu'>
-				<p> 4.2 </p>
+				<p> ${info.avg} </p>
 				<img src='${pageContext.request.contextPath}/resources/imgs/star.png'/>
 			</div>
 			<div class='menu'>
-				<p> 450 </p>
+				<p> ${info.cnt} </p>
 				<p> 리뷰수 </p>
 			</div>
 		</div>
@@ -35,7 +36,7 @@
 				<p> 주소
 			</div>
 			<div>
-				<p> 서울 강남구 대치동 989 태원 리치타운상가 5,6층 </p>
+				<p> ${info.dto.addr} </p>
 			</div>
 		</div>
 		<div class='info-item'>
@@ -44,7 +45,7 @@
 				<p> 설립 </p>
 			</div>
 			<div>
-				<p> 2009년 (15년차) </p>
+				<p> ${info.dto.edate} </p>
 			</div>
 		</div>
 		<div class='info-item'>
@@ -53,7 +54,7 @@
 				<p> 학년 </p>
 			</div>
 			<div>
-				<p> 초등학교 1학년 - 6학년 </p>
+				<p> ${info.dto.grade} </p>
 			</div>
 		</div>
 		<div class='info-item'>
@@ -62,7 +63,7 @@
 				<p> 과목 </p>			
 			</div>
 			<div>
-				<p> 영어 </p>			
+				<p> ${info.dto.subject} </p>	
 			</div>
 		</div>
 	</div>
