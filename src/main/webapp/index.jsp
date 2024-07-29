@@ -9,12 +9,11 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/index.css">
 </head>
 <body>
-
-<main>
+  <main>
   <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
-<%--  <jsp:include page="/WEB-INF/jsp/main/list.jsp"/>--%>
+  <jsp:include page="/WEB-INF/jsp/main/list2.jsp"/>
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 
-</main>
+  </main>
 </body>
 </html>

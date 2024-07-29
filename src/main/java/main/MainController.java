@@ -32,9 +32,9 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException{
         MainService service = MainService.getInstance();
 
-        ArrayList<Main> main = service.mainPageS();
+        ArrayList<Main> list = service.mainPageS();
 
-        String view = "list.jsp";
+        String view = "list2.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(view);
         rd.forward(req, res);
     }

@@ -1,0 +1,80 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 10px;
+}
+
+ul,
+li {
+    list-style:none;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+.main_wrap{
+    width: 1000px;
+    margin: 100px auto;
+}
+.main_title{
+    margin-bottom: 30px;
+}
+.main_title strong{
+    font-size: 2rem;
+}
+
+.board_list > div {
+    border-bottom: 1px solid #ddd;
+}
+.board_list > div.top {
+    border-bottom: 1px solid #999;
+}
+.board_list >div:last-child{
+    border-bottom: 1px solid #000;
+}
+.board_list > div > div {
+    display: inline-block;
+    padding:15px 0;
+    text-align: center;
+    font-size: 1rem;
+}
+.board_list > div.top > div{
+    font-weight: 600;
+}
+.board_list .board_num {
+    width: 5%;
+}
+.board_list .academy_name{
+    text-align: left;
+}
+.board_list .top .academy_name{
+    text-align: center;
+}
+.board_list .addr {
+    width: 10%;
+}
+.board_list .edate{
+    width: 10%;
+}
+
+.board_list .ldate{
+    width: 10%;
+}
+
+.board_list .grade{
+    width: 10%;
+}
+
+.board_list .subject{
+    width: 10%;
+}
+
+.board_list .content{
+    width: 10%;
+}
+.board_list .book_limit{
+    width: 10%;
+}
