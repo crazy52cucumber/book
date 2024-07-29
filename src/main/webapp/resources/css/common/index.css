@@ -12,6 +12,10 @@ section {
     height: 175px;
 }
 
+a {
+    cursor: pointer;
+}
+
 @media screen and (min-width: 501px) {
     main {
         background-color: darkcyan;

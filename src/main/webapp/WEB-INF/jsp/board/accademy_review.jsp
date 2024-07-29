@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="modal.jsp"/>
-<div class="review-container">
+<div class="review-wrapper">
   <div>
     <span>
       리뷰 (${review.average})
@@ -10,8 +10,8 @@
     <button>리뷰 작성</button>
   </div>
 
+  <div class="review-conainer">
   <ul>
-    <%--list를 반복문 돌리기--%>
     <c:forEach var="review" items="${review.dto}">
       <li>
         <a href="javascript:void(0)" data-writer='${review.memberSeq}'>
@@ -41,4 +41,5 @@
       <button id="allReviewBtn">모든 리뷰</button>
     </li>
   </ul>
+  </div>
 </div>

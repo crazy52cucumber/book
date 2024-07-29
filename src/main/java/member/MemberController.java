@@ -20,30 +20,26 @@ import java.util.ArrayList;
 
 @WebServlet("/member/member.do")
 public class MemberController extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
   public void service(HttpServletRequest req, HttpServletResponse res)
           throws ServletException, IOException {
-    String method = req.getParameter("method");
-    if (method != null) {
-      method = method.trim();
-      switch (method) {
+    String m = req.getParameter("method");
+    if (m != null) {
+      m = m.trim();
+      switch (m) {
         case "login":
           login(req, res);
           break;
-
         case "match":
           match(req, res);
           break;
-
         case "joinForm":
           joinForm(req, res);
           break;
-
         case "join":
           join(req, res);
           break;
-
         case "modify":
           modify(req, res);
           break;
@@ -64,7 +60,7 @@ public class MemberController extends HttpServlet {
     } else {
       req.getRequestDispatcher("/").forward(req, res);
     }
-//        req.getRequestDispatcher("/").forward(req, res);
+    //req.getRequestDispatcher("/").forward(req, res);
   }
 
 
@@ -126,7 +122,6 @@ public class MemberController extends HttpServlet {
 
     if (member != null) { //얘 필요 없나?
       req.setAttribute("member", member);
-
     }
     req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
 
@@ -221,6 +216,8 @@ public class MemberController extends HttpServlet {
     RequestDispatcher rd = req.getRequestDispatcher(view);
     rd.forward(req, res);
   }
+
+
 
 
 }

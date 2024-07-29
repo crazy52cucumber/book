@@ -1,6 +1,8 @@
 package board.review;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.tags.shaded.org.apache.regexp.RE;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -30,7 +33,30 @@ public class ReviewController extends HttpServlet {
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
+  }
 
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    Gson gson = new Gson();
+    PrintWriter out = res.getWriter();
+    String uri = req.getRequestURI();
+
+    try {
+      long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+      BufferedReader reader = req.getReader();
+      RequestDTO paging = gson.fromJson(reader, RequestDTO.class);
+      int count = reviewService.getCountbyBoardPk(boardPk);
+      List<ReviewResponseDTO> reviewsByBoardPkWithPaging = reviewService.getReviewsByBoardPkWithPaging(boardPk, paging);
+
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("count", count);
+      JsonArray jsonArray = gson.toJsonTree(reviewsByBoardPkWithPaging).getAsJsonArray();
+      jsonObject.add("data", jsonArray);
+      out.print(jsonObject.toString());
+
+    } catch (NumberFormatException nfe) {
+      nfe.printStackTrace();
+    }
   }
 
   private void getReviewByBoardPk(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {

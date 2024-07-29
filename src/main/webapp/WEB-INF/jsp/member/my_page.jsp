@@ -9,14 +9,13 @@
           text-decoration: none;
           text-align: center;
           justify-content: center;
-
       }
 
       #container {
           display: flex;
           justify-content: center;
-          width: 100vw;
-          height: 100vw;
+          width: 100%;
+          height: 100%;
       }
 
       #layout {
@@ -45,8 +44,6 @@
           width: 300px;
           display: flex;
           flex-direction: column;
-
-
       }
 
       #infoWindow > div {
@@ -81,7 +78,7 @@
       a {
           margin-bottom: 50px;
       }
-      
+
       #reply {
           background-color: skyblue;
           width: 400px;

@@ -7,7 +7,7 @@
   <jsp:include page="/WEB-INF/jsp/inc/header_link.jsp"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/content.css">
   <script type="module" defer src="${pageContext.request.contextPath}/resources/js/board/content.js"></script>
-  <script type="module" defer src="${pageContext.request.contextPath}/resources/js/review/review.js"></script>
+  <script type="module" defer src="${pageContext.request.contextPath}/resources/js/board/review/review.js"></script>
 </head>
 <body>
 <main>
