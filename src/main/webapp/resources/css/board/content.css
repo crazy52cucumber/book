@@ -9,16 +9,32 @@ section {
     border: 1px solid goldenrod;
 }
 
+header {
+    border: 1px solid rebeccapurple;
+    box-sizing: border-box;
+    height: 70px;
+    max-width: 500px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background-color: #ccc8c8;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: space-between;
+    line-height: 70px;
+}
+
 @media screen and (min-width: 501px) {
     main {
-        background-color: darkcyan;
         margin: 0 auto;
     }
 }
 
 @media screen and (max-width: 500px) {
     main {
-        background-color: rebeccapurple;
         margin: 0;
     }
 }
@@ -26,57 +42,57 @@ section {
 
 /*유리*/
 .academy-container {
-	padding: 20px;
+    padding: 20px;
 }
 
 .academy-item {
-	padding: 15px;
+    padding: 15px;
 }
 
 .content {
-	display: flex;
+    display: flex;
 }
 
 .content-info > p {
-	font-size: 13px;
-	color: gray;
+    font-size: 13px;
+    color: gray;
 }
 
 .academy-score {
-	display: flex;
-	flex-flow: row wrap;
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .review {
-	display: block;
+    display: block;
 }
 
 .menu {
-	align-items: center;
-	width: 115px;
+    align-items: center;
+    width: 115px;
 }
 
 .button {
-	color: red;
-	border: 1px;
-	border-radius: 7px;
-	height: 40px;
-	width: 450px; /*(수정) 전체 크기의 상대값*/
+    color: red;
+    border: 1px;
+    border-radius: 7px;
+    height: 40px;
+    width: 450px; /*(수정) 전체 크기의 상대값*/
 }
 
 .info-container {
-	padding: 10px;
-	margin-top: 30px;
+    padding: 10px;
+    margin-top: 30px;
 }
 
 .info-item {
-	display: flex;
-	font-size: 13px;
-	justify-content: space-between;
+    display: flex;
+    font-size: 13px;
+    justify-content: space-between;
 }
 
-.info-item > div:first-child{
-	display: flex;
+.info-item > div:first-child {
+    display: flex;
 }
 
 /*수완*/

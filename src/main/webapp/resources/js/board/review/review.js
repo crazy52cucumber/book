@@ -5,9 +5,8 @@ const paging = {
   startNum: 0,
   count   : 0
 }
-
 // 모든 리뷰 보기
-$('#allReviewBtn').click(async () => {
+$(document).on('click', '.bottom-menu-item a:nth-child(2), #allReviewBtn', async () => {
   $('footer').addClass('review-active')
   $('.review-conainer').load('http://localhost:8080/async_page/review_page.jsp')
   const data = await getReviewsByBoardPk(boardPk);

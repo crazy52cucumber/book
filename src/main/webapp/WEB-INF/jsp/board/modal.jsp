@@ -7,7 +7,6 @@
         <span>작성자</span>
         <span>학년</span>
       </div>
-      <%--content--%>
       <div></div>
     </div>
     <div class="modal-container--bottom">
@@ -18,4 +17,4 @@
     </div>
   </div>
 </div>
-<input type="hidden" data-curruser="${member.seq}">
+<input type="hidden" data-curruser="${member.member_seq}">
