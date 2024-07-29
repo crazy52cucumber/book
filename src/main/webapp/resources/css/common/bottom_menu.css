@@ -1,0 +1,18 @@
+.bottom-menu-container {
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .08);
+    z-index: 1;
+    background-color: #ccc8c8;
+    height: 52px;
+    width: 100vw;
+    max-width: 500px;
+    border: 1px dotted darkmagenta;
+}
+
+.bottom-menu-container .bottom-menu-item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    line-height: 52px;
+}
