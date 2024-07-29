@@ -81,7 +81,6 @@ public class ReviewDAO extends BaseDAO {
         sum += rs.getInt("rate");
         cnt++;
       }
-      result = Math.ceil((double) sum / (double) cnt * 10) / 10.0;
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
