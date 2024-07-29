@@ -46,6 +46,10 @@ public class MemberController extends HttpServlet {
           case "findId":
             findId(req, res);
             break;
+
+          case "myId":
+            myId(req, res);
+            break;
         }
       }
       req.getRequestDispatcher("/WEB-INF/jsp/main/main.jsp").forward(req, res);
@@ -74,7 +78,7 @@ public class MemberController extends HttpServlet {
       }
       System.out.println("[MemberController] match 메소드에서 result: " + result);
       req.setAttribute("result", result);
-      req.getRequestDispatcher("/WEB-INF/jsp/main/main.jsp").forward(req, res);
+      req.getRequestDispatcher("/WEB-INF/jsp/member/message.jsp").forward(req, res);
     }
   }
 
@@ -126,5 +130,26 @@ public class MemberController extends HttpServlet {
   private void findId(HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/find_id.jsp").forward(req, res);
+  }
+
+  private void myId(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    String name = req.getParameter("name");
+    String phone = req.getParameter("phone");
+    System.out.println("name: " + name);
+    System.out.println("phone: " + phone);
+    String email = null;
+    if (name != null && phone != null) {
+      long phoneNum = Long.parseLong(phone);
+      MemberService service = MemberService.getInstance();
+      String myEmail = service.findId(name, phoneNum);
+      if (myEmail != null) {
+      email = "**"+myEmail.substring(2);
+      }else {
+        email = myEmail;
+      }
+    }
+    req.setAttribute("email", email);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_id.jsp").forward(req, res);
   }
 }

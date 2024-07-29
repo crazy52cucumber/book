@@ -20,15 +20,6 @@
         margin: 0;
         padding: 0;
       }
-
-      :root {
-        --swiper-theme-color: #007aff;
-      }
-
-      :root {
-        --max-width: 600px;
-      }
-
       body {
         min-height: 100%;
         height: 100vh;
@@ -38,47 +29,10 @@
         justify-content: center;
       }
 
-      :root {
-        view-transition-name: root;
-      }
-
-      html {
-        display: block;
-      }
 
       nav {
         border: 1px solid #000;
         box-sizing: border-box;
-      }
-
-      @media (min-width: 600px) {
-        body {
-          margin: 0 auto !important;
-        }
-      }
-
-      .search-input {
-        border-radius: 30px;
-        border: 1px solid #1263be;
-        background: #ffffff;
-      }
-
-      .login-header {
-        border: 1px solid red;
-      }
-
-      .container {
-        border: 1px solid #007aff;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .header {
-        border: 1px solid red;
-      }
-
-      .header-text {
       }
 
       .main,
@@ -141,10 +95,13 @@
         font-size: 22px;
         cursor: pointer;
       }
+      button{
+        margin-right: 5px;
+      }
     </style>
 </head>
 <body>
-<main>
+<main style="width: 600px">
     <form
             name="join-form"
             action="/member/member.do?method=join"
@@ -233,11 +190,15 @@
         </div>
         <div class="msg input-nickname hide">닉네임을 입력해주세요</div>
         <fieldset class="join">
-            <button type="button" id="join">회원가입</button>
+            <button type="button" class="btn btn-dark" id="join">회원가입</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel">취소</button>
         </fieldset>
     </form>
 </main>
 <script>
+  document.getElementById('cancel').addEventListener('click',()=>{
+    history.back()
+  })
   function domain_remove(email) {
     email = email.trim();
     let atIndex = email.indexOf('@');
@@ -457,10 +418,8 @@
           document
           .querySelector('.duplicated-email')
           .classList.remove('hide');
-          return false;
         } else {
           document.querySelector('.duplicated-email').classList.add('hide');
-          return true;
         }
       },
       error: (jqXHR, textStatus, errorThrown) => {

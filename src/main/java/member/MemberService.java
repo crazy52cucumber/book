@@ -28,4 +28,8 @@ public class MemberService {
   public int emailCheck(String email) {
     return dao.emailCheck(email);
   }
+
+  public String findId(String name, long phoneNum) {
+    return dao.findId(name, phoneNum);
+  }
 }

@@ -3,6 +3,7 @@ package member;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
+import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
@@ -104,5 +105,24 @@ class MemberDAO extends BaseDAO {
       System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
     }
     return FAILURE;
+  }
+
+  String findId(String name, long phoneNum) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+      ps = con.prepareStatement(FINDID);
+      ps.setString(1, name);
+      ps.setLong(2, phoneNum);
+      rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getString("email");
+      }
+    }catch (SQLException se){
+      System.out.println("[memberDAO] findId: Error: " + se.getMessage());
+    }
+    return null;
   }
 }

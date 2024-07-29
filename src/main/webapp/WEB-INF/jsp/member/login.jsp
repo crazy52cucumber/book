@@ -1,9 +1,7 @@
-<%@ page import="static member.util.SignupConst.NOPASSWORD" %>
-<%@ page import="static member.util.SignupConst.NOID" %>
+<%@ page import="static member.util.SignupConst.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -21,14 +19,6 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-      }
-
-      :root {
-        --swiper-theme-color: #007aff;
-      }
-
-      :root {
-        --max-width: 600px;
       }
 
       html,
@@ -158,7 +148,7 @@
                 <input type="text" id="login-email" name="login-email" placeholder="이메일" autofocus/>
             </fieldset>
             <fieldset>
-                <select id="email-select">
+                <select title="email" id="email-select">
                     <option class="option" value="none">직접입력</option>
                     <option class="option" value="naver">naver.com</option>
                     <option class="option" value="gmail">gmail.com</option>
@@ -184,12 +174,7 @@
 
             <fieldset>
                 <button id="login-btn" class="login" type="submit">
-              <span>
-                <div class="button-wrapper">
-                  <i class="fa-regular fa-cat"></i
-                  ><span>강남땃쥐 시작하기</span>
-                </div>
-              </span>
+                  강남땃쥐 시작하기
                 </button>
             </fieldset>
         </form>

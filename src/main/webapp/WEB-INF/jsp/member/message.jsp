@@ -5,11 +5,12 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <script>
-  if (${result} == <%=NOID%>) {
+  const result = ${result}
+  if (result == <%=NOID%>) {
     alert("그런 이메일을 가진 회원이 없어요");
-  } else if (${result} == <%=NOPASSWORD%>) {
+  } else if (result == <%=NOPASSWORD%>) {
     alert("비밀번호가 맞지 않아요");
-  } else if (${result}==<%=ERROR%>) {
+  } else if (result==<%=ERROR%>) {
     alert("DB오류")
   } else {
     alert("로긴 성공");
