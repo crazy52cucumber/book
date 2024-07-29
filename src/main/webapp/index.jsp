@@ -13,12 +13,13 @@
   <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
   <c:forEach begin="0" end="10" var="i">
     <section>
+        <a href="/member/member.do?m=myPage">마이페이지</a>
       아 홍보글이에요
     </section>
   </c:forEach>
 
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-  <jsp:include page="/WEB-INF/jsp/common/bottom_menu.jsp"/>
+
 </main>
 </body>
 </html>
