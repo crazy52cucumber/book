@@ -1,0 +1,47 @@
+.modal-wrapper.active {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsla(0, 0%, 98%, .85);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    position: absolute;
+    top: 150px;
+    max-width: 500px;
+    width: 100%;
+    height: 330px;
+    padding: 1rem;
+    background-color: #fff;
+    display: none;
+}
+
+.modal-container--top > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.modal-container--bottom {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-container--bottom div button:last-child {
+    margin-left: 1rem;
+}
+
+textarea {
+    width: 100%;
+    height: calc(100% - 130px);
+    resize: none;
+}
