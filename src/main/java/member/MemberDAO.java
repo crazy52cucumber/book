@@ -2,11 +2,12 @@ package member;
 
 
 import domain.Board;
-import domain.Book;
 import domain.Member;
 import domain.Reply;
 
-import javax.naming.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;

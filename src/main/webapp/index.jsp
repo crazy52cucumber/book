@@ -13,6 +13,7 @@
   <main>
     <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
     <c:forEach begin="0" end="20" var="i">
+      <a href="/member/member.do">마이페이지</a>
       <section>
         아 홍보글이에요
       </section>

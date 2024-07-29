@@ -1,22 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-         pageEncoding="UTF-8" %>
-
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <head>
-    <title>Title</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-            rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
     <style>
         * {
             text-decoration: none;
             text-align: center;
+
         }
 
         #container {
@@ -25,40 +16,72 @@
             width: 100vw;
             height: 100vw;
         }
-
         #layout {
             display: flex;
             flex-direction: column;
             align-items: center;
             background-color: bisque;
             width: 500px;
-            height: auto;
+            height: 650px;
             margin-top: 50px;
         }
 
-        #btns {
-            margin-top: 50px;
-        }
-
-        #bookingList {
-            margin-top: 50px;
+        #userInfo{
             background-color: salmon;
-            width: 400px;
-
-        }
-
-        .data {
-            background-color: peru;
+            display: flex;
+            margin-top: 50px;
             margin-bottom: 50px;
             width: 400px;
             height: 150px;
-            text-align: center;
-            justify-content: center;
+        }
+
+        #infoWindow{
+            background-color: seagreen;
+            width:300px;
+            display: flex;
+            flex-direction: column;
+
+
 
         }
 
-        a {
-            text-decoration: none;
+        #infoWindow>div {
+            display: flex;
+            height: 150px;
+            align-items: center;
+            border: 1px solid black;
+        }
+
+        #ebtn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: teal;
+            height: 150px;
+            width:100px;
+        }
+
+        #book {
+            background-color: skyblue;
+            width: 400px;
+            height: 150px;
+            margin-bottom: 50px;
+        }
+
+        #book>a{
+            background-color: cadetblue;
+        }
+
+
+        #reply{
+            background-color: skyblue;
+            width: 400px;
+            height: 150px;
+            margin-bottom: 50px;
+        }
+
+        #reply>a{
+            background-color: cadetblue;
         }
 
 
@@ -67,42 +90,30 @@
 <body>
 <div id="container">
     <div id="layout">
-        <div id="btns">
-            <input
-                    type="radio"
-                    class="btn-check"
-                    name="options-outlined"
-                    id="success-outlined"
-                    autocomplete="off"
-                    checked=""
-            />
-            <label class="btn btn-outline-success" for="success-outlined">
-                예약중
-            </label>
+        <div id="userInfo">
+            <div id="infoWindow">
+                <div>닉네임</div>
+                <div>이메일</div>
+            </div>
+            <div id="ebtn">
+                <input type="button" value="편집">
+            </div>
 
-            <input
-                    type="radio"
-                    class="btn-check"
-                    name="options-outlined"
-                    id="danger-outlined"
-                    autocomplete="off"
-            />
-            <label class="btn btn-outline-danger" for="danger-outlined">
-                수강완료
-            </label>
         </div>
+        <a href="">
+            <div id="book">
 
-        <div id="bookingList">
-            <c:if test="${empty myBookingList}">
-                <div class="data">예약한 강의가 없습니다</div>
-            </c:if>
-            <c: forEach items="${myBookingList}" var="board">
-                <a href="">
-                    <div class="data">${board.board_seq}</div>
-                </a>
-            </c:>
-        </div>
+                <div>나의 예약현황</div>
+
+            </div>
+        </a>
+        <a href="">
+            <div id="reply">
+                <div>나의 리뷰</div>
+            </div>
+        </a>
     </div>
 </div>
+
 </body>
 </html>

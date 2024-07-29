@@ -6,10 +6,53 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <html>
 <head>
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+            rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(function(){
+            $("#success-outlined").on("click", function (){
+                $.ajax({
+                    url: "",
+                    type: GET,
+                    data: {so : $("#success-outlined").val()},
+                    datatype: 'json',
+                    success: function(data){
+                        let html = "";
+                        html += "";
+                        if(data.length() ==0){
+                            html += "<div>데이터가 없음</div>";
+                        }else{
+                            for(const board of data){
+                                html += "<a href = "+"링크"+"/>";
+                                html += "<div>"+board.board_seq+"</div>";
+                                html += "<div>"+board.academy_name+"</div>";
+                                html += "<div>"+board.addr+"</div>";
+                                html += "<div>"+board.phone_num+"</div>";
+                                html += "<div>"+board.content+"</div>";
+                            }
+                        }
+                    },
+                    error: function (data){
+
+                    }
+                });
+            });
+        });
+    </script>
+
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -45,6 +88,27 @@
         #btns {
             margin-top: 50px;
         }
+        #bookingList {
+            background-color: salmon;
+            margin-top: 50px;
+
+            width: 400px;
+
+        }
+
+        .data {
+            background-color: peru;
+            margin-bottom: 50px;
+            width: 400px;
+            height: 150px;
+            text-align: center;
+            justify-content: center;
+
+        }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -74,15 +138,16 @@
                 수강완료
             </label>
         </div>
+
         <div id="bookingList">
             <c:if test="${empty myBookingList}">
-                <div>데이터가 없음</div>
+                <div class="data">예약한 강의가 없습니다</div>
             </c:if>
-            <c: forEach items="${myBookingList}" var="board">
+            <c:forEach items="${myBookingList}" var="board">
                 <a href="">
-                    <div>${board.board_seq}</div>
+                    <div class="data">${board.board_seq}</div>
                 </a>
-            </c:>
+            </c:forEach>
         </div>
     </div>
 </div>

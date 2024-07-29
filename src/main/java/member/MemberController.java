@@ -1,7 +1,6 @@
 package member;
 
 import domain.Board;
-import domain.Book;
 import domain.Member;
 import domain.Reply;
 import jakarta.servlet.RequestDispatcher;
