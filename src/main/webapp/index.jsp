@@ -14,7 +14,7 @@
   <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 <%--  <jsp:include page="/WEB-INF/jsp/main/list.jsp"/>--%>
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-  <jsp:include page="/WEB-INF/jsp/common/bottom_menu.jsp"/>
+
 </main>
 </body>
 </html>

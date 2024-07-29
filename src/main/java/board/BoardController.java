@@ -1,6 +1,9 @@
 package board;
 
 
+import board.info.InfoResponseDTO;
+import board.info.InfoService;
+import board.info.Response2DTO;
 import board.review.ResponseDTO;
 import board.review.ReviewResponseDTO;
 import board.review.ReviewService;
@@ -17,9 +20,11 @@ import java.util.List;
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
   private ReviewService reviewService;
+  private InfoService infoService;
 
   public BoardController() {
     reviewService = ReviewService.getInstance();
+    infoService = InfoService.getInstance();
   }
 
   @Override
@@ -29,9 +34,13 @@ public class BoardController extends HttpServlet {
     int seq = 0;
     if (seqParam != null) {
       seq = Integer.parseInt(seqParam.trim());
+      // 학원 정보 불러오기
+      Response2DTO info = infoService.getInfoByBoardPK(seq);
+      req.setAttribute("info", info);
       // reply 불러오기
       ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
       req.setAttribute("review", review);
+      
       req.getRequestDispatcher("WEB-INF/jsp/board/content.jsp?seq=" + seq).forward(req, res);
     }
 

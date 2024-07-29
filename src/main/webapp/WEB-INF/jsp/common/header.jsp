@@ -13,7 +13,7 @@
         <a href="<c:url value='/member/member.do?method=login'/>">로그인하기</a>
       </c:when>
       <c:otherwise>
-        ${member.nickname}
+        <a href="/member/member.do?method=myPage">${member.nickname}</a>
       </c:otherwise>
     </c:choose>
   </div>
