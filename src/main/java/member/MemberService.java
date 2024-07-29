@@ -21,7 +21,11 @@ public class MemberService {
     return dao.passwordMatch(email, password);
   }
 
-  public int join(String email, String password, String name,String nickname){
-    return dao.join(email,password,name,nickname);
+  public int join(String email, String password, String name, int phoneNum, String nickname) {
+    return dao.join(email, password, name, phoneNum, nickname);
+  }
+
+  public int emailCheck(String email) {
+    return dao.emailCheck(email);
   }
 }
