@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static main.MainSQL.*;
+import static main.util.MainSQL.*;
 
 public class MainDAO {
     private DataSource ds;
@@ -72,6 +72,49 @@ public class MainDAO {
                     con.close();
                 }
             }catch (SQLException se2){
+                se2.printStackTrace();
+            }
+        }
+    }
+
+    ArrayList<Main> search(String acd_name) {
+        ArrayList<Main> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        String sql = SEARCH_ACADEMY;
+        ResultSet rs = null;
+        try {
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, "%" + acd_name + "%");
+            rs = pstmt.executeQuery();
+            Main dto = null;
+            while (rs.next()) {
+                long board_seq = rs.getLong("board_seq");
+                String academy_name = rs.getString("academy_name");
+                String addr = rs.getString("addr");
+                String phone_num = rs.getString("phone_num");
+                Date edate = rs.getDate("edate");
+                Date ldate = rs.getDate("ldate");
+                String grade = rs.getString("grade");
+                String subject = rs.getString("subject");
+                String content = rs.getString("content");
+                int book_limit = rs.getInt("book_limit");
+
+                dto = new Main(board_seq, academy_name, addr, phone_num, edate, ldate, grade,
+                        subject, content, book_limit);
+                list.add(dto);
+            }
+            return list;
+        } catch (SQLException se) {
+            se.printStackTrace();
+            return null;
+        } finally {
+            try {
+                rs.close();
+                pstmt.close();
+                con.close();
+            } catch (SQLException se2) {
                 se2.printStackTrace();
             }
         }

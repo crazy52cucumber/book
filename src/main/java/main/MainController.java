@@ -22,6 +22,7 @@ public class MainController extends HttpServlet {
             m = m.trim();
             switch (m) {
                 case "list": mainPage(req, res); break;
+                case "search" : search(req, res); break;
             }
         }else
             mainPage(req, res);
@@ -32,10 +33,19 @@ public class MainController extends HttpServlet {
         MainService service = MainService.getInstance();
 
         ArrayList<Main> main = service.mainPageS();
-        /*
+
         String view = "list.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(view);
-        rd.forward(req, res);*/
+        rd.forward(req, res);
+    }
+
+    private void search(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+        MainService service = MainService.getInstance();
+
+        String acd_name = req.getParameter("academy_name");
+        ArrayList<Main> list = service.searchS(acd_name);
+
+        String view = "autosearch.jsp";
 
 
     }

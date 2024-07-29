@@ -17,5 +17,8 @@ public class MainService {
     public ArrayList<Main> mainPageS() {
         return dao.mainPage();
     }
+    public ArrayList<Main> searchS(String acd_name) {
+        return dao.search(acd_name);
+    }
 
 }
