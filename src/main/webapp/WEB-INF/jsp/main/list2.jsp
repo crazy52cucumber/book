@@ -19,7 +19,7 @@
             <div class="board_list">
                 <div class="top">
                     <div class="board_num">번호</div>
-                    <div class="academy_name">번호</div>
+                    <div class="academy_name">학원명</div>
                     <div class="addr">주소</div>
                     <div class="edate">강의날짜</div>
                     <div class="ldate">설립일</div>
@@ -28,16 +28,16 @@
                     <div class="content">소개</div>
                     <div class="book_limit">최대인원</div>
                 </div>
-                <c:forEach items="list" var="board" varStatus="vs">
+                <c:forEach items="${list}" var="data">
                     <div class="board_list_data">
-                        <c:out value="${board.data}" escapeXml="false"/>
+                        <c:out value="${data.content}" escapeXml="false"/>
                         <div class="list_data">
-                            <h4><c:out value="${board.academy_name}"/>${board.board_num}</h4>
-                            <p><c:out value="${board.addr}"/></p>
-                            <p><c:out value="${board.edate}"/></p><p><c:out value="${board.ldate}"/></p>
-                            <p><c:out value="${board.grade}"/></p><p><c:out value="${board.subject}"/></p>
-                            <p><c:out value="${board.content}"/></p>
-                            <p><c:out value="${board.book_limit}"/></p>
+                            <h4><c:out value="${data.academy_name}"/>${data.board_num}</h4>
+                            <p><c:out value="${data.addr}"/></p>
+                            <p><c:out value="${data.edate}"/></p><p><c:out value="${data.ldate}"/></p>
+                            <p><c:out value="${data.grade}"/></p><p><c:out value="${data.subject}"/></p>
+                            <p><c:out value="${data.content}"/></p>
+                            <p><c:out value="${data.book_limit}"/></p>
                        </div>
                     </div>
                 </c:forEach>

@@ -21,7 +21,7 @@ public class MainController extends HttpServlet {
         if (m != null) {
             m = m.trim();
             switch (m) {
-                case "list": mainPage(req, res); break;
+                case "list2": mainPage(req, res); break;
                 case "search" : search(req, res); break;
             }
         }else
@@ -33,6 +33,7 @@ public class MainController extends HttpServlet {
         MainService service = MainService.getInstance();
 
         ArrayList<Main> list = service.mainPageS();
+        req.setAttribute("list", list);
 
         String view = "list2.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(view);

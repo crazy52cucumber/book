@@ -10,6 +10,7 @@ public class MainService {
     private MainService() {
         dao = new MainDAO();
     }
+
     public static MainService getInstance() {
         return instance;
     }
