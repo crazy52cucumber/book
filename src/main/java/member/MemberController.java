@@ -1,5 +1,8 @@
 package member;
 
+import static member.util.SignupConst.FAILURE;
+import static member.util.SignupConst.SUCCESS;
+
 import domain.Board;
 import domain.Member;
 import domain.Reply;
@@ -19,118 +22,207 @@ import java.util.ArrayList;
 public class MemberController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    public void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String m = request.getParameter("m");
+        String m = req.getParameter("m");
         if (m != null) {
             m = m.trim();
             switch (m) {
+                case "login":
+                    login(req, res);
+                    break;
+
+                case "match":
+                    match(req, res);
+                    break;
+
+                case "joinForm":
+                    joinForm(req, res);
+                    break;
+
+                case "join":
+                    join(req, res);
+                    break;
+
                 case "modify":
-                    modify(request, response);
+                    modify(req, res);
                     break;
                 case "withdraw":
-                    withdraw(request, response);
+                    withdraw(req, res);
                     break;
                 case "myReviewList":
-                    myReplyList(request, response);
+                    myReplyList(req, res);
                     break;
                 case "myBookingList":
-                    myBookingList(request, response);
+                    myBookingList(req, res);
                     break;
 
-                default:
-                    myPage(request, response);
+                case "myPage" :
+                    myPage(req, res);
+                    break;
             }
         } else {
-            myPage(request, response);
+            req.getRequestDispatcher("/").forward(req, res);
         }
+//        req.getRequestDispatcher("/").forward(req, res);
     }
 
-    //나의 페이지 메인 화면
-    private void myPage(HttpServletRequest request, HttpServletResponse response)
+
+  //로그인
+  private void login(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/login.jsp").forward(req, res);
+  }
+
+  //로그인 인증
+  private void match(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    String email = req.getParameter("login-email");
+    String password = req.getParameter("login-password");
+    MemberService service = MemberService.getInstance();
+    if (email != null && password != null) {
+      int result = service.passwordMatch(email, password);
+      if (result == SUCCESS) {
+        Member member = service.getMember(email);
+        HttpSession session = req.getSession();
+        session.setAttribute("member", member);
+      }
+      System.out.println("result: " + result);
+      req.setAttribute("result", result);
+      req.getRequestDispatcher("/WEB-INF/jsp/member/message.jsp").forward(req, res);
+    }
+  }
+
+  //회원가입 뷰로 가기
+  private void joinForm(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/join_form.jsp").forward(req, res);
+  }
+
+  //회원가입
+  private void join(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+      String email = req.getParameter("email");
+      String password = req.getParameter("password");
+      String name = req.getParameter("name");
+      String nickname = req.getParameter("nickname");
+      MemberService service = MemberService.getInstance();
+      if (email != null && password != null && name != null && nickname != null) {
+          int result = service.join(email, password, name, nickname);
+          if (result != FAILURE) {
+              Member member = service.getMember(email);
+              HttpSession session = req.getSession();
+              session.setAttribute("member", member);
+          }
+          req.setAttribute("result", result);
+          req.getRequestDispatcher("/WEB-INF/jsp/member/join_message.jsp").forward(req, res);
+      }
+  }
+
+    private void myPage(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
 
         if (member != null) { //얘 필요 없나?
-            request.setAttribute("member", member);
-        }
+            req.setAttribute("member", member);
 
-        String view = "/WEB-INF/jsp/member/my_page.jsp";
-        RequestDispatcher rd = request.getRequestDispatcher(view);
-        rd.forward(request, response);
+        }
+        req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
+
+        //String view = "my_page.jsp";
+        //RequestDispatcher rd = req.getRequestDispatcher(view);
+        //rd.forward(req, res);
     }
 
-    private void modify(HttpServletRequest request, HttpServletResponse response)
+    //회원정보 수정
+    private void modify(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
 
-        int member_seq = member.getSeq();
+        int member_seq = member.getMember_seq();
         String email = member.getEmail();
-        String password = request.getParameter("modifiedPassword");
+        String password = req.getParameter("modifiedPassword");
         String name = member.getName();
-        String nickname = request.getParameter("nickname");
-        Date birth_day = member.getBirth_day();
+        String phone = member.getPhone();
+        String nickname = req.getParameter("nickname");
+
         Date rdate = member.getRdate();
-        int user_type = member.getUser_type();
-        int valid = member.getValid();
-        Member modifiedMember = new Member(member_seq, email, password, name, nickname, birth_day, rdate, user_type, valid);
+        byte user_type = member.getUser_type();
+        byte valid = member.getValid();
+        Member modifiedMember = Member.builder()
+                .member_seq(member_seq)
+                .email(email)
+                .password(password)
+                .name(name)
+                .phone(phone)
+                .nickname(nickname)
+                .rdate(rdate)
+                .user_type(user_type)
+                .valid(valid).build();
+
+                //new Member(member_seq, email, password, name, phone, nickname, rdate, user_type, valid);
 
         MemberService service = MemberService.getInstance();
-        service.modifyS(modifiedMember);
+          service.modifyS(modifiedMember);
 
-        response.sendRedirect("my_page.jsp");
-    }
+          //req.sendRedirect("my_page.jsp");
+      }
 
-    private void withdraw(HttpServletRequest request, HttpServletResponse response)
+    //회원 탈퇴
+    private void withdraw(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
 
-        int member_seq = member.getSeq();
+        int member_seq = member.getMember_seq();
         boolean flag = false;
         if (member_seq != -1L) {
             MemberService service = MemberService.getInstance();
             service.withdrawS(member_seq);
         }
-        request.setAttribute("flag", flag);
+        req.setAttribute("flag", flag);
 
         String view = "mainPage.jsp";
-        RequestDispatcher rd = request.getRequestDispatcher(view);
-        rd.forward(request, response);
+        RequestDispatcher rd = req.getRequestDispatcher(view);
+        rd.forward(req, res);
     }
 
-    private void myReplyList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    //내 리뷰리스트 불러오기
+    private void myReplyList(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
-        int member_seq = member.getSeq();
+        int member_seq = member.getMember_seq();
 
         MemberService service = MemberService.getInstance();
         ArrayList<Reply> myReplyList = service.myReplyListS(member_seq);
-        request.setAttribute("myReplyList", myReplyList);
+        req.setAttribute("myReplyList", myReplyList);
 
         String view = "my_reply_list.jsp";
-        RequestDispatcher rd = request.getRequestDispatcher(view);
-        rd.forward(request, response);
+        RequestDispatcher rd = req.getRequestDispatcher(view);
+        rd.forward(req, res);
     }
 
-    //예약 (중/ 취소/ 완료) //비동기 (검색 기능 / 라디오박스 같은 기능)
+    //내 예약리스트 불러오기
+    // 예약 (중/ 취소/ 완료) //비동기 (검색 기능 / 라디오박스 같은 기능)
     //예약, 보드 조인해서 강의 리스트
-    private void myBookingList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    private void myBookingList(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
-        int member_seq = member.getSeq();
+        int member_seq = member.getMember_seq();
         MemberService service = MemberService.getInstance();
         ArrayList<Board> myBookingList = service.myBookingListS(member_seq);
-        request.setAttribute("myBookingList", myBookingList);
+        req.setAttribute("myBookingList", myBookingList);
 
         String view = "my_booking_list.jsp";
-        RequestDispatcher rd = request.getRequestDispatcher(view);
-        rd.forward(request, response);
+        RequestDispatcher rd = req.getRequestDispatcher(view);
+        rd.forward(req, res);
     }
+
+
 
 
 }

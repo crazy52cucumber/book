@@ -3,35 +3,31 @@ package member;
 import domain.Board;
 import domain.Member;
 import domain.Reply;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
 public class MemberService {
     private MemberDAO dao;
 
+    @Getter
     private static MemberService instance = new MemberService();
 
     private MemberService() {
         dao = new MemberDAO();
     }
 
-
     public static void setInstance(MemberService instance) {
         MemberService.instance = instance;
     }
 
-    public static MemberService getInstance() {
-        return instance;
+    public void modifyS(Member modifiedMember) {
+        dao.modify(modifiedMember);
     }
 
-    public void modifyS(Member member) {
-        dao.modify(member);
+    public boolean withdrawS(int seq) {
+        return dao.withdraw(seq);
     }
-
-    public void withdrawS(int seq) {
-        dao.withdraw(seq);
-    }
-
 
     public ArrayList<Reply> myReplyListS(int member_seq) {
         return dao.myReplyList(member_seq);
@@ -41,5 +37,15 @@ public class MemberService {
         return dao.myBookingList(member_seq);
     }
 
+    public Member getMember(String email) {
+    return dao.getMember(email);
+  }
 
+    public int passwordMatch(String email, String password) {
+    return dao.passwordMatch(email, password);
+  }
+
+    public int join(String email, String password, String name,String nickname){
+        return dao.join(email,password,name,nickname);
+    }
 }
