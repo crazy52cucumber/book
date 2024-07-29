@@ -25,6 +25,59 @@ section {
 
 
 /*유리*/
+.academy-container {
+	padding: 20px;
+}
+
+.academy-item {
+	padding: 15px;
+}
+
+.content {
+	display: flex;
+}
+
+.content-info > p {
+	font-size: 13px;
+	color: gray;
+}
+
+.academy-score {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.review {
+	display: block;
+}
+
+.menu {
+	align-items: center;
+	width: 115px;
+}
+
+.button {
+	color: red;
+	border: 1px;
+	border-radius: 7px;
+	height: 40px;
+	width: 450px; /*(수정) 전체 크기의 상대값*/
+}
+
+.info-container {
+	padding: 10px;
+	margin-top: 30px;
+}
+
+.info-item {
+	display: flex;
+	font-size: 13px;
+	justify-content: space-between;
+}
+
+.info-item > div:first-child{
+	display: flex;
+}
 
 /*수완*/
 img {
