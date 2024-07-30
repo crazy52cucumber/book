@@ -156,14 +156,15 @@ li {
     bottom: 70px;
 }
 
-#bookBtn {
+#bookBtn, #cancelBtn{
     border-radius: 30px;
     display: block;
     width: 10rem;
     height: 3rem;
+    opacity: 100%;
 }
 
-#fullyBookBtn {
+#fullyBtn {
     border-radius: 30px;
     display: block;
     width: 10rem;

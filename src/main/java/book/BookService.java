@@ -16,4 +16,9 @@ public class BookService {
         int bookCnt = bookDAO.getBookCnt(boardPk);
         return new BookResponseDTO(totalBookLimit, bookCnt);
     }
+
+    public int getBookUser(long boardPk, long memberPk) {
+        int bookUser = bookDAO.getBookUser(boardPk, memberPk);
+        return bookUser;
+    }
 }

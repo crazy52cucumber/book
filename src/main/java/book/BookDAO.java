@@ -55,4 +55,24 @@ public class BookDAO extends BaseDAO{
 			return -1;
 		}
 	}
+
+	/*강의 예약 여부*/
+	int getBookUser(long boardPK, long memberPK) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = con.prepareStatement(BookSQL.GET_BOOK_USER);
+			pstmt.setLong(1, boardPK);
+			pstmt.setLong(2, memberPK);
+			rs = pstmt.executeQuery();
+			int cnt = 0;
+			if(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			return cnt;
+		}catch(SQLException se) {
+			se.printStackTrace();
+			return -1;
+		}
+	}
 }
