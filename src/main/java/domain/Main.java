@@ -13,10 +13,30 @@ public class Main {
     private String subject; // 과목
     private String content; // 강의내용
     private int book_limit; // 최대예약인원
+    private long book_seq;
+    private double rate;
+    private int review_count;
 
     public Main(){}
 
-    public Main(long board_seq, String academy_name, String addr, String phone_num, Date edate, Date ldate, String grade, String subject, String content, int book_limit) {
+    public Main(long board_seq, String academy_name, String addr
+            , String content, int book_limit, Date ldate,double rate,int review_count) { // list에 표시할 내용
+        this.board_seq = board_seq;
+        this.academy_name = academy_name;
+        this.addr = addr;
+        this.content = content;
+        this.book_limit = book_limit;
+        this.ldate = ldate;
+        this.rate = rate;
+        this.review_count = review_count;
+    }
+    public Main(long board_seq, int rate){
+        this.board_seq = board_seq;
+        this.rate = rate;
+    }
+
+    public Main(long board_seq, String academy_name, String addr, String phone_num, Date edate, Date ldate, String grade
+            , String subject, String content, int book_limit) { // 전부 다 불러오는 경우
         this.board_seq = board_seq;
         this.academy_name = academy_name;
         this.addr = addr;
@@ -108,6 +128,30 @@ public class Main {
 
     public void setBook_limit(int book_limit) {
         this.book_limit = book_limit;
+    }
+
+    public long getBook_seq() {
+        return book_seq;
+    }
+
+    public void setBook_seq(long book_seq) {
+        this.book_seq = book_seq;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public int getReview_count() {
+        return review_count;
+    }
+
+    public void setReview_count(int review_count) {
+        this.review_count = review_count;
     }
 }
 

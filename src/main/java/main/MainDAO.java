@@ -34,28 +34,25 @@ public class MainDAO {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String sql = SELECT_MAIN;
+        String sql = SELECT_ALL;
 
         try{
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while(rs.next()) {
-                long board_seq = rs.getLong("board_seq");
-                String academy_name = rs.getString("academy_name");
-                String addr = rs.getString("addr");
-                String phone_num = rs.getString("phone_num");
-                Date edate = rs.getDate("edate");
-                Date ldate = rs.getDate("ldate");
-                String grade = rs.getString("grade");
-                String subject = rs.getString("subject");
-                String content = rs.getString("content");
-                int book_limit = rs.getInt("book_limit");
+                long board_seq = rs.getLong("br.board_seq");
+                String academy_name = rs.getString("br.academy_name");
+                String addr = rs.getString("br.addr");
+                String content = rs.getString("br.content");
+                int book_limit = rs.getInt("br.book_limit");
+                Date ldate = rs.getDate("br.ldate");
+                double rate = rs.getDouble("rate");
+                int review_count = rs.getInt("review_count");
 
-                System.out.println(board_seq);
+                System.out.println(rate);
 
-                mainDto = new Main(board_seq, academy_name, addr,phone_num,edate,ldate,grade,
-                        subject, content, book_limit);
+                mainDto = new Main(board_seq, academy_name, addr,content, book_limit, ldate,rate, review_count);
                 list.add(mainDto);
             }
             return list;
@@ -75,6 +72,32 @@ public class MainDAO {
                 }
             }catch (SQLException se2){
                 se2.printStackTrace();
+            }
+        }
+    }
+
+    int count_academy(){
+        int count_academy = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        String sql = COUNT_ACADEMY;
+        ResultSet rs = null;
+        try {
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            count_academy = rs.getInt("count");
+            return count_academy;
+        }catch (SQLException se){
+            se.printStackTrace();
+            return -1;
+        }finally {
+            try{
+                rs.close();
+                pstmt.close();
+                con.close();
+            }catch (SQLException se){
+                se.printStackTrace();
             }
         }
     }

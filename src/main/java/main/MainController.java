@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/main.do")
+@WebServlet("/")
 public class MainController extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res)
@@ -24,7 +24,7 @@ public class MainController extends HttpServlet {
                 case "search" : search(req, res); break;
             }
         }else
-             list(req, res);
+            list(req, res);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse res)
@@ -32,9 +32,12 @@ public class MainController extends HttpServlet {
         MainService service = MainService.getInstance();
 
         ArrayList<Main> list = service.mainPageS();
-        req.setAttribute("list", list);
+        int count = service.count_academyS();
 
-        String view = "/WEB-INF/jsp/main/list.jsp";
+        req.setAttribute("list", list);
+        req.setAttribute("count", count);
+
+        String view = "index.jsp";
         req.getRequestDispatcher(view).forward(req, res);
     }
 

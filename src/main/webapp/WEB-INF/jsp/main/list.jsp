@@ -10,43 +10,48 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
             crossorigin="anonymous"></script>
 </head>
+<body>
 <main>
-    <body>
-    <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
+    <div class="ui-menu-divider"></div>
     <div class="main_wrap">
-        <div class = "main_title">
-            <strong>학원 안내</strong>
-        </div>
-     <div class="board_list_wrap">
-        <div class="board_list">
-<%--            <div class="top">--%>
-<%--                <div class="board_num">번호</div>--%>
-<%--                <div class="academy_name">번호</div>--%>
-<%--                <div class="addr">주소</div>--%>
-<%--                <div class="edate">강의날짜</div>--%>
-<%--                <div class="ldate">설립일</div>--%>
-<%--                <div class="grade">등급</div>--%>
-<%--                <div class="subject">과목</div>--%>
-<%--                <div class="content">소개</div>--%>
-<%--                <div class="book_limit">최대인원</div>--%>
-<%--            </div>--%>
-            <div>
-                <c:forEach items="${list}" var="board">
-                    <div class="board_num">${board.board_seq}</div>
-                    <div class="academy_name">${board.academy_name}</div>
-                    <div class="addr">${board.addr}</div>
-                    <div class="edate">${board.edate}</div>
-                    <div class="ldate">${board.ldate}</div>
-                    <div class="grade">${board.grade}</div>
-                    <div class="subject">${board.subject}</div>
-                    <div class="content">${board.content}</div>
-                    <div class="book_limit">${board.book_limit}</div>
-                </c:forEach>
-                </div>
-            </div>
-        </div>
+    <p class="search-count-academy">총 <strong>{count}</strong> 개의 학원</p>
+
+    <div class = "main-contents">
+        <div class = "devider none-margin"></div>
+        <ul class="ul">
+            <c:forEach items="${list}" var="board">
+                <li class="main-card">
+                    <a href = "/board?seq=${board.board_seq}">
+                    <div itemscope="itemscope" itemtype="https://schema.org/School" class="acdemy-item">
+                        <div class="content">
+                            <div class = "info">
+                                <span itemprop="academy_name" class="h4-medium title">${board.academy_name}</span>
+                                <span itemprop="addr" class="body2-medium address">${board.addr}</span>
+                                <span itemprop="content" class="body2-medium2 tags">${board.content}</span>
+                                <span itemprop="book_limit">${board.book_limit}</span>
+                                <span itemprop="ldate" class="ldate">${board.ldate}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "academy-item-menus">
+                        <div class = "academy-menu">
+                            <img src = "/resources/imgs/star.png"/>
+                            <span itemprop="rate">${board.rate} 점</span>
+                        </div>
+                        <div class = "menu">
+                            <p itemscope = "itemscope" class = "body3-medium menu-text">
+                            <img src = "/resources/imgs/review.png"/>
+                            <span itemprop="review_count">${board.review_count} 개</span>
+                            </p>
+                        </div>
+                    </div>
+                    </a>
+                </li>
+            </c:forEach>
+        </ul>
     </div>
-    <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-    </body>
+</div>
+
 </main>
+</body>
 </html>
