@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 @WebServlet("/member/member.do")
 public class MemberController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
   public void service(HttpServletRequest req, HttpServletResponse res)
           throws ServletException, IOException {
@@ -212,12 +212,8 @@ public class MemberController extends HttpServlet {
     ArrayList<Board> myBookingList = service.myBookingListS(member_seq);
     req.setAttribute("myBookingList", myBookingList);
 
-    String view = "my_booking_list.jsp";
-    RequestDispatcher rd = req.getRequestDispatcher(view);
-    rd.forward(req, res);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_booking_list.jsp").forward(req, res);
   }
-
-
 
 
 }

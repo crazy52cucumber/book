@@ -88,6 +88,40 @@
 
 
   </style>
+  <script>
+    $(document).ready(function () {
+      $('#btn').click(function () {
+        // Show the popup
+        $('#popup').show();
+
+        // Perform Ajax request
+        $.ajax({
+          url: '/member/member.do?method=myPage', // 서버의 엔드포인트 URL로 변경하세요
+          type: 'GET',
+          success: function (data) {
+            // Update popup content with data from the server
+            $('#popup-body').html(data);
+          },
+          error: function () {
+            $('#popup-body').html('Failed to load content.');
+          }
+        });
+      });
+
+      // Close the popup when the user clicks on the close button
+      $('.close-btn').click(function () {
+        $('#popup').hide();
+      });
+
+      // Close the popup when the user clicks outside of the popup content
+      $(window).click(function (event) {
+        if ($(event.target).is('#popup')) {
+          $('#popup').hide();
+        }
+      });
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div id="container">
@@ -99,6 +133,12 @@
       </div>
       <div id="ebtn">
         <input id="btn" type="button" value="편집">
+        <div id="popup" class="popup">
+          <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <div id="popup-body">Loading...</div>
+          </div>
+        </div>
       </div>
 
     </div>
