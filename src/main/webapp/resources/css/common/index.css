@@ -7,6 +7,10 @@ main {
     width: 100%;
 }
 
+main > div {
+    margin-top: 150px;
+}
+
 section {
     border: 1px solid violet;
     height: 175px;

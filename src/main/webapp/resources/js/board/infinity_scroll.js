@@ -1,6 +1,7 @@
 // 무한 스크롤
 import {getReviewsByBoardPkWithPaging} from "./review/review-api.js";
 import {drwaReview} from "./draw.js";
+import {closeModal, drawModal} from "./modal.js";
 
 const paging = {
   startNum: 0,
@@ -9,7 +10,6 @@ const paging = {
 let boardPk = 0;
 
 const io = new IntersectionObserver(entries => {
-  console.log('paging', paging);
   let reviewsByBoardPkWithPaging = '';
   let jsonData = '';
   entries.forEach(async entry => {
@@ -19,13 +19,23 @@ const io = new IntersectionObserver(entries => {
         jsonData = JSON.parse(reviewsByBoardPkWithPaging);
 
         $('.review-list').append(drwaReview(jsonData.data));
-        console.log(jsonData)
         paging.startNum += 5;
         paging.count = jsonData.count;
       } while (paging.count / paging.startNum >= 1)
-
     }
   })
+  const reviewAEle = $('li a');
+  const modalCancleBtnEle = $('#modalCancle');
+  reviewAEle.each((idx, item) => {
+    drawModal(item);
+
+    $(document).click(e => {
+      if ($(e.target).attr('class')?.startsWith('modal-wrapper')) {
+        closeModal(e)
+      }
+    });
+    modalCancleBtnEle.click(closeModal);
+  });
 })
 
 // 무한 스크롤 관찰 대상
