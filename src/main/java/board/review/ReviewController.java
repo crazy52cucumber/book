@@ -3,11 +3,13 @@ package board.review;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import domain.Member;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.eclipse.tags.shaded.org.apache.regexp.RE;
 
 import java.io.BufferedReader;
@@ -39,9 +41,7 @@ public class ReviewController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
-    System.out.println("이게 뭐지?: " + uri);
     String[] method = uri.split("/");
-    System.out.println("아, " + Arrays.toString(method));
     try {
       long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
       if (method[2].startsWith("all"))
@@ -70,6 +70,7 @@ public class ReviewController extends HttpServlet {
     PrintWriter out = res.getWriter();
 
     BufferedReader reader = req.getReader();
+    String line = "";
     RequestDTO paging = gson.fromJson(reader, RequestDTO.class);
     int count = reviewService.getCountbyBoardPk(boardPk);
     List<ReviewResponseDTO> reviewsByBoardPkWithPaging = reviewService.getReviewsByBoardPkWithPaging(boardPk, paging);
@@ -82,6 +83,21 @@ public class ReviewController extends HttpServlet {
   }
 
   private void addReview(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
+    Gson gson = new Gson();
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    PrintWriter out = res.getWriter();
 
+    BufferedReader reader = req.getReader();
+    ReviewRequestDTO dto = gson.fromJson(reader, ReviewRequestDTO.class);
+    dto.setBoardSeq(boardPk);
+    try {
+      dto.setMemberSeq(member.getSeq());
+    } catch (NullPointerException npe) {
+      System.out.println("로그인 아직 안됨: " + npe.getMessage());
+    }
+    int result = reviewService.addReview(dto, member.getSeq());
+
+    out.print("{\"result\":\"" + result + "\"}");
   }
 }

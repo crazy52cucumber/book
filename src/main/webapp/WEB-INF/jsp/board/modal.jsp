@@ -16,12 +16,12 @@
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-          <span class="star"></span>
+          <span class="star"><img src="/resources/imgs/별.png" alt="별"></span>
         </div>
       </div>
 
       <div class="input-container">
-        <div><h4><input type="text" value="제목"></h4></div>
+        <div><h4><input id="title" type="text" name="title" value="제목"></h4></div>
         <div>
           <label for="pros"><strong>좋은점</strong></label>
           <div contenteditable="true" id="pros" name="pros"/>
@@ -31,8 +31,8 @@
           <div contenteditable="true" id="cons" name="cons"/>
         </div>
         <div>
-          <label for="feature"><strong>수업방식 및 특징</strong></label>
-          <div contenteditable="true" id="feature" name="feature"/>
+          <label for="features"><strong>수업방식 및 특징</strong></label>
+          <div contenteditable="true" id="features" name="feature"/>
         </div>
         <div>
           <label for="wishes"><strong>학원에 바라는점</strong></label>
@@ -43,8 +43,9 @@
     </div>
   </div>
   <div class="modal-container--bottom">
-    <p>날짜</p>
+    <p>날짜는 지우고, 가져올때 추가</p>
     <div>
+      <button id="submitBtn" class="btn btn-primary">작성</button>
       <button id="modalCancle" class="btn btn-danger">닫기</button>
     </div>
   </div>

@@ -21,7 +21,7 @@
     height: 430px;
     padding: 1rem;
     background-color: red;
-    /*display: none;*/
+    display: none;
     overflow-y: auto;
 
 }
@@ -49,5 +49,4 @@ div[contenteditable="true"] {
 
 .input-container {
     height: 100%;
-    overflow-y: auto;
 }

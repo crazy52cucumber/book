@@ -14,10 +14,12 @@ export const getReviewsByBoardPkWithPaging = async (boardPk, paging) => {
   return response;
 }
 
-export const addReview = async (boardPk, data) => {
+export const addReview = async (boardPk, object) => {
   const response = await $.ajax(`${SERVER_IP}/reviews/add/${boardPk}`, {
-    contentType: 'application/json',
-    type       : 'POST'
+    type       : 'POST',
+    data       : JSON.stringify(object),
+    processData: false,
+    contentType: 'application/json'
   })
   return response;
 }

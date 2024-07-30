@@ -24,7 +24,7 @@
     </div>
 
     <a href='javascript:void(0)'>
-      <button id="reviewButton" class='button'>리뷰 남기기</button>
+      <button id="reviewButton" class='button review-btn'>리뷰 남기기</button>
     </a>
   </div>
 

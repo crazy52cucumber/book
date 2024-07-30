@@ -89,9 +89,9 @@ public class MemberController extends HttpServlet {
             break;
         }
       }
-      req.getRequestDispatcher("/").forward(req, res);
+      //req.getRequestDispatcher("/").forward(req, res);
     }
-    req.getRequestDispatcher("/").forward(req, res);
+    //req.getRequestDispatcher("/").forward(req, res);
   }
 
 
@@ -247,7 +247,7 @@ public class MemberController extends HttpServlet {
     ArrayList<Reply> myReplyList = service.myReplyListS(member_seq);
     req.setAttribute("myReplyList", myReplyList);
 
-    String view = "my_reply_list.jsp";
+    String view = "my_review_list.jsp";
     RequestDispatcher rd = req.getRequestDispatcher(view);
     rd.forward(req, res);
 

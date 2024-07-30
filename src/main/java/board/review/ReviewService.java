@@ -1,13 +1,17 @@
 package board.review;
 
+import book.BookDAO;
+
 import java.util.List;
 
 public class ReviewService {
   private static ReviewService instance = new ReviewService();
   private ReviewDAO reviewDAO;
+  private BookDAO bookDAO;
 
   private ReviewService() {
     reviewDAO = new ReviewDAO();
+    bookDAO = new BookDAO();
   }
 
   public static ReviewService getInstance() {
@@ -28,5 +32,14 @@ public class ReviewService {
   public List<ReviewResponseDTO> getReviewsByBoardPkWithPaging(long boardPk, RequestDTO dto) {
     List<ReviewResponseDTO> responseDto = reviewDAO.selectReviewsByBoardPkWithPaging(boardPk, dto).orElseThrow();
     return responseDto;
+  }
+
+  // 서버에서 예약되지 않은 사람의 예약일 때 예외 발생시켜야됨
+  public int addReview(ReviewRequestDTO dto, int memberPk) {
+    long bookSeq = bookDAO.selectBookPkFromBooked(dto, memberPk);
+    if (bookSeq == 0) {
+      return 2;
+    }
+    return reviewDAO.insertReview(dto, dto.getBoardSeq());
   }
 }
