@@ -4,7 +4,10 @@ import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.SUCCESS;
 import static member.util.SignupConst.VALID;
 
+import domain.Board;
 import domain.Member;
+import domain.Reply;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.ArrayList;
 
 @WebServlet("/member/member.do")
 public class MemberController extends HttpServlet {
@@ -23,39 +28,36 @@ public class MemberController extends HttpServlet {
     if (method != null) {
       if (!method.isBlank()) {
         switch (method) {
-          case "login":
-            login(req, res);
-            break;
+          case "login": login(req, res);break;
 
-          case "match":
-            match(req, res);
-            break;
+          case "match": match(req, res);break;
 
-          case "joinForm":
-            joinForm(req, res);
-            break;
+          case "joinForm": joinForm(req, res);break;
 
-          case "join":
-            join(req, res);
-            break;
+          case "join": join(req, res);break;
 
-          case "emailCheck":
-            emailCheck(req, res);
-            break;
+          case "emailCheck": emailCheck(req, res);break;
 
-          case "findId":
-            findId(req, res);
-            break;
+          case "findId": findId(req, res);break;
 
-          case "myId":
-            myId(req, res);
-            break;
+          case "myId": myId(req, res);break;
+
+          case "modify": modify(req, res);break;
+
+          case "withdraw": withdraw(req, res);break;
+
+          case "myReviewList": myReplyList(req, res);break;
+
+          case "myBookingList": myBookingList(req, res);break;
+
+          case "myPage": myPage(req, res);break;
         }
       }
-      req.getRequestDispatcher("/WEB-INF/jsp/main/main.jsp").forward(req, res);
+      req.getRequestDispatcher("/").forward(req, res);
     }
-    req.getRequestDispatcher("/WEB-INF/jsp/main/main.jsp").forward(req, res);
+    req.getRequestDispatcher("/").forward(req, res);
   }
+
 
   //로그인
   private void login(HttpServletRequest req, HttpServletResponse res)
@@ -76,7 +78,7 @@ public class MemberController extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("member", member);
       }
-      System.out.println("[MemberController] match 메소드에서 result: " + result);
+      System.out.println("result: " + result);
       req.setAttribute("result", result);
       req.getRequestDispatcher("/WEB-INF/jsp/member/message.jsp").forward(req, res);
     }
@@ -84,7 +86,7 @@ public class MemberController extends HttpServlet {
 
   //회원가입 뷰로 가기
   private void joinForm(HttpServletRequest req, HttpServletResponse res)
-      throws IOException, ServletException {
+          throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/join_form.jsp").forward(req, res);
   }
 
@@ -118,13 +120,97 @@ public class MemberController extends HttpServlet {
     int valid = service.emailCheck(email);
     System.out.println("valid: " + valid);
     String json = "{\"valid\":" + valid + "}";
-
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
     PrintWriter out = res.getWriter();
     out.print(json);
     out.flush();
     out.close();
+  }
+
+  private void myPage(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+
+    if (member != null) { //얘 필요 없나?
+      req.setAttribute("member", member);
+    }
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
+
+    //String view = "my_page.jsp";
+    //RequestDispatcher rd = req.getRequestDispatcher(view);
+    //rd.forward(req, res);
+  }
+
+  //회원정보 수정
+  private void modify(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+
+    int member_seq = member.getSeq();
+    String email = member.getEmail();
+    String password = req.getParameter("modifiedPassword");
+    String name = member.getName();
+    int phone = member.getPhone();
+    String nickname = req.getParameter("nickname");
+
+    Date rdate = member.getRdate();
+    byte user_type = member.getUser_type();
+    byte valid = member.getValid();
+    Member modifiedMember = Member.builder()
+            .seq(member_seq)
+            .email(email)
+            .password(password)
+            .name(name)
+            .phone(phone)
+            .nickname(nickname)
+            .rdate(rdate)
+            .user_type(user_type)
+            .valid(valid).build();
+
+    //new Member(member_seq, email, password, name, phone, nickname, rdate, user_type, valid);
+
+    MemberService service = MemberService.getInstance();
+    service.modifyS(modifiedMember);
+
+    //req.sendRedirect("my_page.jsp");
+  }
+
+  //회원 탈퇴
+  private void withdraw(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+
+    int member_seq = member.getSeq();
+    boolean flag = false;
+    if (member_seq != -1L) {
+      MemberService service = MemberService.getInstance();
+      service.withdrawS(member_seq);
+    }
+    req.setAttribute("flag", flag);
+
+    String view = "mainPage.jsp";
+    RequestDispatcher rd = req.getRequestDispatcher(view);
+    rd.forward(req, res);
+  }
+
+  //내 리뷰리스트 불러오기
+  private void myReplyList(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+    MemberService service = MemberService.getInstance();
+    ArrayList<Reply> myReplyList = service.myReplyListS(member_seq);
+    req.setAttribute("myReplyList", myReplyList);
+
+    String view = "my_reply_list.jsp";
+    RequestDispatcher rd = req.getRequestDispatcher(view);
+    rd.forward(req, res);
+
   }
 
   private void findId(HttpServletRequest req, HttpServletResponse res)
@@ -151,5 +237,25 @@ public class MemberController extends HttpServlet {
     }
     req.setAttribute("email", email);
     req.getRequestDispatcher("/WEB-INF/jsp/member/my_id.jsp").forward(req, res);
+
   }
+
+  //내 예약리스트 불러오기
+  // 예약 (중/ 취소/ 완료) //비동기 (검색 기능 / 라디오박스 같은 기능)
+  //예약, 보드 조인해서 강의 리스트
+  private void myBookingList(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+    MemberService service = MemberService.getInstance();
+    ArrayList<Board> myBookingList = service.myBookingListS(member_seq);
+    req.setAttribute("myBookingList", myBookingList);
+
+    String view = "my_booking_list.jsp";
+    RequestDispatcher rd = req.getRequestDispatcher(view);
+    rd.forward(req, res);
+  }
+
+
 }

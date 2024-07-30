@@ -102,7 +102,7 @@
   const nickName = document.getElementById('nickname');
 
   function validateNickname(nickname) {
-    const pattern = /^.{1,10}$/;
+    const pattern = /^010\d{8}$/;
     return pattern.test(nickname);
   }
 

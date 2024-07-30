@@ -100,7 +100,7 @@ li {
     border-radius: 15px;
 }
 
-.review-container > div:first-child {
+.review-wrapper > div:first-child {
     display: flex;
     justify-content: space-between;
     padding: 10px 16px;

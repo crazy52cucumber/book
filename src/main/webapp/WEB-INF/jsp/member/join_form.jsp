@@ -117,7 +117,7 @@
                     required
             />
         </fieldset>
-        <div class="msg miss-email hide">옳바른 이메일 형식을 입력해주세요</div>
+        <div class="msg miss-email hide">올바른 이메일 형식을 입력해주세요</div>
         <div class="msg input-email hide">이메일을 입력해주세요</div>
         <div class="msg duplicated-email hide">
             동일한 이메일이 있습니다. 다른 이메일을 입력해주세요
@@ -175,7 +175,7 @@
                     required
             />
         </fieldset>
-        <div class="msg input-phone hide">'-' 없이 전화번호를 입력해주세요</div>
+        <div class="msg input-phone hide">010으로 시작하는 번호를 '-' 없이 입력해주세요</div>
         <fieldset>
             <input
                     type="text"
@@ -300,7 +300,7 @@
   const phone = document.getElementById('phone');
 
   function validatePhone(phone) {
-    const pattern = /^\d{10,11}$/;
+    const pattern = /^010\d{8}$/;
     if (pattern.test(phone)) {
       return true;
     } else {

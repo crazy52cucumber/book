@@ -16,9 +16,17 @@ public class ReviewService {
 
   public ResponseDTO<ReviewResponseDTO> getReviewsByBoardPk(long boardPk) {
     List<ReviewResponseDTO> dto = reviewDAO.selectReviewsByBoardPk(boardPk).orElseThrow();
-    int count = reviewDAO.countByBoardPk(boardPk);
+    int count = getCountbyBoardPk(boardPk);
     double average = reviewDAO.selectAllRateByBoardPk(boardPk);
     return new ResponseDTO(dto, count, average);
   }
 
+  public int getCountbyBoardPk(long boardPk) {
+    return reviewDAO.countByBoardPk(boardPk);
+  }
+
+  public List<ReviewResponseDTO> getReviewsByBoardPkWithPaging(long boardPk, RequestDTO dto) {
+    List<ReviewResponseDTO> responseDto = reviewDAO.selectReviewsByBoardPkWithPaging(boardPk, dto).orElseThrow();
+    return responseDto;
+  }
 }
