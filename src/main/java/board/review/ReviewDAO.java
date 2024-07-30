@@ -48,6 +48,7 @@ public class ReviewDAO extends BaseDAO {
     } finally {
       closeAll(rs, pstmt);
     }
+    System.out.println("dao에서 list: " + list);
     return Optional.ofNullable(list);
   }
 

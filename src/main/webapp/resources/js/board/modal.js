@@ -71,13 +71,14 @@ $('#submitBtn').click(async (e) => {
     alert("예약이 안된 고객이십니다.")
 
   if (jsonData.result == "1") {
+    $('.modal-container').css('display', 'none');
     $('.review-conainer').load('http://localhost:8080/async_page/review_page.jsp')
     const data = await getReviewsByBoardPk(boardPk);
     const obj = JSON.parse(data);
-    console.log('성공후? ', obj)
+    console.log('obj', obj);
+    $('div strong').first().text(`${obj.length}개`)
+    $('div.menu > p:first-child').text(`${obj.length}개`)
     $('.review-list').html(drwaReview(obj));
-
-    viewTarget($('footer'), boardPk);
   }
 })
 

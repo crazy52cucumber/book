@@ -61,7 +61,7 @@ public class ReviewController extends HttpServlet {
     for (ReviewResponseDTO e : reviewsByBoardPk.getDto()) {
       dto.add(e);
     }
-
+    System.out.println(dto);
     out.print(gson.toJson(dto));
   }
 

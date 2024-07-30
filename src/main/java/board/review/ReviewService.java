@@ -40,6 +40,6 @@ public class ReviewService {
     if (bookSeq == 0) {
       return 2;
     }
-    return reviewDAO.insertReview(dto, dto.getBoardSeq());
+    return reviewDAO.insertReview(dto, bookSeq);
   }
 }
