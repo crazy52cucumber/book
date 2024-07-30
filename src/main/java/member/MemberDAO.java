@@ -2,6 +2,8 @@ package member;
 
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
+import static member.util.MemberSQL.EMAILCHECK;
+import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
@@ -14,10 +16,6 @@ import dbutil.BaseDAO;
 import domain.Member;
 import domain.Reply;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.sql.Connection;
@@ -57,7 +55,7 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-            .member_seq(rs.getInt("member_seq"))
+            .seq(rs.getInt("member_seq"))
             .email(rs.getString("email"))
             .name(rs.getString("name"))
             .nickname(rs.getString("nickname"))
@@ -78,7 +76,7 @@ class MemberDAO extends BaseDAO {
     return null;
   }
 
-  int join(String email, String password, String name, String nickname) {
+  int join(String email, String password, String name, int phoneNum, String nickname) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -89,12 +87,50 @@ class MemberDAO extends BaseDAO {
       ps.setString(1, email);
       ps.setString(2, hashedPassword);
       ps.setString(3, name);
-      ps.setString(4, nickname);
+      ps.setInt(4, phoneNum);
+      ps.setString(5, nickname);
       return ps.executeUpdate();
     } catch (SQLException se) {
       System.out.println("[memberDAO] join: Error: " + se.getMessage());
       return FAILURE;
     }
+  }
+
+  int emailCheck(String email) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+      ps = con.prepareStatement(EMAILCHECK);
+      ps.setString(1, email);
+      rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("valid");
+      }
+    } catch (SQLException se) {
+      System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
+    }
+    return FAILURE;
+  }
+
+  String findId(String name, long phoneNum) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+      ps = con.prepareStatement(FINDID);
+      ps.setString(1, name);
+      ps.setLong(2, phoneNum);
+      rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getString("email");
+      }
+    }catch (SQLException se){
+      System.out.println("[memberDAO] findId: Error: " + se.getMessage());
+    }
+    return null;
   }
 
     public void modify(Member modifiedMember) {
@@ -106,7 +142,7 @@ class MemberDAO extends BaseDAO {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, modifiedMember.getPassword());
             pstmt.setString(2, modifiedMember.getNickname());
-            pstmt.setInt(3, modifiedMember.getMember_seq());
+            pstmt.setInt(3, modifiedMember.getSeq());
             //System.out.println();
             int i = pstmt.executeUpdate();
         } catch (SQLException se) {
@@ -233,7 +269,28 @@ class MemberDAO extends BaseDAO {
                 }
                 return null;
         }
-
+  Member getMemberByEmail(String email, String name) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+      ps = con.prepareStatement(EMAILNAME);
+      ps.setString(1, email);
+      ps.setString(2, name);
+      rs = ps.executeQuery();
+      Member member = null;
+      if (rs.next()) {
+        member = Member.builder()
+            .email(rs.getString("email"))
+            .name(rs.getString("name")).build();
+      }
+      return member;
+    }catch (SQLException se){
+      System.out.println("[memberDAO] getMemberByEmail: Error: " + se.getMessage());
+    }
+    return null;
+  }
 
 
 }
