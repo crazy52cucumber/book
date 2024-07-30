@@ -263,7 +263,7 @@ public class MemberController extends HttpServlet {
     System.out.println("phone: " + phone);
     String email = null;
     if (name != null && phone != null) {
-      long phoneNum = Long.parseLong(phone);
+      int phoneNum = Integer.parseInt(phone);
       MemberService service = MemberService.getInstance();
       String myEmail = service.findId(name, phoneNum);
       if (myEmail != null) {

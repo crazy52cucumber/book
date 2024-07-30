@@ -53,7 +53,7 @@
         <div class="msg input-name hide">이름을 입력해주세요</div>
         <fieldset><input type="text" placeholder="전화번호"  id="phone" name="phone">
         </fieldset>
-        <div class="msg input-phone hide">'-' 없이 전화번호를 입력해주세요</div>
+        <div class="msg input-phone hide">010으로 시작하는 번호를 '-' 없이 입력해주세요</div>
         <fieldset>
             <button type="button" class="btn btn-dark" id="find-id">아이디 찾기</button>
             <button type="button" class="btn btn-outline-dark" id="cancel">취소</button>
@@ -81,7 +81,7 @@
   const phone = document.getElementById('phone');
 
   function validatePhone(phone) {
-    const pattern = /^\d{10,11}$/;
+    const pattern = /^010\d{8}$/;
     if (pattern.test(phone)) {
       return true;
     } else {
