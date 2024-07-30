@@ -24,4 +24,7 @@ public class BookSQL {
 
     public final static String INSERT_BOOK
             = "INSERT INTO book(bdate, cancel_yn, member_seq, board_seq) VALUES(NOW(), 0, ?, ?)";
+
+    public final static String UPDATE_BOOK
+            = "UPDATE book SET cancel_yn = 1, cdate= NOW() WHERE member_seq = ? AND board_seq = ?";
 }

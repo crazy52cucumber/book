@@ -30,6 +30,6 @@ public class BookController extends HttpServlet {
     }
 
     private void insertBook(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
-
+        
     }
 }

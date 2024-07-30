@@ -92,4 +92,20 @@ public class BookDAO extends BaseDAO {
             se.printStackTrace();
         }
     }
+
+    /*강의 취소*/
+    void updateBook(long memberPK, long boardPK) {
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = con.prepareStatement(BookSQL.UPDATE_BOOK);
+            pstmt.setLong(1, memberPK);
+            pstmt.setLong(2, boardPK);
+            int i = pstmt.executeUpdate();
+            if (i == 0) {
+                throw new SQLException("댓글 삭제 실패");
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
 }
