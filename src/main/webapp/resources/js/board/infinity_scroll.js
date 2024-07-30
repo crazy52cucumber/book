@@ -14,12 +14,17 @@ const io = new IntersectionObserver(entries => {
   let jsonData = '';
   entries.forEach(async entry => {
     if (entry.intersectionRatio > 0) {
-      paging.startNum += 5;
-      paging.count = jsonData.count;
       reviewsByBoardPkWithPaging = await getReviewsByBoardPkWithPaging(boardPk, paging);
       jsonData = JSON.parse(reviewsByBoardPkWithPaging);
       $('.review-list').append(drwaReview(jsonData.data));
+      paging.startNum += 5;
+      paging.count = jsonData.count;
     }
+
+    if (paging.count / paging.startNum < 1) {
+      io.unobserve(entry.target)
+    }
+
   })
   const reviewAEle = $('li a');
   const modalCancleBtnEle = $('#modalCancle');
@@ -39,7 +44,5 @@ const io = new IntersectionObserver(entries => {
 export const viewTarget = (target, pk) => {
   $('.review-list').empty();
   boardPk = pk;
-  target.each((idx, item) => {
-    io.observe(item);
-  })
+  io.observe(target[0]);
 }

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/jsp/board/modal.jsp"/>
+<%--<jsp:include page="/WEB-INF/jsp/board/modal.jsp"/>--%>
 <div class="review-wrapper">
   <div>
     <span>

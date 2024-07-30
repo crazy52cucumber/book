@@ -23,8 +23,8 @@
       </div>
     </div>
 
-    <a href='#'>
-      <button class='button' name='review_button'>리뷰 남기기</button>
+    <a href='javascript:void(0)'>
+      <button id="reviewButton" class='button'>리뷰 남기기</button>
     </a>
   </div>
 
