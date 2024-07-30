@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/index.css">
   <script>
     $(document).ready(function (){
-      let url = "main?m=list";
-      location.href = url;
+      location.href ="main?m=list";
     });
   </script>
 </head>
@@ -56,6 +55,7 @@
           </ul>
         </div>
      </div>
+    <div class = "ui-menu-divider"></div>
   <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 </main>
 </body>
