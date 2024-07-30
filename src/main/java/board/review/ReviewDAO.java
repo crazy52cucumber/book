@@ -70,16 +70,14 @@ public class ReviewDAO extends BaseDAO {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     double result = 0.0;
-    int sum = 0;
     try {
       pstmt = con.prepareStatement(ReviewSQL.SELECT_ALL_RATE_BY_BOARDPK);
       pstmt.setLong(1, boardPk);
       rs = pstmt.executeQuery();
 
       int cnt = 0;
-      while (rs.next()) {
-        sum += rs.getInt("rate");
-        cnt++;
+      if (rs.next()) {
+        result = rs.getDouble(1);
       }
     } catch (SQLException e) {
       e.printStackTrace();
