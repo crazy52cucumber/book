@@ -7,7 +7,6 @@
         <span>작성자</span>
         <span>학년</span>
       </div>
-      <%--content--%>
       <div></div>
     </div>
     <div class="modal-container--bottom">
