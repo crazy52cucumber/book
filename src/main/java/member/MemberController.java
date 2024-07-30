@@ -195,9 +195,7 @@ public class MemberController extends HttpServlet {
     ArrayList<Reply> myReplyList = service.myReplyListS(member_seq);
     req.setAttribute("myReplyList", myReplyList);
 
-    String view = "my_reply_list.jsp";
-    RequestDispatcher rd = req.getRequestDispatcher(view);
-    rd.forward(req, res);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_reply_list.jsp").forward(req, res);
   }
 
   //내 예약리스트 불러오기
@@ -212,9 +210,7 @@ public class MemberController extends HttpServlet {
     ArrayList<Board> myBookingList = service.myBookingListS(member_seq);
     req.setAttribute("myBookingList", myBookingList);
 
-    String view = "my_booking_list.jsp";
-    RequestDispatcher rd = req.getRequestDispatcher(view);
-    rd.forward(req, res);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_booking_list.jsp").forward(req, res);
   }
 
 
