@@ -14,7 +14,7 @@
 <main>
     <div class="ui-menu-divider"></div>
     <div class="main_wrap">
-    <p class="search-count-academy">총 <strong>{count}</strong> 개의 학원</p>
+    <p class="search-count-academy">총 <strong>{count_academy}</strong> 개의 학원</p>
 
     <div class = "main-contents">
         <div class = "devider none-margin"></div>

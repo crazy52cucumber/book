@@ -50,8 +50,6 @@ public class MainDAO {
                 double rate = rs.getDouble("rate");
                 int review_count = rs.getInt("review_count");
 
-                System.out.println(rate);
-
                 mainDto = new Main(board_seq, academy_name, addr,content, book_limit, ldate,rate, review_count);
                 list.add(mainDto);
             }
@@ -86,7 +84,9 @@ public class MainDAO {
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            count_academy = rs.getInt("count");
+            while(rs.next()) {
+                count_academy = rs.getInt("count");
+            }
             return count_academy;
         }catch (SQLException se){
             se.printStackTrace();

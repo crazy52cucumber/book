@@ -8,19 +8,19 @@
   <jsp:include page="/WEB-INF/jsp/inc/header_link.jsp"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/index.css">
   <script>
-    window.onload=function (){
+    $(document).ready(function (){
       let url = "main?m=list";
       location.href = url;
-    };
+    });
   </script>
 </head>
 <body>
   <main>
   <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
     <div class="ui-menu-divider"></div>
-    <section>
       <div class="main_wrap">
-        <p class="search-count-academy">총 <strong>{count}</strong> 개의 학원</p>
+
+        <p class="search-count-academy">총 <strong>${count}</strong> 개의 학원</p>
         <div class = "main-contents">
           <div class = "devider none-margin"></div>
           <ul class="ul">
@@ -55,11 +55,8 @@
             </c:forEach>
           </ul>
         </div>
-      </div>
-    </section>
-
-<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-
+     </div>
+  <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 </main>
 </body>
 

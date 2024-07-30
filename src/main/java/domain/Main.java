@@ -16,6 +16,7 @@ public class Main {
     private long book_seq;
     private double rate;
     private int review_count;
+    private int count_academy;
 
     public Main(){}
 
@@ -152,6 +153,14 @@ public class Main {
 
     public void setReview_count(int review_count) {
         this.review_count = review_count;
+    }
+
+    public int getCount_academy() {
+        return count_academy;
+    }
+
+    public void setCount_academy(int count_academy) {
+        this.count_academy = count_academy;
     }
 }
 
