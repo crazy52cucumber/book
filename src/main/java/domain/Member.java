@@ -17,7 +17,7 @@ public class Member {
   private final String email;
   private final String password;
   private final String name;
-  private final int phone;
+  private final String phone;
   private final String nickname;
   private final Date rdate;
   private final byte user_type;

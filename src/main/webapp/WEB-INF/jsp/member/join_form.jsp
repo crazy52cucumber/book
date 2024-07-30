@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Email Validation</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -20,6 +20,7 @@
         margin: 0;
         padding: 0;
       }
+
       body {
         min-height: 100%;
         height: 100vh;
@@ -53,6 +54,7 @@
         padding: 10px 12px;
         border: none;
       }
+
       fieldset,
       .msg {
         width: 400px;
@@ -95,27 +97,19 @@
         font-size: 22px;
         cursor: pointer;
       }
-      button{
+
+      button {
         margin-right: 5px;
       }
     </style>
 </head>
 <body>
 <main style="width: 600px">
-    <form
-            name="join-form"
-            action="/member/member.do?method=join"
-            method="post"
-    >
+    <form name="join-form" action="/member/member.do?method=join" method="post">
+        <div id="liveAlertPlaceholder"></div>
         <fieldset>
-            <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="이메일"
-                    autofocus
-                    required
-            />
+            <input type="email" name="email" id="email" placeholder="이메일" autofocus required/>
+            <button type="button" class="btn btn-outline-dark" id="authSendBtn">인증코드 받기</button>
         </fieldset>
         <div class="msg miss-email hide">올바른 이메일 형식을 입력해주세요</div>
         <div class="msg input-email hide">이메일을 입력해주세요</div>
@@ -129,14 +123,14 @@
                 <option class="option" value="gmail.com">gmail.com</option>
             </select>
         </fieldset>
+        <fieldset><input type="text" name="authenticCode" id="authenticCode" placeholder="인증번호"
+                         required/>
+            <button type="button" class="btn btn-outline-dark" id="authConfirmBtn">인증하기</button>
+        </fieldset>
+        <div class="msg input-authCode hide">인증이 완료되었습니다</div>
+        <div class="msg fail-authCode hide">인증 코드가 맞지않습니다. 다시 입력해주세요</div>
         <fieldset class="password">
-            <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="비밀번호"
-                    required
-            />
+            <input type="password" name="password" id="password" placeholder="비밀번호" required/>
             <div class="eyes"><i class="fa-regular fa-eye"></i></div>
         </fieldset>
         <div class="msg fail-password-msg hide">
@@ -144,50 +138,23 @@
         </div>
         <div class="msg input-password hide">비밀번호를 입력해주세요</div>
         <fieldset>
-            <input
-                    type="password"
-                    name="password-retype"
-                    id="password-retype"
-                    placeholder="비밀번호 확인"
-                    required
-            />
+            <input type="password" name="password-retype" id="password-retype" placeholder="비밀번호 확인" required/>
         </fieldset>
         <div class="msg miss-pwd hide">비밀번호가 일치하지 않습니다</div>
         <div class="msg input-password-retype hide">
             비밀번호 확인을 입력해주세요
         </div>
-        <fieldset>
-            <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="이름"
-                    required
-            />
+        <fieldset><input type="text" name="name" id="name" placeholder="이름" required/>
         </fieldset>
         <div class="msg input-name hide">이름을 입력해주세요</div>
         <fieldset>
-            <input
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    placeholder="전화번호"
-                    required
-            />
+            <input type="text" name="phone" id="phone" placeholder="전화번호" required/>
         </fieldset>
         <div class="msg input-phone hide">010으로 시작하는 번호를 '-' 없이 입력해주세요</div>
         <fieldset>
-            <input
-                    type="text"
-                    name="nickname"
-                    id="nickname"
-                    placeholder="닉네임"
-                    required
-            />
+            <input type="text" name="nickname" id="nickname" placeholder="닉네임" required/>
         </fieldset>
-        <div class="msg miss-nickname hide">
-            닉네임은 10글자 이하로 입력해주세요
-        </div>
+        <div class="msg miss-nickname hide">닉네임은 10글자 이하로 입력해주세요</div>
         <div class="msg input-nickname hide">닉네임을 입력해주세요</div>
         <fieldset class="join">
             <button type="button" class="btn btn-dark" id="join">회원가입</button>
@@ -196,9 +163,10 @@
     </form>
 </main>
 <script>
-  document.getElementById('cancel').addEventListener('click',()=>{
+  document.getElementById('cancel').addEventListener('click', () => {
     history.back()
   })
+
   function domain_remove(email) {
     email = email.trim();
     let atIndex = email.indexOf('@');
@@ -412,7 +380,7 @@
     $.ajax({
       url: '/member/member.do?method=emailCheck',
       type: 'POST',
-      data: { email: $('#email').val() },
+      data: {email: $('#email').val()},
       success: (data) => {
         if (data.valid === 0) {
           document
@@ -444,6 +412,72 @@
       }
     });
   });
+
+  const authenticEmail = () => {
+    $.ajax({
+      url: '/member/member.do?method=authenticEmail',
+      type: 'POST',
+      data: {email: $('#email').val()},
+      success: (data) => {
+
+        auth(data.code)
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.error('Error:', textStatus, errorThrown);
+      },
+    });
+  };
+
+  function auth(data) {
+    document.getElementById('authConfirmBtn').addEventListener('click', () => {
+      if (data === $('#authenticCode').val()) {
+        document.querySelector('.input-authCode').classList.remove('hide');
+        document.querySelector('.fail-authCode').classList.add('hide');
+      } else {
+        document.querySelector('.input-authCode').classList.add('hide');
+        document.querySelector('.fail-authCode').classList.remove('hide');
+      }
+    })
+  }
+
+  const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+  const appendAlert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      '<div class="alert alert-primary alert-dismissible" role="alert">',
+      '   <div>인증번호를 보냈습니다</div>',
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
+
+    alertPlaceholder.append(wrapper)
+  }
+
+  const appendAlertReverse = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      '<div class="alert alert-danger alert-dismissible" role="alert">',
+      '   <div>알맞은 이메일을 입력해주세요</div>',
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
+
+    alertPlaceholder.append(wrapper)
+  }
+
+  const alertTrigger = document.getElementById('authSendBtn')
+  if (alertTrigger) {
+    alertTrigger.addEventListener('click', () => {
+      const isEmailValid = validateEmail(emailInput.value);
+      if (isEmailValid) {
+        appendAlert('message', 'success');
+        authenticEmail();
+      } else {
+        appendAlertReverse('message', 'fail')
+      }
+    })
+  }
+  // $('#email-select').on('change', emailCheck);
 </script>
 </body>
 </html>
