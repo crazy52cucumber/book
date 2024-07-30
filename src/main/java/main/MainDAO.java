@@ -52,6 +52,8 @@ public class MainDAO {
                 String content = rs.getString("content");
                 int book_limit = rs.getInt("book_limit");
 
+                System.out.println(board_seq);
+
                 mainDto = new Main(board_seq, academy_name, addr,phone_num,edate,ldate,grade,
                         subject, content, book_limit);
                 list.add(mainDto);

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 @WebServlet("/main.do")
 public class MainController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
     public void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -21,23 +20,22 @@ public class MainController extends HttpServlet {
         if (m != null) {
             m = m.trim();
             switch (m) {
-                case "list2": mainPage(req, res); break;
+                case "list": list(req, res); break;
                 case "search" : search(req, res); break;
             }
         }else
-            mainPage(req, res);
+             list(req, res);
     }
 
-    private void mainPage(HttpServletRequest req, HttpServletResponse res)
+    private void list(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException{
         MainService service = MainService.getInstance();
 
         ArrayList<Main> list = service.mainPageS();
         req.setAttribute("list", list);
 
-        String view = "list2.jsp";
-        RequestDispatcher rd = req.getRequestDispatcher(view);
-        rd.forward(req, res);
+        String view = "/WEB-INF/jsp/main/list.jsp";
+        req.getRequestDispatcher(view).forward(req, res);
     }
 
     private void search(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
