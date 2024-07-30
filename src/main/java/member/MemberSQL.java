@@ -16,4 +16,6 @@ class MemberSQL {
 
     final static String MY_BOOKING2
             = "select * from BOOK where BOARD_SEQ= ?";
+
+    public static final String EMAILNAME = "select * from MEMBER where EMAIL = ? and NAME = ? and VALID=0";
 }

@@ -41,11 +41,23 @@ public class MemberService {
     return dao.getMember(email);
   }
 
-    public int passwordMatch(String email, String password) {
+  public int passwordMatch(String email, String password) {
     return dao.passwordMatch(email, password);
   }
 
-    public int join(String email, String password, String name,String nickname){
-        return dao.join(email,password,name,nickname);
-    }
+  public int join(String email, String password, String name, int phoneNum, String nickname) {
+    return dao.join(email, password, name, phoneNum, nickname);
+  }
+
+  public int emailCheck(String email) {
+    return dao.emailCheck(email);
+  }
+
+  public String findId(String name, long phoneNum) {
+    return dao.findId(name, phoneNum);
+  }
+
+  public Member getMemberByEmail(String email, String name){
+    return dao.getMemberByEmail(email,name);
+  }
 }
