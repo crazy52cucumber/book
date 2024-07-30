@@ -56,4 +56,8 @@ public class MemberService {
   public String findId(String name, long phoneNum) {
     return dao.findId(name, phoneNum);
   }
+
+  public Member getMemberByEmail(String email, String name){
+    return dao.getMemberByEmail(email,name);
+  }
 }

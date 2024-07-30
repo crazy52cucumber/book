@@ -28,29 +28,66 @@ public class MemberController extends HttpServlet {
     if (method != null) {
       if (!method.isBlank()) {
         switch (method) {
-          case "login": login(req, res);break;
+          case "login":
+            login(req, res);
+            break;
 
-          case "match": match(req, res);break;
+          case "match":
+            match(req, res);
+            break;
 
-          case "joinForm": joinForm(req, res);break;
+          case "joinForm":
+            joinForm(req, res);
+            break;
 
-          case "join": join(req, res);break;
+          case "join":
+            join(req, res);
+            break;
 
-          case "emailCheck": emailCheck(req, res);break;
+          case "emailCheck":
+            emailCheck(req, res);
+            break;
 
-          case "findId": findId(req, res);break;
+          case "findId":
+            findId(req, res);
+            break;
 
-          case "myId": myId(req, res);break;
+          case "myId":
+            myId(req, res);
+            break;
 
-          case "modify": modify(req, res);break;
+          case "modify":
+            modify(req, res);
+            break;
 
-          case "withdraw": withdraw(req, res);break;
+          case "withdraw":
+            withdraw(req, res);
+            break;
 
-          case "myReviewList": myReplyList(req, res);break;
+          case "myReviewList":
+            myReplyList(req, res);
+            break;
 
-          case "myBookingList": myBookingList(req, res);break;
+          case "myBookingList":
+            myBookingList(req, res);
+            break;
 
-          case "myPage": myPage(req, res);break;
+          case "myPage":
+            myPage(req, res);
+            break;
+
+          case "findPwd":
+            findPwd(req, res);
+            break;
+
+          case "myPwd":
+            try {
+              myPwd(req, res);
+            } catch (Exception e) {
+              System.out.println("오류");
+              throw new RuntimeException(e);
+            }
+            break;
         }
       }
       req.getRequestDispatcher("/").forward(req, res);
@@ -86,7 +123,7 @@ public class MemberController extends HttpServlet {
 
   //회원가입 뷰로 가기
   private void joinForm(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/join_form.jsp").forward(req, res);
   }
 
@@ -129,7 +166,7 @@ public class MemberController extends HttpServlet {
   }
 
   private void myPage(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -145,7 +182,7 @@ public class MemberController extends HttpServlet {
 
   //회원정보 수정
   private void modify(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -160,15 +197,15 @@ public class MemberController extends HttpServlet {
     byte user_type = member.getUser_type();
     byte valid = member.getValid();
     Member modifiedMember = Member.builder()
-            .seq(member_seq)
-            .email(email)
-            .password(password)
-            .name(name)
-            .phone(phone)
-            .nickname(nickname)
-            .rdate(rdate)
-            .user_type(user_type)
-            .valid(valid).build();
+        .seq(member_seq)
+        .email(email)
+        .password(password)
+        .name(name)
+        .phone(phone)
+        .nickname(nickname)
+        .rdate(rdate)
+        .user_type(user_type)
+        .valid(valid).build();
 
     //new Member(member_seq, email, password, name, phone, nickname, rdate, user_type, valid);
 
@@ -180,7 +217,7 @@ public class MemberController extends HttpServlet {
 
   //회원 탈퇴
   private void withdraw(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -199,7 +236,7 @@ public class MemberController extends HttpServlet {
 
   //내 리뷰리스트 불러오기
   private void myReplyList(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
     int member_seq = member.getSeq();
@@ -230,8 +267,8 @@ public class MemberController extends HttpServlet {
       MemberService service = MemberService.getInstance();
       String myEmail = service.findId(name, phoneNum);
       if (myEmail != null) {
-      email = "**"+myEmail.substring(2);
-      }else {
+        email = "**" + myEmail.substring(2);
+      } else {
         email = myEmail;
       }
     }
@@ -244,7 +281,7 @@ public class MemberController extends HttpServlet {
   // 예약 (중/ 취소/ 완료) //비동기 (검색 기능 / 라디오박스 같은 기능)
   //예약, 보드 조인해서 강의 리스트
   private void myBookingList(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
     int member_seq = member.getSeq();
@@ -257,5 +294,26 @@ public class MemberController extends HttpServlet {
     rd.forward(req, res);
   }
 
+  private void findPwd(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/find_pwd.jsp").forward(req, res);
+  }
+
+  private void myPwd(HttpServletRequest req, HttpServletResponse res)
+      throws Exception {
+    String email = req.getParameter("email");
+    String name = req.getParameter("name");
+    Member member = null;
+    if (email != null && name != null) {
+      MemberService service = MemberService.getInstance();
+      member = service.getMemberByEmail(email, name);
+      MailService mailService = new MailService();
+      String authenticationCode = mailService.sendEmail(member.getEmail());
+      HttpSession session = req.getSession();
+      session.setAttribute("member", member);
+      session.setAttribute("authenticationCode", authenticationCode);
+      req.getRequestDispatcher("/WEB-INF/jsp/member/my_id.jsp").forward(req, res);
+    }
+  }
 
 }

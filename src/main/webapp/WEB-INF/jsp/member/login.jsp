@@ -182,7 +182,7 @@
         <div class="login-footer">
             <a href="/member/member.do?method=findId">아이디찾기</a>
             <span>/</span>
-            <a href="#">비밀번호찾기</a>
+            <a href="/member/member.do?method=findPwd">비밀번호찾기</a>
         </div>
         <div>
             <a href='/member/member.do?method=joinForm'>회원가입</a>
