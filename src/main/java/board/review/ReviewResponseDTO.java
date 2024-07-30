@@ -10,7 +10,7 @@ import java.sql.Date;
 @Getter
 @ToString
 public class ReviewResponseDTO {
-  private long replySeq, memberSeq, boardSeq, bookSeq;
+  private long reviewSeq, memberSeq, boardSeq, bookSeq;
   private int rate, count;
   private String nickname, title, grade;
   private Date cdate;

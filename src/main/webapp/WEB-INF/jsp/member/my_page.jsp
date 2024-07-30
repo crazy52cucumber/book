@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
       * {
           text-decoration: none;
@@ -13,7 +14,6 @@
 
       #container {
           display: flex;
-          justify-content: center;
           width: 100%;
           height: 100%;
       }
@@ -28,19 +28,23 @@
           margin-top: 50px;
       }
 
-      #userInfo {
-          background-color: salmon;
+      .content {
           display: flex;
-          margin-top: 50px;
-          margin-bottom: 50px;
+          align-items: center;
+          background-color: skyblue;
           width: 400px;
           height: 150px;
-          border: 1px solid black;
           border-radius: 10px;
       }
 
-      #infoWindow {
+      #userInfo {
           background-color: seagreen;
+          margin-top: 50px;
+          margin-bottom: 50px;
+      }
+
+
+      #infoWindow {
           width: 300px;
           display: flex;
           flex-direction: column;
@@ -48,38 +52,34 @@
 
       #infoWindow > div {
           display: flex;
-          height: 150px;
+          height: 75px;
           align-items: center;
-          border: 1px solid black;
+          justify-content: left;
+          margin-left: 50px;
+          font-size: larger;
       }
 
       #ebtn {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: teal;
           height: 150px;
           width: 100px;
       }
 
       #btn {
           border-radius: 30px;
-          background-color: #007aff;
           width: 50px;
           height: 50px;
-      }
-
-      #book {
-          background-color: skyblue;
-          width: 400px;
-          height: 150px;
       }
 
       a {
           margin-bottom: 50px;
       }
 
-      #reply {
+      #review {
+          display: flex;
+          align-items: center;
           background-color: skyblue;
           width: 400px;
           height: 150px;
@@ -88,72 +88,41 @@
 
 
   </style>
-  <script>
-    $(document).ready(function () {
-      $('#btn').click(function () {
-        // Show the popup
-        $('#popup').show();
 
-        // Perform Ajax request
-        $.ajax({
-          url: '/member/member.do?method=myPage', // 서버의 엔드포인트 URL로 변경하세요
-          type: 'GET',
-          success: function (data) {
-            // Update popup content with data from the server
-            $('#popup-body').html(data);
-          },
-          error: function () {
-            $('#popup-body').html('Failed to load content.');
-          }
-        });
-      });
 
-      // Close the popup when the user clicks on the close button
-      $('.close-btn').click(function () {
-        $('#popup').hide();
-      });
-
-      // Close the popup when the user clicks outside of the popup content
-      $(window).click(function (event) {
-        if ($(event.target).is('#popup')) {
-          $('#popup').hide();
-        }
-      });
-    });
-  </script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div id="container">
   <div id="layout">
-    <div id="userInfo">
+    <div id="userInfo" class="content">
       <div id="infoWindow">
         <div>${member.nickname}</div>
         <div>${member.email}</div>
       </div>
       <div id="ebtn">
         <input id="btn" type="button" value="편집">
-        <div id="popup" class="popup">
-          <div class="popup-content">
-            <span class="close-btn">&times;</span>
-            <div id="popup-body">Loading...</div>
-          </div>
-        </div>
       </div>
-
     </div>
+    <script>
+      $(function () {
+        $("#btn").click(function () {
+          window.open('member.do?method=popup', '_blank', 'width=300,height=120');
+        });
+      });
+    </script>
     <a href="member.do?method=myBookingList">
-      <div id="book">
-        나의 예약현황
+      <div class="content">
+        <p>나의 예약현황</p>
       </div>
     </a>
-    <a href="">
-      <div id="reply">
-        나의 리뷰
+    <a href="member.do?method=myReviewList">
+      <div class="content">
+        <p>나의 리뷰</p>
       </div>
     </a>
   </div>
 </div>
+
 
 </body>
 </html>

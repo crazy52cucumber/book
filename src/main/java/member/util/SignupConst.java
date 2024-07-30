@@ -7,5 +7,6 @@ public class SignupConst {
   public static final int NOPASSWORD = -1;
   public static final int ERROR = -2;
   public static final int FAILURE = -1;
+  public static final int VALID = 0;
 
 }
