@@ -14,14 +14,11 @@ const io = new IntersectionObserver(entries => {
   let jsonData = '';
   entries.forEach(async entry => {
     if (entry.intersectionRatio > 0) {
-      do {
-        reviewsByBoardPkWithPaging = await getReviewsByBoardPkWithPaging(boardPk, paging);
-        jsonData = JSON.parse(reviewsByBoardPkWithPaging);
-
-        $('.review-list').append(drwaReview(jsonData.data));
-        paging.startNum += 5;
-        paging.count = jsonData.count;
-      } while (paging.count / paging.startNum >= 1)
+      paging.startNum += 5;
+      paging.count = jsonData.count;
+      reviewsByBoardPkWithPaging = await getReviewsByBoardPkWithPaging(boardPk, paging);
+      jsonData = JSON.parse(reviewsByBoardPkWithPaging);
+      $('.review-list').append(drwaReview(jsonData.data));
     }
   })
   const reviewAEle = $('li a');
