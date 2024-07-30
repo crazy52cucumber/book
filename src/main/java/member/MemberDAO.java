@@ -3,6 +3,7 @@ package member;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
+import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
 import static member.util.SignupConst.ERROR;
@@ -56,13 +57,14 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-                .seq(rs.getInt("member_seq"))
-                .email(rs.getString("email"))
-                .name(rs.getString("name"))
-                .nickname(rs.getString("nickname"))
-                .rdate(rs.getDate("rdate"))
-                .user_type(rs.getByte("user_type"))
-                .valid(rs.getByte("valid")).build();
+            .seq(rs.getInt("member_seq"))
+            .email(rs.getString("email"))
+            .name(rs.getString("name"))
+            .phone(rs.getString("phone"))
+            .nickname(rs.getString("nickname"))
+            .rdate(rs.getDate("rdate"))
+            .user_type(rs.getByte("user_type"))
+            .valid(rs.getByte("valid")).build();
       }
       return member;
     } catch (SQLException se) {
@@ -77,7 +79,7 @@ class MemberDAO extends BaseDAO {
     return null;
   }
 
-  int join(String email, String password, String name, int phoneNum, String nickname) {
+  int join(String email, String password, String name, String phone, String nickname) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -88,7 +90,7 @@ class MemberDAO extends BaseDAO {
       ps.setString(1, email);
       ps.setString(2, hashedPassword);
       ps.setString(3, name);
-      ps.setInt(4, phoneNum);
+      ps.setString(4, phone);
       ps.setString(5, nickname);
       return ps.executeUpdate();
     } catch (SQLException se) {
@@ -96,15 +98,20 @@ class MemberDAO extends BaseDAO {
       return FAILURE;
     }
   }
-
-  int emailCheck(String email) {
+  int emailCheck(String email, String name) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
       con = getConnection();
-      ps = con.prepareStatement(EMAILCHECK);
-      ps.setString(1, email);
+      if(name ==null){
+        ps = con.prepareStatement(EMAILCHECK);
+        ps.setString(1, email);
+      }else {
+        ps = con.prepareStatement(EMAILNAMECHECK);
+        ps.setString(1, email);
+        ps.setString(2,name);
+      }
       rs = ps.executeQuery();
       if (rs.next()) {
         return rs.getInt("valid");
@@ -114,6 +121,23 @@ class MemberDAO extends BaseDAO {
     }
     return FAILURE;
   }
+//  int emailCheck(String email) {
+//    Connection con = null;
+//    PreparedStatement ps = null;
+//    ResultSet rs = null;
+//    try {
+//      con = getConnection();
+//      ps = con.prepareStatement(EMAILCHECK);
+//      ps.setString(1, email);
+//      rs = ps.executeQuery();
+//      if (rs.next()) {
+//        return rs.getInt("valid");
+//      }
+//    } catch (SQLException se) {
+//      System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
+//    }
+//    return FAILURE;
+//  }
 
   String findId(String name, long phoneNum) {
     Connection con = null;
@@ -128,7 +152,7 @@ class MemberDAO extends BaseDAO {
       if (rs.next()) {
         return rs.getString("email");
       }
-    } catch (SQLException se) {
+    }catch (SQLException se){
       System.out.println("[memberDAO] findId: Error: " + se.getMessage());
     }
     return null;
@@ -194,14 +218,14 @@ class MemberDAO extends BaseDAO {
       pstmt.setInt(1, member_seq);
       rs = pstmt.executeQuery();
       while (rs.next()) {
-        int review_seq = rs.getInt(1);
+        int reply_seq = rs.getInt(1);
         int rate = rs.getInt(2);
         String content = rs.getString(3);
         Date cdate = rs.getDate(4);
         int board_seq = rs.getInt(6);
         int valid = rs.getInt(7);
 
-        Reply myReply = new Reply(review_seq, rate, content, cdate, member_seq, board_seq, valid);
+        Reply myReply = new Reply(reply_seq, rate, content, cdate, member_seq, board_seq, valid);
         myRelpyList.add(myReply);
       }
       return myRelpyList;
@@ -255,7 +279,8 @@ class MemberDAO extends BaseDAO {
           int book_limit = rs2.getInt(10);
           int valid = rs2.getInt(11);
 
-          Board myBooking = new Board(board_seq, academy_name, addr, phone_num, eDate, lDate, grade, subject, content, book_limit, valid);
+          Board myBooking = new Board(board_seq, academy_name, addr, phone_num, eDate, lDate, grade,
+              subject, content, book_limit, valid);
           myBookingList.add(myBooking);
         }
       }
@@ -287,8 +312,8 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-                .email(rs.getString("email"))
-                .name(rs.getString("name")).build();
+            .email(rs.getString("email"))
+            .name(rs.getString("name")).build();
       }
       return member;
     } catch (SQLException se) {

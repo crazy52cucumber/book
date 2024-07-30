@@ -4,15 +4,17 @@ import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.SUCCESS;
 import static member.util.SignupConst.VALID;
 
-import com.google.gson.Gson;
 import domain.Board;
 import domain.Member;
 import domain.Reply;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class MemberController extends HttpServlet {
 
   public void service(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String method = req.getParameter("method");
     if (method != null) {
       if (!method.isBlank()) {
@@ -87,6 +89,17 @@ public class MemberController extends HttpServlet {
               throw new RuntimeException(e);
             }
             break;
+
+          case "authenticEmail":
+            try {
+              authenticEmail(req,res);
+            } catch (Exception e) {
+              throw new RuntimeException(e);
+            }
+            break;
+          case "emailNameCheck":emailNameCheck(req, res);break;
+
+          case "memberCheck":memberCheck(req,res);break;
         }
       }
       //req.getRequestDispatcher("/").forward(req, res);
@@ -97,13 +110,13 @@ public class MemberController extends HttpServlet {
 
   //로그인
   private void login(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/login.jsp").forward(req, res);
   }
 
   //로그인 인증
-  private void match(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    Gson gson = new Gson();
+  private void match(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
     String email = req.getParameter("login-email");
     String password = req.getParameter("login-password");
     MemberService service = MemberService.getInstance();
@@ -111,12 +124,14 @@ public class MemberController extends HttpServlet {
       int result = service.passwordMatch(email, password);
       if (result == SUCCESS) {
         Member member = service.getMember(email);
+        String mySeq = ""+member.getSeq();
         HttpSession session = req.getSession();
+        Cookie loginCookie = new Cookie("mySeq", mySeq);
+        loginCookie.setPath("/");
+        loginCookie.setHttpOnly(true);
+        loginCookie.setSecure(true);
+        res.addCookie(loginCookie);
         session.setAttribute("member", member);
-        Cookie cookie = new Cookie("member", member.getSeq() + "");
-        cookie.setMaxAge(60 * 60 * 24);  // 쿠키의 유효 기간을 1시간으로 설정
-        cookie.setPath("/");  // 쿠키가 전체 도메인에서 유효하도록 설정
-        res.addCookie(cookie);
       }
       System.out.println("result: " + result);
       req.setAttribute("result", result);
@@ -126,13 +141,13 @@ public class MemberController extends HttpServlet {
 
   //회원가입 뷰로 가기
   private void joinForm(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/join_form.jsp").forward(req, res);
   }
 
   //회원가입
   private void join(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String email = req.getParameter("email");
     String password = req.getParameter("password");
     String name = req.getParameter("name");
@@ -140,8 +155,7 @@ public class MemberController extends HttpServlet {
     String nickname = req.getParameter("nickname");
     MemberService service = MemberService.getInstance();
     if (email != null && password != null && name != null && phone != null && nickname != null) {
-      int phoneNum = Integer.parseInt(phone);
-      int result = service.join(email, password, name, phoneNum, nickname);
+      int result = service.join(email, password, name, phone, nickname);
       if (result != FAILURE) {
         Member member = service.getMember(email);
         HttpSession session = req.getSession();
@@ -153,7 +167,7 @@ public class MemberController extends HttpServlet {
   }
 
   private void emailCheck(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String email = req.getParameter("email");
     System.out.println("email: " + email);
     MemberService service = MemberService.getInstance();
@@ -167,9 +181,54 @@ public class MemberController extends HttpServlet {
     out.flush();
     out.close();
   }
+  private void memberCheck(HttpServletRequest req, HttpServletResponse res)
+    throws IOException, ServletException {
+    String email = req.getParameter("email");
+    String password = req.getParameter("password");
+    System.out.println("email: " + email+"password: " + password);
+    if (email != null && password != null) {
+      MemberService service = MemberService.getInstance();
+      int result = service.passwordMatch(email, password);
+      String json = "{\"result\":" + result + "}";
+      res.setContentType("application/json;charset=UTF-8");
+      res.setCharacterEncoding("UTF-8");
+      PrintWriter out = res.getWriter();
+      out.print(json);
+      out.flush();
+      out.close();
+    }
+  }
+  private void emailNameCheck(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    String email = req.getParameter("email");
+    String name = req.getParameter("name");
+    MemberService service = MemberService.getInstance();
+    int valid = service.emailCheck(email, name);
+    String json = "{\"valid\":" + valid + "}";
+    res.setContentType("application/json;charset=UTF-8");
+    res.setCharacterEncoding("UTF-8");
+    PrintWriter out = res.getWriter();
+    out.print(json);
+    out.flush();
+    out.close();
+  }
+  private void authenticEmail(HttpServletRequest req, HttpServletResponse res)
+      throws Exception {
+    String email = req.getParameter("email");
+    MailService mailService = new MailService();
+    String code = mailService.sendEmail(email);
+    String json = "{\"code\":" + code + "}";
+    res.setContentType("application/json;charset=UTF-8");
+    res.setCharacterEncoding("UTF-8");
+    PrintWriter out = res.getWriter();
+    out.print(json);
+    out.flush();
+    out.close();
+
+  }
 
   private void myPage(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -185,7 +244,7 @@ public class MemberController extends HttpServlet {
 
   //회원정보 수정
   private void modify(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -193,22 +252,22 @@ public class MemberController extends HttpServlet {
     String email = member.getEmail();
     String password = req.getParameter("modifiedPassword");
     String name = member.getName();
-    int phone = member.getPhone();
+    String phone = member.getPhone();
     String nickname = req.getParameter("nickname");
 
     Date rdate = member.getRdate();
     byte user_type = member.getUser_type();
     byte valid = member.getValid();
     Member modifiedMember = Member.builder()
-            .seq(member_seq)
-            .email(email)
-            .password(password)
-            .name(name)
-            .phone(phone)
-            .nickname(nickname)
-            .rdate(rdate)
-            .user_type(user_type)
-            .valid(valid).build();
+        .seq(member_seq)
+        .email(email)
+        .password(password)
+        .name(name)
+        .phone(phone)
+        .nickname(nickname)
+        .rdate(rdate)
+        .user_type(user_type)
+        .valid(valid).build();
 
     //new Member(member_seq, email, password, name, phone, nickname, rdate, user_type, valid);
 
@@ -220,7 +279,7 @@ public class MemberController extends HttpServlet {
 
   //회원 탈퇴
   private void withdraw(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
 
@@ -239,7 +298,7 @@ public class MemberController extends HttpServlet {
 
   //내 리뷰리스트 불러오기
   private void myReplyList(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
     int member_seq = member.getSeq();
@@ -247,19 +306,19 @@ public class MemberController extends HttpServlet {
     ArrayList<Reply> myReplyList = service.myReplyListS(member_seq);
     req.setAttribute("myReplyList", myReplyList);
 
-    String view = "my_review_list.jsp";
+    String view = "my_reply_list.jsp";
     RequestDispatcher rd = req.getRequestDispatcher(view);
     rd.forward(req, res);
 
   }
 
   private void findId(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/find_id.jsp").forward(req, res);
   }
 
   private void myId(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String name = req.getParameter("name");
     String phone = req.getParameter("phone");
     System.out.println("name: " + name);
@@ -284,7 +343,7 @@ public class MemberController extends HttpServlet {
   // 예약 (중/ 취소/ 완료) //비동기 (검색 기능 / 라디오박스 같은 기능)
   //예약, 보드 조인해서 강의 리스트
   private void myBookingList(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
     int member_seq = member.getSeq();
@@ -298,24 +357,29 @@ public class MemberController extends HttpServlet {
   }
 
   private void findPwd(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/find_pwd.jsp").forward(req, res);
   }
 
   private void myPwd(HttpServletRequest req, HttpServletResponse res)
-          throws Exception {
+      throws Exception {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     Member member = null;
+    String authenticationCode = null;
+    HttpSession session = req.getSession();
     if (email != null && name != null) {
       MemberService service = MemberService.getInstance();
       member = service.getMemberByEmail(email, name);
-      MailService mailService = new MailService();
-      String authenticationCode = mailService.sendEmail(member.getEmail());
-      HttpSession session = req.getSession();
+      String myEmail = member.getEmail();
+      if (myEmail != null) {
+        MailService mailService = new MailService();
+        authenticationCode = mailService.sendEmail(myEmail);
+      }
       session.setAttribute("member", member);
       session.setAttribute("authenticationCode", authenticationCode);
-      req.getRequestDispatcher("/WEB-INF/jsp/member/my_id.jsp").forward(req, res);
+
+      req.getRequestDispatcher("/WEB-INF/jsp/member/my_pwd.jsp").forward(req, res);
     }
   }
 
