@@ -4,9 +4,10 @@ public class BookService {
     private static BookService instance = new BookService();
     private BookDAO bookDAO;
 
-    private BookService(){
+    private BookService() {
         bookDAO = new BookDAO();
     }
+
     public static BookService getInstance() {
         return instance;
     }
@@ -20,5 +21,9 @@ public class BookService {
     public int getBookUser(long boardPk, long memberPk) {
         int bookUser = bookDAO.getBookUser(boardPk, memberPk);
         return bookUser;
+    }
+
+    public void insertBook(long memberPk, long boardPK) {
+        bookDAO.insertBook(memberPk, boardPK);
     }
 }

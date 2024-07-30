@@ -11,7 +11,8 @@
             <c:otherwise>
                 <c:choose>
                     <c:when test="${statusBook == BookConst.LOGIN_NO || statusBook == BookConst.BOOk_NO}">
-                        <button id="bookBtn" class="btn btn-warning"> 예약하기 (${book.bookCnt}/${book.totalBookLimit})
+                        <button id="bookBtn" class="btn btn-warning" onclick="bookFunction()"> 예약하기
+                            (${book.bookCnt}/${book.totalBookLimit})
                         </button>
                     </c:when>
                     <c:otherwise>
