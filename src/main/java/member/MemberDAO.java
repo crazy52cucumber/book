@@ -152,7 +152,7 @@ class MemberDAO extends BaseDAO {
       if (rs.next()) {
         return rs.getString("email");
       }
-    } catch (SQLException se) {
+    }catch (SQLException se){
       System.out.println("[memberDAO] findId: Error: " + se.getMessage());
     }
     return null;
