@@ -28,4 +28,5 @@ public class ReviewSQL {
 
   public static String UPDATE_REVIEW_BY_REVIEWPK = "update review set title = ?, pros = ?, cons = ?, features = ?, wishes = ?, rate = ? where review_seq = ?";
 
+  public static String DELETE_REVIEW_BY_REVIEWPK = "delete from review where review_seq = ?";
 }

@@ -49,6 +49,11 @@ public class ReviewController extends HttpServlet {
         long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         moveUpdateReviewPage(req, res, reviewPk);
       }
+
+      if (method[2].startsWith("remove")) {
+        long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        removeReviewByReviewPk(req, res, reviewPk);
+      }
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
@@ -72,6 +77,13 @@ public class ReviewController extends HttpServlet {
       nfe.printStackTrace();
     }
   }
+
+  private void removeReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+    PrintWriter out = res.getWriter();
+    int result = reviewService.removeReviewByReviewPk(reviewPk);
+    out.print("{\"result\":\"" + result + "\"}");
+  }
+
 
   private void updateReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
     Gson gson = new Gson();
@@ -117,11 +129,15 @@ public class ReviewController extends HttpServlet {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
     int result = 0;
-    for (Cookie cookie : cookies) {
-      if (cookie.getName().equals("mySeq"))
-        result = Integer.parseInt(cookie.getValue()) == member.getSeq() ? 1 : 0;
+    if (member == null) {
+      out.print("{\"result\":\"" + result + "\"}");
+    } else {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("mySeq"))
+          result = Integer.parseInt(cookie.getValue()) == member.getSeq() ? 1 : 0;
+      }
+      out.print("{\"result\":\"" + result + "\"}");
     }
-    out.print("{\"result\":\"" + result + "\"}");
   }
 
   private void getReviewByBoardPk(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {

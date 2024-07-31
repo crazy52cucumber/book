@@ -24,6 +24,11 @@ header {
     background-color: #ccc8c8;
 }
 
+img {
+    width: 31px;
+    height: 30px;
+}
+
 .header-logo {
     display: flex;
     justify-content: space-between;

@@ -51,4 +51,8 @@ public class ReviewService {
   public int updateReviewByReviewPk(ReviewRequestDTO dto, long reviewPk) {
     return reviewDAO.updateReviewByReviewPk(dto, reviewPk);
   }
+
+  public int removeReviewByReviewPk(long reviewPk) {
+    return reviewDAO.deleteReviewByReviewPk(reviewPk);
+  }
 }

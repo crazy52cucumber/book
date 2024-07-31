@@ -28,7 +28,7 @@
         <div><input id="title" type="text" name="title" placeholder="제목을 입력해주세요" value="${dto.title}"></div>
         <div class="rate">
           <span class="star">
-          <c:forEach begin="1" end="${dto.rate}">
+          <c:forEach begin="0" end="${dto.rate-1}">
             <img src="/resources/imgs/별.png" alt="별">
           </c:forEach>
           </span>
@@ -72,7 +72,7 @@
     <div class="form-container--bottom">
       <div>
         <button id="submitBtn" class="btn btn-primary">수정</button>
-        <button id="formCancle" class="btn btn-danger">뒤로가기</button>
+        <button id="deleteBtn" class="btn btn-danger">삭제</button>
       </div>
     </div>
   </section>

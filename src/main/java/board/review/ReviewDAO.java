@@ -203,4 +203,19 @@ public class ReviewDAO extends BaseDAO {
     }
     return result;
   }
+
+  public int deleteReviewByReviewPk(long reviewPk) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.DELETE_REVIEW_BY_REVIEWPK);
+      pstmt.setLong(1, reviewPk);
+
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
 }

@@ -41,10 +41,10 @@ $('#submitBtn').click(async (e) => {
     data = await addReview(boardPk, object);
     let jsonData = JSON.parse(data);
     if (jsonData.result === "0") {
-      alert("한 번만 등록하실 수 있습니다.")
+      alert("수정이 안됐습니다.")
       return;
     }
-    if (jsonData.result === "2") {
+    if (jsonData.result === "1") {
       alert("예약이 안된 고객이십니다.")
       return
     }
@@ -57,7 +57,7 @@ $('#submitBtn').click(async (e) => {
       alert("한 번만 등록하실 수 있습니다.")
       return;
     }
-    if (jsonData.result === "2") {
+    if (jsonData.result === "1") {
       alert("예약이 안된 고객이십니다.")
       return
     }
@@ -70,4 +70,12 @@ $('#updateBtn').click(e => {
   const reviewPk = $('.modal-container').attr('class').split(" ")[1];
   localStorage.setItem("boardPk", boardPk)
   location.href = `/reviews/update/${reviewPk}`;
+})
+
+// 삭제 버튼 클릭
+$('#deleteBtn').click(async e => {
+  const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
+  const response = await $.get(`${SERVER_IP}/reviews/remove/${reviewPk}`);
+  console.log(response)
+  location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
 })
