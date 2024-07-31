@@ -102,9 +102,9 @@ public class MemberController extends HttpServlet {
           case "memberCheck":memberCheck(req,res);break;
         }
       }
-      req.getRequestDispatcher("/").forward(req, res);
+      //req.getRequestDispatcher("/").forward(req, res);
     }
-    req.getRequestDispatcher("/").forward(req, res);
+    //req.getRequestDispatcher("/").forward(req, res);
   }
 
 
@@ -169,8 +169,10 @@ public class MemberController extends HttpServlet {
   private void emailCheck(HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
     String email = req.getParameter("email");
+    System.out.println("email: " + email);
     MemberService service = MemberService.getInstance();
     int valid = service.emailCheck(email);
+    System.out.println("valid: " + valid);
     String json = "{\"valid\":" + valid + "}";
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
