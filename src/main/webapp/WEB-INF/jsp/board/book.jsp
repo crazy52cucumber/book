@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <body>
-<div class="book-wrapper">
-    <div class="book-container">
+<div class="book-container">
+    <form name='hi' action="book/book.do" method="get">
         <c:choose>
             <c:when test="${book.bookCnt == book.totalBookLimit}">
                 <button id="fullyBtn" class="btn btn-warning " disabled> 예약마감</button>
@@ -11,7 +11,7 @@
             <c:otherwise>
                 <c:choose>
                     <c:when test="${statusBook == BookConst.LOGIN_NO || statusBook == BookConst.BOOk_NO}">
-                        <button id="bookBtn" class="btn btn-warning" onclick="bookFunction()"> 예약하기
+                        <button id="bookBtn" class="btn btn-warning"> 예약하기
                             (${book.bookCnt}/${book.totalBookLimit})
                         </button>
                     </c:when>
@@ -21,6 +21,6 @@
                 </c:choose>
             </c:otherwise>
         </c:choose>
-    </div>
+    </form>
 </div>
 </body>

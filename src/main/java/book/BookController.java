@@ -1,16 +1,16 @@
 package book;
 
-import board.info.Response2DTO;
+import domain.Member;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet("/book/*")
+@WebServlet("/book/book.do")
 public class BookController extends HttpServlet {
     private BookService bookService;
 
@@ -19,17 +19,23 @@ public class BookController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String uri = req.getRequestURI();
+        long memberPk = -1L;
+        HttpSession session = req.getSession(false);
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            memberPk = member.getSeq();
+        }
         try {
-            long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-            insertBook(req, res, boardPk);
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
+//            long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+            insertBook(req, res, memberPk, 1);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
-    private void insertBook(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
-        
+    private void insertBook(HttpServletRequest req, HttpServletResponse res, long memberPk, long boardPk) {
+        bookService.insertBook(memberPk, boardPk);
     }
 }
