@@ -3,7 +3,7 @@
 <div class="bottom-menu-container">
   <div class="bottom-menu-item">
     <a href="/">학원</a>
-    <a href="">리뷰</a>
-    <a href="">마이</a>
+    <a href="javascript:void(0)">리뷰</a>
+    <a href="/member/member.do?method=myPage">마이</a>
   </div>
 </div>

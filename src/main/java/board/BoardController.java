@@ -37,10 +37,10 @@ public class BoardController extends HttpServlet {
       // 학원 정보 불러오기
       Response2DTO info = infoService.getInfoByBoardPK(seq);
       req.setAttribute("info", info);
-      // reply 불러오기
+      // review 불러오기
       ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
       req.setAttribute("review", review);
-      
+
       req.getRequestDispatcher("WEB-INF/jsp/board/content.jsp?seq=" + seq).forward(req, res);
     }
 

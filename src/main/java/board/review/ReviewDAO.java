@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 
 public class ReviewDAO extends BaseDAO {
   private Connection con;
@@ -32,7 +31,7 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("reply_seq"))
+                .boardSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))
@@ -45,7 +44,10 @@ public class ReviewDAO extends BaseDAO {
       }
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeAll(rs, pstmt);
     }
+    System.out.println("dao에서 list: " + list);
     return Optional.ofNullable(list);
   }
 
@@ -70,16 +72,14 @@ public class ReviewDAO extends BaseDAO {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     double result = 0.0;
-    int sum = 0;
     try {
       pstmt = con.prepareStatement(ReviewSQL.SELECT_ALL_RATE_BY_BOARDPK);
       pstmt.setLong(1, boardPk);
       rs = pstmt.executeQuery();
 
       int cnt = 0;
-      while (rs.next()) {
-        sum += rs.getInt("rate");
-        cnt++;
+      if (rs.next()) {
+        result = rs.getDouble(1);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -94,7 +94,6 @@ public class ReviewDAO extends BaseDAO {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     List<ReviewResponseDTO> list = new ArrayList<>();
-    System.out.println("paging start num: " + dto.getStartNum());
     try {
       pstmt = con.prepareStatement(ReviewSQL.SELECT_REVIEW_BY_BOARDPK_WITH_PAGING);
       pstmt.setLong(1, boardPk);
@@ -102,7 +101,7 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("reply_seq"))
+                .boardSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))
@@ -119,5 +118,29 @@ public class ReviewDAO extends BaseDAO {
       closeAll(rs, pstmt);
     }
     return Optional.ofNullable(list);
+  }
+
+  public int insertReview(ReviewRequestDTO dto, long bookSeq) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.INSERT);
+      pstmt.setInt(1, dto.getRate());
+      pstmt.setString(2, dto.getTitle());
+      pstmt.setString(3, dto.getPros());
+      pstmt.setString(4, dto.getCons());
+      pstmt.setString(5, dto.getFeatures());
+      pstmt.setString(6, dto.getWishes());
+      pstmt.setInt(7, 0);
+      pstmt.setLong(8, bookSeq);
+      pstmt.setLong(9, dto.getMemberSeq());
+
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeAll(null, pstmt);
+    }
+    return result;
   }
 }

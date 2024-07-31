@@ -1,7 +1,5 @@
 import {drawModal} from "./modal.js";
-import {SERVER_IP} from "./content-api.js";
 
-const boardPk = new URLSearchParams(location.search).get('seq');
 // 유리
 
 // 수완
@@ -10,7 +8,21 @@ reviewAEle.each((idx, item) => {
   drawModal(item);
 });
 
-// 예약창
-$('#bookBtn').click(() => {
-  $.ajax(`${SERVER_IP}/book/${boardPk}`, {})
+$('section').on('click', '.review-btn', e => {
+  e.stopPropagation();
+  const memberCookie = document.cookie;
+  const cookieArr = memberCookie.split(";");
+  const cookies = cookieArr.map(e => e.split("="));
+
+  let isLogin = false;
+  for (const cookie of cookies) {
+    if (cookie[0].trim().startsWith('member')) {
+      isLogin = true;
+    }
+  }
+  if (!isLogin) {
+    alert("로그인 후 이용 가능합니다.")
+    return;
+  }
+  $('.modal-container').css('display', 'block')
 })
