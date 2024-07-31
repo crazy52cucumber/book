@@ -11,7 +11,7 @@ public class ReviewSQL {
           "          join board b on b.BOARD_SEQ = bo.BOARD_SEQ\n" +
           "          join member m on m.member_seq = bo.MEMBER_SEQ\n" +
           "          where b.board_seq = ? order by r.review_seq desc limit ?, 5";
-  public static String SELECT_ALL_RATE_BY_BOARDPK = "select AVG(r.RATE) rate from review r join book bo on r.BOOK_SEQ = bo.BOOK_SEQ\n" +
+  public static String SELECT_ALL_RATE_BY_BOARDPK = "select TRUNCATE(AVG(r.RATE),1) rate from review r join book bo on r.BOOK_SEQ = bo.BOOK_SEQ\n" +
           "                         join board b on b.BOARD_SEQ = bo.BOARD_SEQ\n" +
           "                         where b.BOARD_SEQ = ?";
   public static String COUNT = "select count(*) from review r join book bo on r.BOOK_SEQ = bo.BOOK_SEQ\n" +

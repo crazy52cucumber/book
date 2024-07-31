@@ -6,17 +6,12 @@ import com.google.gson.JsonObject;
 import domain.Member;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import org.eclipse.tags.shaded.org.apache.regexp.RE;
+import jakarta.servlet.http.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/reviews/*")
@@ -30,18 +25,41 @@ public class ReviewController extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
+    String[] method = uri.split("/");
+    String reviewPkPara = req.getParameter("re");
+
+    if (reviewPkPara != null) {
+      int reviewPk = Integer.parseInt(reviewPkPara);
+      getReviewByReviewPk(req, res, reviewPk);
+    }
+
     try {
-      long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-      getReviewByBoardPk(req, res, boardPk);
+      if (method[2].startsWith("all")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        getReviewByBoardPk(req, res, boardPk);
+      }
+      if (method[2].startsWith("auth"))
+        checkCookie(req, res);
+      if (method[2].startsWith("write"))
+        moveToWrite(req, res);
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
+  }
+
+  private void getReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, int reviewPk) {
+    reviewService.getReviewByReviewPk(reviewPk);
+  }
+
+  private void moveToWrite(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/jsp/board/review_write.jsp").forward(req, res);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
     String[] method = uri.split("/");
+
     try {
       long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
       if (method[2].startsWith("all"))
@@ -53,6 +71,20 @@ public class ReviewController extends HttpServlet {
     }
   }
 
+
+  private void checkCookie(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    Cookie[] cookies = req.getCookies();
+    PrintWriter out = res.getWriter();
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int result = 0;
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals("mySeq"))
+        result = Integer.parseInt(cookie.getValue()) == member.getSeq() ? 1 : 0;
+    }
+    out.print("{\"result\":\"" + result + "\"}");
+  }
+
   private void getReviewByBoardPk(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
     Gson gson = new Gson();
     PrintWriter out = res.getWriter();
@@ -61,7 +93,6 @@ public class ReviewController extends HttpServlet {
     for (ReviewResponseDTO e : reviewsByBoardPk.getDto()) {
       dto.add(e);
     }
-    System.out.println(dto);
     out.print(gson.toJson(dto));
   }
 
@@ -70,7 +101,6 @@ public class ReviewController extends HttpServlet {
     PrintWriter out = res.getWriter();
 
     BufferedReader reader = req.getReader();
-    String line = "";
     RequestDTO paging = gson.fromJson(reader, RequestDTO.class);
     int count = reviewService.getCountbyBoardPk(boardPk);
     List<ReviewResponseDTO> reviewsByBoardPkWithPaging = reviewService.getReviewsByBoardPkWithPaging(boardPk, paging);

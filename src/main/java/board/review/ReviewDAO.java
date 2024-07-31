@@ -32,7 +32,7 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("review_seq"))
+                .reviewSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))
@@ -48,7 +48,6 @@ public class ReviewDAO extends BaseDAO {
     } finally {
       closeAll(rs, pstmt);
     }
-    System.out.println("dao에서 list: " + list);
     return Optional.ofNullable(list);
   }
 
@@ -102,7 +101,7 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("review_seq"))
+                .reviewSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))

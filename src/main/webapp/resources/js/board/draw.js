@@ -1,9 +1,10 @@
-export const drwaReview = (jsonData) => {
+export const drwaReview = (obj) => {
+  console.log(obj)
   let html = '';
-  for (let item of jsonData) {
+  for (let item of obj) {
     html += `<li>`
-    html += `<a href="javascript:void(0)">`
-    html += `<div class="review-card">`
+    html += `<a href="javascript:void(0)" data-writer="${item.memberSeq}">`
+    html += `<div class="review-card-${item.reviewSeq}">`
     html += `<div class="review-card--header">`
     html += `<div>`
     html += `<img src="/resources/imgs/별.png" alt="">`
@@ -24,4 +25,8 @@ export const drwaReview = (jsonData) => {
     html += `</li>`
   }
   return html;
+}
+
+export const drawContent = () => {
+
 }
