@@ -59,6 +59,7 @@ class MemberDAO extends BaseDAO {
                 .seq(rs.getInt("member_seq"))
                 .email(rs.getString("email"))
                 .name(rs.getString("name"))
+                .phone(rs.getString("phone"))
                 .nickname(rs.getString("nickname"))
                 .rdate(rs.getDate("rdate"))
                 .user_type(rs.getByte("user_type"))
@@ -77,7 +78,7 @@ class MemberDAO extends BaseDAO {
     return null;
   }
 
-  int join(String email, String password, String name, int phoneNum, String nickname) {
+  int join(String email, String password, String name, String phoneNum, String nickname) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -88,7 +89,7 @@ class MemberDAO extends BaseDAO {
       ps.setString(1, email);
       ps.setString(2, hashedPassword);
       ps.setString(3, name);
-      ps.setInt(4, phoneNum);
+      ps.setString(4, phoneNum);
       ps.setString(5, nickname);
       return ps.executeUpdate();
     } catch (SQLException se) {
@@ -144,7 +145,7 @@ class MemberDAO extends BaseDAO {
       pstmt.setString(1, modifiedMember.getPassword());
       pstmt.setString(2, modifiedMember.getNickname());
       pstmt.setInt(3, modifiedMember.getSeq());
-      //System.out.println();
+      System.out.println(modifiedMember.getPassword());
       int i = pstmt.executeUpdate();
     } catch (SQLException se) {
       se.printStackTrace();
@@ -186,7 +187,7 @@ class MemberDAO extends BaseDAO {
     ArrayList<Review> myRelpyList = new ArrayList<>();
     Connection con = null;
     PreparedStatement pstmt = null;
-    String sql = MY_REPLY;
+    String sql = MY_REVIEW;
     ResultSet rs = null;
     try {
       con = getConnection();
@@ -205,10 +206,11 @@ class MemberDAO extends BaseDAO {
         int valid = rs.getInt(9);
         int book_seq = rs.getInt(10);
 
+
         System.out.println(review_seq);
 
 
-        Review myReview = new Review(review_seq, rate, title, pros, cons, features, wishes, cdate, valid, book_seq);
+        Review myReview = new Review(review_seq, rate, title, pros, cons, features, wishes, cdate, valid, book_seq, member_seq);
         myRelpyList.add(myReview);
       }
       return myRelpyList;
@@ -287,6 +289,4 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-
-
 }

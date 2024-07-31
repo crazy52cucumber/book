@@ -17,4 +17,5 @@ public class ReviewSQL {
   public static String COUNT = "select count(*) from review r join book bo on r.BOOK_SEQ = bo.BOOK_SEQ\n" +
           "                join board b on b.BOARD_SEQ = bo.BOARD_SEQ\n" +
           "                where b.board_seq=?";
+  public static String INSERT = "insert into review(rate, title, pros, cons, features, wishes, cdate, valid, book_seq, member_seq) values (?,?,?,?,?,?,now(),?,?,?)";
 }

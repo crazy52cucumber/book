@@ -20,4 +20,5 @@ public class Review {
   private Date cdate;
   private int valid;
   private int book_seq;
+  private int member_seq;
 }

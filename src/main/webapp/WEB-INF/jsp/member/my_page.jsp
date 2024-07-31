@@ -77,15 +77,6 @@
           margin-bottom: 50px;
       }
 
-      #review {
-          display: flex;
-          align-items: center;
-          background-color: skyblue;
-          width: 400px;
-          height: 150px;
-          margin-bottom: 50px;
-      }
-
 
   </style>
 
@@ -100,16 +91,19 @@
         <div>${member.email}</div>
       </div>
       <div id="ebtn">
-        <input id="btn" type="button" value="편집">
+        <input id="btn" type="button" value="편집"/>
       </div>
     </div>
+
     <script>
       $(function () {
         $("#btn").click(function () {
-          window.open('member.do?method=popup', '_blank', 'width=300,height=120');
+          window.location.href = 'member.do?method=startModify';
         });
       });
     </script>
+
+
     <a href="member.do?method=myBookingList">
       <div class="content">
         <p>나의 예약현황</p>

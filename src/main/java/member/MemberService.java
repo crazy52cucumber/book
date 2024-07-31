@@ -8,6 +8,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 public class MemberService {
+
   private MemberDAO dao;
 
   @Getter
@@ -45,11 +46,15 @@ public class MemberService {
     return dao.passwordMatch(email, password);
   }
 
-  public int join(String email, String password, String name, int phoneNum, String nickname) {
-    return dao.join(email, password, name, phoneNum, nickname);
+  public int join(String email, String password, String name, String phone, String nickname) {
+    return dao.join(email, password, name, phone, nickname);
   }
 
   public int emailCheck(String email) {
+    return emailCheck(email, null);
+  }
+
+  public int emailCheck(String email, String name) {
     return dao.emailCheck(email);
   }
 
@@ -60,4 +65,5 @@ public class MemberService {
   public Member getMemberByEmail(String email, String name) {
     return dao.getMemberByEmail(email, name);
   }
+
 }

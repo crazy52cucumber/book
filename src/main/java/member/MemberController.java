@@ -1,5 +1,6 @@
 package member;
 
+import static member.util.BcryptEncoder.encode;
 import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.SUCCESS;
 import static member.util.SignupConst.VALID;
@@ -10,6 +11,7 @@ import domain.Review;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -61,8 +63,21 @@ public class MemberController extends HttpServlet {
             modify(req, res);
             break;
 
-          case "popup":
-            popup(req, res);
+          case "startModify":
+            startModify(req, res);
+            break;
+
+          case "modifyCheck":
+            modifyCheck(req, res);
+            break;
+
+          //수정 전 비번 확인
+          case "passwordCheck":
+            passwordCheck(req, res);
+            break;
+
+          case "checkPassword":
+            checkPassword(req, res);
             break;
 
           case "withdraw":
@@ -93,11 +108,31 @@ public class MemberController extends HttpServlet {
               throw new RuntimeException(e);
             }
             break;
+
+          case "authenticEmail":
+            try {
+              authenticEmail(req, res);
+            } catch (Exception e) {
+              throw new RuntimeException(e);
+            }
+            break;
+          case "emailNameCheck":
+            emailNameCheck(req, res);
+            break;
+
+          case "memberCheck":
+            memberCheck(req, res);
+            break;
         }
       }
       //req.getRequestDispatcher("/").forward(req, res);
     }
-    req.getRequestDispatcher("/").forward(req, res);
+    //req.getRequestDispatcher("/").forward(req, res);
+  }
+
+  private void startModify(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/password_ok.jsp").forward(req, res);
   }
 
 
@@ -117,7 +152,13 @@ public class MemberController extends HttpServlet {
       int result = service.passwordMatch(email, password);
       if (result == SUCCESS) {
         Member member = service.getMember(email);
+        String mySeq = "" + member.getSeq();
         HttpSession session = req.getSession();
+        Cookie loginCookie = new Cookie("mySeq", mySeq);
+        loginCookie.setPath("/");
+        loginCookie.setHttpOnly(true);
+        loginCookie.setSecure(true);
+        res.addCookie(loginCookie);
         session.setAttribute("member", member);
       }
       System.out.println("result: " + result);
@@ -142,8 +183,7 @@ public class MemberController extends HttpServlet {
     String nickname = req.getParameter("nickname");
     MemberService service = MemberService.getInstance();
     if (email != null && password != null && name != null && phone != null && nickname != null) {
-      int phoneNum = Integer.parseInt(phone);
-      int result = service.join(email, password, name, phoneNum, nickname);
+      int result = service.join(email, password, name, phone, nickname);
       if (result != FAILURE) {
         Member member = service.getMember(email);
         HttpSession session = req.getSession();
@@ -170,6 +210,94 @@ public class MemberController extends HttpServlet {
     out.close();
   }
 
+  private void memberCheck(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    String email = req.getParameter("email");
+    String password = req.getParameter("password");
+    //System.out.println("email: " + email + "password: " + password);
+    if (email != null && password != null) {
+      MemberService service = MemberService.getInstance();
+      int result = service.passwordMatch(email, password);
+      String json = "{\"result\":" + result + "}";
+      res.setContentType("application/json;charset=UTF-8");
+      res.setCharacterEncoding("UTF-8");
+      PrintWriter out = res.getWriter();
+      out.print(json);
+      out.flush();
+      out.close();
+    }
+  }
+
+  private void passwordCheck(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    String email = member.getEmail();
+    String password = req.getParameter("password");
+    System.out.println("email: " + email + "password: " + password);
+    if (email != null && password != null) {
+      MemberService service = MemberService.getInstance();
+      int result = service.passwordMatch(email, password);
+      System.out.println(result + "수완");
+      String json = "{\"result\":" + result + "}";
+      res.setContentType("application/json;charset=UTF-8");
+      res.setCharacterEncoding("UTF-8");
+      PrintWriter out = res.getWriter();
+      out.print(json);
+      out.flush();
+      out.close();
+    }
+  }
+
+
+  private void modifyCheck(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    String nickname = req.getParameter("nickname");
+    String password = req.getParameter("password");
+    if (nickname != null && password != null) {
+      MemberService service = MemberService.getInstance();
+      int result = service.passwordMatch(nickname, password);
+      String json = "{\"result\":" + result + "}";
+      res.setContentType("application/json;charset=UTF-8");
+      res.setCharacterEncoding("UTF-8");
+      PrintWriter out = res.getWriter();
+      out.print(json);
+      out.flush();
+      out.close();
+    }
+
+  }
+
+  private void emailNameCheck(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    String email = req.getParameter("email");
+    String name = req.getParameter("name");
+    MemberService service = MemberService.getInstance();
+    int valid = service.emailCheck(email, name);
+    String json = "{\"valid\":" + valid + "}";
+    res.setContentType("application/json;charset=UTF-8");
+    res.setCharacterEncoding("UTF-8");
+    PrintWriter out = res.getWriter();
+    out.print(json);
+    out.flush();
+    out.close();
+  }
+
+  private void authenticEmail(HttpServletRequest req, HttpServletResponse res)
+          throws Exception {
+    String email = req.getParameter("email");
+    MailService mailService = new MailService();
+    String code = mailService.sendEmail(email);
+    String json = "{\"code\":" + code + "}";
+    res.setContentType("application/json;charset=UTF-8");
+    res.setCharacterEncoding("UTF-8");
+    PrintWriter out = res.getWriter();
+    out.print(json);
+    out.flush();
+    out.close();
+
+  }
+
   private void myPage(HttpServletRequest req, HttpServletResponse res)
           throws ServletException, IOException {
     HttpSession session = req.getSession(false);
@@ -186,13 +314,14 @@ public class MemberController extends HttpServlet {
           throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
-
     int member_seq = member.getSeq();
     String email = member.getEmail();
-    String password = req.getParameter("modifiedPassword");
+    String password = encode(req.getParameter("modifiedPassword"));
     String name = member.getName();
-    int phone = member.getPhone();
-    String nickname = req.getParameter("nickname");
+    String phone = member.getPhone();
+    String nickname = req.getParameter("modifiedNickname");
+    System.out.println(nickname);
+    System.out.println(password);
 
     Date rdate = member.getRdate();
     byte user_type = member.getUser_type();
@@ -210,12 +339,25 @@ public class MemberController extends HttpServlet {
 
     MemberService service = MemberService.getInstance();
     service.modifyS(modifiedMember);
+
+    req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
   }
 
-  private void popup(HttpServletRequest req, HttpServletResponse res)
+  private void checkPassword(HttpServletRequest req, HttpServletResponse res)
           throws ServletException, IOException {
-    req.getRequestDispatcher("/WEB-INF/jsp/member/popup.jsp").forward(req, res);
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    String correctPassword = member.getPassword();
+    String inputPassword = req.getParameter("password");
+    System.out.println(correctPassword);
+    System.out.println(inputPassword);
+    if (inputPassword.equals(correctPassword)) {
+      req.getRequestDispatcher("/WEB-INF/jsp/member/modify.jsp").forward(req, res);
+    } else {
+      req.getRequestDispatcher("/WEB-INF/jsp/member/wrong_password.jsp").forward(req, res);
+    }
   }
+
 
   //회원 탈퇴
   private void withdraw(HttpServletRequest req, HttpServletResponse res)
@@ -303,15 +445,20 @@ public class MemberController extends HttpServlet {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     Member member = null;
+    String authenticationCode = null;
+    HttpSession session = req.getSession();
     if (email != null && name != null) {
       MemberService service = MemberService.getInstance();
       member = service.getMemberByEmail(email, name);
-      MailService mailService = new MailService();
-      String authenticationCode = mailService.sendEmail(member.getEmail());
-      HttpSession session = req.getSession();
+      String myEmail = member.getEmail();
+      if (myEmail != null) {
+        MailService mailService = new MailService();
+        authenticationCode = mailService.sendEmail(myEmail);
+      }
       session.setAttribute("member", member);
       session.setAttribute("authenticationCode", authenticationCode);
-      req.getRequestDispatcher("/WEB-INF/jsp/member/my_id.jsp").forward(req, res);
+
+      req.getRequestDispatcher("/WEB-INF/jsp/member/my_pwd.jsp").forward(req, res);
     }
   }
 
