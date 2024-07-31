@@ -3,10 +3,7 @@ package book;
 import board.review.ReviewRequestDTO;
 import dbutil.BaseDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import board.review.RequestDTO;
 import dbutil.BaseDAO;
@@ -61,13 +58,13 @@ public class BookDAO extends BaseDAO {
     }
 
     /*강의 예약 여부*/
-    int getBookUser(long boardPK, long memberPK) {
+    int getBookUser(long memberPK, long boardPK) {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             pstmt = con.prepareStatement(BookSQL.GET_BOOK_USER);
-            pstmt.setLong(1, boardPK);
-            pstmt.setLong(2, memberPK);
+            pstmt.setLong(1, memberPK);
+            pstmt.setLong(2, boardPK);
             rs = pstmt.executeQuery();
             int cnt = 0;
             if (rs.next()) {
@@ -108,12 +105,50 @@ public class BookDAO extends BaseDAO {
             pstmt.setLong(2, boardPK);
             result = pstmt.executeUpdate();
             if (result == 0) {
-                throw new SQLException("댓글 삭제 실패");
+                throw new SQLException("댓글 수정 실패");
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
         return result;
+    }
+
+    /*강의 재예약*/
+    int reUpdateBook(long memberPK, long boardPK) {
+        PreparedStatement pstmt = null;
+        int result = 0;
+        try {
+            pstmt = con.prepareStatement(BookSQL.RE_UPDATE_BOOK);
+            pstmt.setLong(1, memberPK);
+            pstmt.setLong(2, boardPK);
+            result = pstmt.executeUpdate();
+            if (result == 0) {
+                throw new SQLException("댓글 재수정 실패");
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return result;
+    }
+
+    /*강의 취소 여부*/
+    int getCancelBook(long memberPK, long boardPK) {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(BookSQL.GET_CANCEL_YN);
+            pstmt.setLong(1, memberPK);
+            pstmt.setLong(2, boardPK);
+            rs = pstmt.executeQuery();
+            int cnt = -1;
+            if (rs.next()) {
+                cnt = rs.getInt(1);
+            }
+            return cnt;
+        } catch (SQLException se) {
+            se.printStackTrace();
+            return -1;
+        }
     }
 
     //public

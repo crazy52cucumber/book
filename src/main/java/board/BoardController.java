@@ -62,7 +62,7 @@ public class BoardController extends HttpServlet {
             Member member = (Member) session.getAttribute("member");
             if (member != null) {
                 memberSeq = member.getSeq();
-                bookuser = bookService.getBookUser(seq, memberSeq);
+                bookuser = bookService.getBookUser(memberSeq, seq);
             }
             req.setAttribute("statusBook", bookuser);
 

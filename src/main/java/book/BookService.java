@@ -18,8 +18,8 @@ public class BookService {
         return new BookResponseDTO(totalBookLimit, bookCnt);
     }
 
-    public int getBookUser(long boardPk, long memberPk) {
-        int bookUser = bookDAO.getBookUser(boardPk, memberPk);
+    public int getBookUser(long memberPk, long boardPk) {
+        int bookUser = bookDAO.getBookUser(memberPk, boardPk);
         return bookUser;
     }
 
@@ -27,7 +27,15 @@ public class BookService {
         return bookDAO.insertBook(memberPk, boardPK);
     }
 
-    public void updateBook(long memberPk, long boardPK) {
-        bookDAO.insertBook(memberPk, boardPK);
+    public int updateBook(long memberPk, long boardPK) {
+        return bookDAO.updateBook(memberPk, boardPK);
+    }
+
+    public int reUpdateBook(long memberPk, long boardPK) {
+        return bookDAO.reUpdateBook(memberPk, boardPK);
+    }
+
+    public int getCancelBook(long memberPk, long boardPK) {
+        return bookDAO.getCancelBook(memberPk, boardPK);
     }
 }
