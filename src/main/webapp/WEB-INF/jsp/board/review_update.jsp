@@ -9,19 +9,22 @@
 </head>
 <body>
 <main>
-  <header>
-    <div class="header-logo">
-      <a href="/">보령엄마</a>
-      <c:choose>
-        <c:when test="${empty member}">
-          <a href="<c:url value='/member/member.do?method=login'/>">로그인하기</a>
-        </c:when>
-        <c:otherwise>
+  <c:choose>
+    <c:when test="${empty member}">
+      <script>
+        alert("로그인해")
+        history.back()
+      </script>
+    </c:when>
+    <c:otherwise>
+      <header>
+        <div class="header-logo">
+          <a href="/">보령엄마</a>
           <a href="/member/member.do?method=myPage">${member.nickname}</a>
-        </c:otherwise>
-      </c:choose>
-    </div>
-  </header>
+        </div>
+      </header>
+    </c:otherwise>
+  </c:choose>
   <section class="form-wrapper">
     <div class="form-container">
       <div class="form-container--top">

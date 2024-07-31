@@ -33,6 +33,7 @@ export const drawContent = (obj) => {
   $('.modal-container').removeClass().addClass(`modal-container ${obj.reviewSeq}`);
   $('.writer-info span:first-child').text(obj.nickname);
   $('.writer-info span:last-child').text(obj.grade);
+  $('.writer-info')[0].dataset.writer = obj.memberSeq;
   $('#title').val(obj.title);
   $('#pros').html(obj.pros);
   $('#cons').html(obj.cons);

@@ -1,4 +1,5 @@
 import {addReview, SERVER_IP, updateReviewByReviewPk} from "./review-api.js";
+import {checkCookie, checkWriter} from "../content-api.js";
 
 const boardPk = new URLSearchParams(location.search).get('seq');
 
@@ -66,10 +67,23 @@ $('#submitBtn').click(async (e) => {
 })
 
 // 수정 버튼 클릭
-$('#updateBtn').click(e => {
+$('#updateBtn').click(async (e) => {
   const reviewPk = $('.modal-container').attr('class').split(" ")[1];
   localStorage.setItem("boardPk", boardPk)
-  location.href = `/reviews/update/${reviewPk}`;
+
+  const flag = await isLogin();
+  if (!flag) {
+    alert("로그인 후 이용 가능합니다.")
+    return;
+  }
+
+  // 동일인인지 검증
+  const writerPk = document.querySelector('.writer-info').dataset.writer;
+  const data = await checkWriter(writerPk);
+  const obj = JSON.parse(data);
+  if (obj.result === '1')
+    location.href = `/reviews/update/${reviewPk}`;
+  else alert('작성자가 아닙니다.')
 })
 
 // 삭제 버튼 클릭
@@ -79,3 +93,10 @@ $('#deleteBtn').click(async e => {
   console.log(response)
   location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
 })
+
+const isLogin = async () => {
+  const data = await checkCookie();
+  const obj = JSON.parse(data);
+  if (obj.result === '0') return false;
+  else return true;
+}

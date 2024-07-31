@@ -54,6 +54,12 @@ public class ReviewController extends HttpServlet {
         long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         removeReviewByReviewPk(req, res, reviewPk);
       }
+
+      if (method[2].startsWith("check")) {
+        long writerPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        checkWriter(req, res, writerPk);
+      }
+
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
@@ -136,6 +142,19 @@ public class ReviewController extends HttpServlet {
         if (cookie.getName().equals("mySeq"))
           result = Integer.parseInt(cookie.getValue()) == member.getSeq() ? 1 : 0;
       }
+      out.print("{\"result\":\"" + result + "\"}");
+    }
+  }
+
+  private void checkWriter(HttpServletRequest req, HttpServletResponse res, long writerPk) throws ServletException, IOException {
+    PrintWriter out = res.getWriter();
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int result = 0;
+    if (member == null) {
+      out.print("{\"result\":\"" + result + "\"}");
+    } else {
+      result = writerPk == member.getSeq() ? 1 : 0;
       out.print("{\"result\":\"" + result + "\"}");
     }
   }
