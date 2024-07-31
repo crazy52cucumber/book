@@ -25,4 +25,7 @@ public class ReviewSQL {
           "                    join board b on b.BOARD_SEQ = bo.BOARD_SEQ\n" +
           "                    join member m on m.member_seq = bo.MEMBER_SEQ\n" +
           "where r.review_seq = ?";
+
+  public static String UPDATE_REVIEW_BY_REVIEWPK = "update review set title = ?, pros = ?, cons = ?, features = ?, wishes = ?, rate = ? where review_seq = ?";
+
 }

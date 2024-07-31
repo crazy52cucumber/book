@@ -26,26 +26,72 @@ public class ReviewController extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
     String[] method = uri.split("/");
-    String reviewPkPara = req.getParameter("re");
-
+    System.out.println("uri: " + uri);
     try {
-      if (reviewPkPara != null) {
-        int reviewPk = Integer.parseInt(reviewPkPara);
+      if (method[2].startsWith("get")) {
+        long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         getReviewByReviewPk(req, res, reviewPk);
-      } else if (method[2].startsWith("all")) {
+      }
+      if (method[2].startsWith("all")) {
         long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         getReviewByBoardPk(req, res, boardPk);
-      } else if (method[2].startsWith("auth")) {
+      }
+
+      if (method[2].startsWith("auth")) {
         checkCookie(req, res);
-      } else if (method[2].startsWith("write")) {
+      }
+
+      if (method[2].startsWith("write")) {
         moveToWrite(req, res);
+      }
+
+      if (method[2].startsWith("update")) {
+        long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        moveUpdateReviewPage(req, res, reviewPk);
       }
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
   }
 
-  private void getReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, int reviewPk) throws ServletException, IOException {
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    String uri = req.getRequestURI();
+    String[] method = uri.split("/");
+    System.out.println("뽀스트 uri: " + uri);
+    try {
+      long pk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+      if (method[2].startsWith("all"))
+        getReviewByBoardPkWithPaging(req, res, pk);
+      if (method[2].startsWith("add"))
+        addReview(req, res, pk);
+      if (method[2].startsWith("update")) {
+        updateReviewByReviewPk(req, res, pk);
+      }
+    } catch (NumberFormatException nfe) {
+      nfe.printStackTrace();
+    }
+  }
+
+  private void updateReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+    Gson gson = new Gson();
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    PrintWriter out = res.getWriter();
+
+    BufferedReader reader = req.getReader();
+    ReviewRequestDTO dto = gson.fromJson(reader, ReviewRequestDTO.class);
+    try {
+      dto.setMemberSeq(member.getSeq());
+    } catch (NullPointerException npe) {
+      System.out.println("로그인 아직 안됨: " + npe.getMessage());
+    }
+    int result = reviewService.updateReviewByReviewPk(dto, reviewPk);
+    out.print("{\"result\":\"" + result + "\"}");
+  }
+
+
+  private void getReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
     Gson gson = new Gson();
     PrintWriter out = res.getWriter();
     ReviewResponseDTO dto = reviewService.getReviewByReviewPk(reviewPk);
@@ -53,24 +99,15 @@ public class ReviewController extends HttpServlet {
     out.print(gson.toJson(dto));
   }
 
-  private void moveToWrite(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    req.getRequestDispatcher("/WEB-INF/jsp/board/review_write.jsp").forward(req, res);
+  private void moveUpdateReviewPage(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+    ReviewResponseDTO dto = reviewService.getReviewByReviewPk(reviewPk);
+    req.setAttribute("dto", dto);
+    req.getRequestDispatcher("/WEB-INF/jsp/board/review_update.jsp").forward(req, res);
   }
 
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    String uri = req.getRequestURI();
-    String[] method = uri.split("/");
 
-    try {
-      long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-      if (method[2].startsWith("all"))
-        getReviewByBoardPkWithPaging(req, res, boardPk);
-      if (method[2].startsWith("add"))
-        addReview(req, res, boardPk);
-    } catch (NumberFormatException nfe) {
-      nfe.printStackTrace();
-    }
+  private void moveToWrite(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/jsp/board/review_write.jsp").forward(req, res);
   }
 
 

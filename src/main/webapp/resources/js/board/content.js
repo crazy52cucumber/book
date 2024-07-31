@@ -1,4 +1,4 @@
-import {drawModal} from "./modal.js";
+import {modal} from "./modal.js";
 import {checkCookie} from "./content-api.js";
 import {viewTarget} from "./infinity_scroll.js";
 import {drwaReview} from "./draw.js";
@@ -19,7 +19,7 @@ $(document).on('click', '.bottom-menu-item a:nth-child(2), #allReviewBtn', async
 
 const reviewAEle = $('li a');
 reviewAEle.each((idx, item) => {
-  drawModal(item);
+  modal(item);
 });
 
 $('section').on('click', '.review-btn', async (e) => {

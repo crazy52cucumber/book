@@ -28,9 +28,9 @@ export const drwaReview = (obj) => {
 
 export const drawContent = (obj) => {
   let imgHtml = '';
-
   $('.modal-wrapper').addClass('active')
   $('.modal-container').css('display', 'block');
+  $('.modal-container').removeClass().addClass(`modal-container ${obj.reviewSeq}`);
   $('.writer-info span:first-child').text(obj.nickname);
   $('.writer-info span:last-child').text(obj.grade);
   $('#title').val(obj.title);

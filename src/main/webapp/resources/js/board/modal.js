@@ -1,15 +1,14 @@
-import {getReviewByReviewPk} from "./review/review-api.js";
+import {getReviewByReviewPk, updateReviewByReviewPk} from "./review/review-api.js";
 import {drawContent} from "./draw.js";
 
 const modalCancleBtnEle = $('#modalCancle');
 
-export const drawModal = (item) => {
+export const modal = (item) => {
   $(item).on('click', async (e) => {
     const reviewPk = item.childNodes[1].className.split('-')[2];
     const data = await getReviewByReviewPk(reviewPk);
     const obj = JSON.parse(data);
     drawContent(obj);
-
   });
 }
 
@@ -18,7 +17,6 @@ export const closeModal = e => {
   $('.modal-container').css('display', 'none');
   $('.modal-wrapper').removeClass('active')
   $('textarea').remove();
-  $('#updateBtn').remove();
 }
 
 // 모달 끄기 이벤트
@@ -33,7 +31,3 @@ $('label').on('click', (e) => {
 });
 
 
-// 수정 버튼 클릭
-$('#submitBtn').click(e => {
-  alert("얍삐")
-})

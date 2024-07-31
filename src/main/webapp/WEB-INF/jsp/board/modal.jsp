@@ -45,7 +45,7 @@
   <div class="modal-container--bottom">
     <p id="date">날짜는 지우고, 가져올때 추가</p>
     <div>
-      <button id="submitBtn" class="btn btn-primary">수정</button>
+      <button id="updateBtn" class="btn btn-primary">수정</button>
       <button id="modalCancle" class="btn btn-danger">닫기</button>
     </div>
   </div>

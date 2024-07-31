@@ -152,13 +152,13 @@ public class ReviewDAO extends BaseDAO {
     return result;
   }
 
-  public Optional<ReviewResponseDTO> selectReviewByReviewPk(int reviewPk) {
+  public Optional<ReviewResponseDTO> selectReviewByReviewPk(long reviewPk) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     ReviewResponseDTO dto = null;
     try {
       pstmt = con.prepareStatement(ReviewSQL.SELECT_REVIEW_BY_REVIEWPK);
-      pstmt.setInt(1, reviewPk);
+      pstmt.setLong(1, reviewPk);
 
       rs = pstmt.executeQuery();
       while (rs.next()) {
@@ -182,5 +182,25 @@ public class ReviewDAO extends BaseDAO {
       e.printStackTrace();
     }
     return Optional.ofNullable(dto);
+  }
+
+  public int updateReviewByReviewPk(ReviewRequestDTO dto, long reviewPk) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.UPDATE_REVIEW_BY_REVIEWPK);
+      pstmt.setString(1, dto.getTitle());
+      pstmt.setString(2, dto.getPros());
+      pstmt.setString(3, dto.getCons());
+      pstmt.setString(4, dto.getFeatures());
+      pstmt.setString(5, dto.getWishes());
+      pstmt.setInt(6, dto.getRate());
+      pstmt.setLong(7, reviewPk);
+
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 }

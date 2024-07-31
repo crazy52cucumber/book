@@ -1,6 +1,4 @@
-import {getReviewsByBoardPk} from "./review-api.js";
-import {viewTarget} from "../infinity_scroll.js";
-import {drwaReview} from "../draw.js";
+import {addReview, SERVER_IP, updateReviewByReviewPk} from "./review-api.js";
 
 const boardPk = new URLSearchParams(location.search).get('seq');
 
@@ -18,6 +16,7 @@ $('#rate').change(e => {
 
 // 전송
 $('#submitBtn').click(async (e) => {
+  let method = $(e.target).text()
   let formData = new FormData();
   const title = $('#title').val().trim();
   const pros = $('#pros').html().trim();
@@ -25,6 +24,8 @@ $('#submitBtn').click(async (e) => {
   const features = $('#features').html().trim();
   const wishes = $('#wishes').html().trim();
   const rate = $('#rate').val();
+  const object = {};
+  let data = '';
   formData.append("title", title);
   formData.append("pros", pros);
   formData.append("cons", cons);
@@ -32,31 +33,41 @@ $('#submitBtn').click(async (e) => {
   formData.append("wishes", wishes);
   formData.append("rate", rate);
 
-  const object = {};
   formData.forEach(function (value, key) {
     object[key] = value;
   });
-  const data = await addReview(boardPk, object);
-  const jsonData = JSON.parse(data);
-  if (jsonData.result === "0") {
-    alert("한 번만 등록하실 수 있습니다.")
-    return;
+
+  if (method !== '수정') {
+    data = await addReview(boardPk, object);
+    let jsonData = JSON.parse(data);
+    if (jsonData.result === "0") {
+      alert("한 번만 등록하실 수 있습니다.")
+      return;
+    }
+    if (jsonData.result === "2") {
+      alert("예약이 안된 고객이십니다.")
+      return
+    }
+    location.href = `${SERVER_IP}/board?seq=${boardPk}`
+  } else {
+    const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
+    data = await updateReviewByReviewPk(reviewPk, object);
+    let jsonData = JSON.parse(data);
+    if (jsonData.result === "0") {
+      alert("한 번만 등록하실 수 있습니다.")
+      return;
+    }
+    if (jsonData.result === "2") {
+      alert("예약이 안된 고객이십니다.")
+      return
+    }
+    location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
   }
-  if (jsonData.result === "2") {
-    alert("예약이 안된 고객이십니다.")
-    return
-  }
-  location.href = `http://localhost:8080/board?seq=${boardPk}`
 })
 
-/* 리뷰 전송 후 변경
- if (jsonData.result == "1") {
-    $('.modal-container').css('display', 'none');
-    $('.review-conainer').load('http://localhost:8080/async_page/review_page.jsp')
-    const data = await getReviewsByBoardPk(boardPk);
-    const obj = JSON.parse(data);
-    console.log('obj', obj);
-    $('div strong').first().text(`${obj.length}개`)
-    $('div.menu > p:first-child').text(`${obj.length}개`)
-    $('.review-list').html(drwaReview(obj));
-  }*/
+// 수정 버튼 클릭
+$('#updateBtn').click(e => {
+  const reviewPk = $('.modal-container').attr('class').split(" ")[1];
+  localStorage.setItem("boardPk", boardPk)
+  location.href = `/reviews/update/${reviewPk}`;
+})

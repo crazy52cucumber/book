@@ -34,7 +34,7 @@ public class ReviewService {
     return responseDto;
   }
 
-  // 서버에서 예약되지 않은 사람의 예약일 때 예외 발생시켜야됨
+  //todo : 서버에서 예약되지 않은 사람의 예약일 때 예외 발생시켜야됨
   public int addReview(ReviewRequestDTO dto, int memberPk) {
     long bookSeq = bookDAO.selectBookPkFromBooked(dto, memberPk);
     if (bookSeq == 0) {
@@ -43,8 +43,12 @@ public class ReviewService {
     return reviewDAO.insertReview(dto, bookSeq);
   }
 
-  public ReviewResponseDTO getReviewByReviewPk(int reviewPk) {
+  public ReviewResponseDTO getReviewByReviewPk(long reviewPk) {
     ReviewResponseDTO dto = reviewDAO.selectReviewByReviewPk(reviewPk).orElseThrow();
     return dto;
+  }
+
+  public int updateReviewByReviewPk(ReviewRequestDTO dto, long reviewPk) {
+    return reviewDAO.updateReviewByReviewPk(dto, reviewPk);
   }
 }
