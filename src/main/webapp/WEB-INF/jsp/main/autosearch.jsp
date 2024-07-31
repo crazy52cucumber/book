@@ -7,7 +7,6 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    //검색할 때 입력한 글자만 진하게 나오는 부분
     $(function(){
         $.ui.autocomplete.prototype._renderItem = function (ul, item) {
             item.label = item.label.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(this.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
@@ -16,18 +15,16 @@
                 .append("<a>" + item.label + "</a>")
                 .appendTo(ul);
         };
-        //input 태그 id가 name
+
         $( "#academy_name" ).autocomplete({
             source : function( request, response ) {
                 $.ajax({
                     type: 'post',
-                    url: "main.do?m=search",
+                    url: "main?m=search",
                     dataType: "json",
-                    //request.term = $("#autocomplete").val()
+
                     data: {acd_name : $("#academy_name").val()},
-                    //select * from BOARD where writer like %?%;
                     success: function(data) {
-                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
                         response(
                             $.map(data, function(item) {
                                 console.log(item);

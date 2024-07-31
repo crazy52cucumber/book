@@ -2,6 +2,8 @@ package main;
 
 import domain.Main;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,17 +16,22 @@ import java.util.ArrayList;
 @WebServlet("/")
 public class MainController extends HttpServlet {
 
+    private ServletContext context;
+
+
+    @Override
     public void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         String m = req.getParameter("m");
-        if (m != null) {
+        if (m != null && !m.equals("")) {
             m = m.trim();
             switch (m) {
                 case "list": list(req, res); break;
-                case "search" : search(req, res); break;
+//                case "search" : search(req, res); break;
             }
-        }else
+        }else {
             list(req, res);
+        }
     }
 
     private void list(HttpServletRequest req, HttpServletResponse res)

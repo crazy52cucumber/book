@@ -12,12 +12,10 @@
     <title>메인</title>
 </head>
 <body>
-<<<<<<< HEAD
 <c:if test="${empty member}">
   <h1>로그인 안돼있음</h1>
   로그인하러 가셈
 </c:if>
-=======
 <c:choose>
     <c:when test="${empty member}">
     <h1>로그인 안돼있음</h1>
@@ -25,7 +23,6 @@
     <a href='/member/member.do?method=login'>로그인하기</a>
     </c:when>
     <c:otherwise>
->>>>>>> f78cd321d8d887036d0395e9723744e3f29908a2
 <h1>이용가능</h1>
     </c:otherwise>
 </c:choose>
