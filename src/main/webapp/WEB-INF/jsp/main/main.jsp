@@ -12,6 +12,10 @@
     <title>메인</title>
 </head>
 <body>
+<c:if test="${empty member}">
+  <h1>로그인 안돼있음</h1>
+  로그인하러 가셈
+</c:if>
 <c:choose>
     <c:when test="${empty member}">
     <h1>로그인 안돼있음</h1>
