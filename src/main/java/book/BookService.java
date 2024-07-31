@@ -23,8 +23,8 @@ public class BookService {
         return bookUser;
     }
 
-    public void insertBook(long memberPk, long boardPK) {
-        bookDAO.insertBook(memberPk, boardPK);
+    public int insertBook(long memberPk, long boardPK) {
+        return bookDAO.insertBook(memberPk, boardPK);
     }
 
     public void updateBook(long memberPk, long boardPK) {

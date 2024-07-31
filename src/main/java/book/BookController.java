@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/book/book.do")
+@WebServlet("/book/*")
 public class BookController extends HttpServlet {
     private BookService bookService;
 
@@ -27,15 +27,19 @@ public class BookController extends HttpServlet {
         if (member != null) {
             memberPk = member.getSeq();
         }
+
         try {
-//            long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-            insertBook(req, res, memberPk, 1);
+            long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+            int result = insertBook(req, res, memberPk, boardPk);
+
+
+            res.getWriter().print("{\"result\":\"" + result + "\"}");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    private void insertBook(HttpServletRequest req, HttpServletResponse res, long memberPk, long boardPk) {
-        bookService.insertBook(memberPk, boardPk);
+    private int insertBook(HttpServletRequest req, HttpServletResponse res, long memberPk, long boardPk) {
+        return bookService.insertBook(memberPk, boardPk);
     }
 }
