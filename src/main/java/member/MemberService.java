@@ -58,6 +58,10 @@ public class MemberService {
     return dao.emailCheck(email , name);
   }
 
+  public int phoneCheck(String phone) {
+    return dao.phoneCheck(phone);
+  }
+
   public String findId(String name, long phoneNum) {
     return dao.findId(name, phoneNum);
   }

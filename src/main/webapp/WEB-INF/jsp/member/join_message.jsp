@@ -10,9 +10,9 @@
 
 <script>
   if (${result}==<%=FAILURE%>) {
-    alert("동일한 아이디가 있습니다")
-    history.back();
+    alert("동일한 이메일이나 전화번호를 가진 계정이 있습니다")
+    location.href='/member/member.do?method=joinForm'
   } else {
-    location.href='/member/member.do'
+    location.href='/'
   }
 </script>

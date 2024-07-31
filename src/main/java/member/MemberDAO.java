@@ -6,6 +6,7 @@ import static member.util.MemberSQL.EMAILCHECK;
 import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
+import static member.util.MemberSQL.PHONECHECK;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.NOID;
@@ -118,6 +119,23 @@ class MemberDAO extends BaseDAO {
       }
     } catch (SQLException se) {
       System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
+    }
+    return FAILURE;
+  }
+  int phoneCheck(String phone) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+        ps = con.prepareStatement(PHONECHECK);
+        ps.setString(1, phone);
+      rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("valid");
+      }
+    } catch (SQLException se) {
+      System.out.println("[memberDAO] phoneCheck: Error: " + se.getMessage());
     }
     return FAILURE;
   }
