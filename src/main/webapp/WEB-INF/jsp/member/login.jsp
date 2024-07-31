@@ -57,6 +57,9 @@
         font-size: 22px;
         cursor: pointer;
       }
+      button{
+        margin-top: 15px;
+      }
     </style>
 </head>
 <body>
@@ -84,19 +87,15 @@
             </div>
             <div class="login-email-msg text-danger hide">이메일이 잘못되었습니다. 이메일을 정확히 입력해 주세요.</div>
             <div class="form-floating password">
-                <input
-                        type="password"
-                        class="form-control"
-                        id="login-password"
-                        name="login-password"
-                        placeholder="Password"
-                />
+                <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password"/>
                 <div class="eyes"><i class="fa-regular fa-eye"></i></div>
                 <label for="login-password">비밀번호</label>
             </div>
             <div class="login-password-msg text-danger hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
             <button id="login-btn" class="login btn btn-primary w-100 py-2" type="button">
                 강남땃쥐 하기
+            </button>
+            <button id="cancel" class="login btn btn-primary w-100 py-2" type="button">돌아가기
             </button>
             <p class="mt-5 mb-3 text-body-secondary"><a href="/member/member.do?method=findId">아이디찾기</a>
                 <span>/</span>
@@ -111,6 +110,7 @@
     </footer>
 </div>
 <script>
+  document.getElementById('cancel').addEventListener('click',()=>location.href='/');
   document.getElementById('login-btn').addEventListener('keydown', (evt) => {
     if (evt.key === 'Enter') {
       evt.preventDefault();
