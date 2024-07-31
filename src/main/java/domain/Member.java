@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Getter
+@Setter
 public class Member {
   private final int seq;
   private final String email;

@@ -1,4 +1,6 @@
-import {addReview} from "./review-api.js";
+import {getReviewsByBoardPk} from "./review-api.js";
+import {viewTarget} from "../infinity_scroll.js";
+import {drwaReview} from "../draw.js";
 
 const boardPk = new URLSearchParams(location.search).get('seq');
 
