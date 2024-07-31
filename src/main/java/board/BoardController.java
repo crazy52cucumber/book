@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -43,14 +42,14 @@ public class BoardController extends HttpServlet {
         int seq = 0;
         int memberSeq = -1;
         int bookuser = -1;
-        
+
         if (seqParam != null) {
             seq = Integer.parseInt(seqParam.trim());
-            // info 불러오기
+            // 학원 정보 불러오기
             Response2DTO info = infoService.getInfoByBoardPK(seq);
             req.setAttribute("info", info);
 
-            // reply 불러오기
+            // review 불러오기
             ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
             req.setAttribute("review", review);
 

@@ -35,12 +35,11 @@
         align-items: center;
       }
       fieldset{
-        display: flex;
-        justify-content: center;
         margin: 10px;
         padding: 10px 12px;
       }
       button{
+        margin-top: 20px;
         margin-right: 5px;
       }
       .hide{
@@ -51,36 +50,30 @@
 <body>
 <div class="container" style="width: 600px">
     <h1>아이디 찾기</h1>
+    <fieldset>
         <c:choose>
             <c:when test="${empty email}">
+                <div>
                 해당하는 이메일이 없습니다
-                <fieldset>
-                    <button type="button" class="btn btn-dark" id="find-id" onclick='findId()'>아이디 찾기</button>
-                    <button type="button" class="btn btn-outline-dark" id="cancel" onclick='close()'>취소</button>
-                </fieldset>
+                </div>
+                <button type="button" name="findId" class="btn btn-dark" id="find-id" onclick='findId()'>아이디 찾기</button>
             </c:when>
             <c:otherwise>
+                <div>
                 이메일은 ${email}
-                <fieldset>
-                    <button type="button" class="btn btn-dark" id="find-password" >비밀번호 찾기</button>
-                    <button type="button" class="btn btn-outline-dark" id="confirm" onclick='close()'>확인</button>
-                </fieldset>
+                </div>
+                    <button type="button" name="findPwd" class="btn btn-dark" id="find-pwd" onclick='findPwd()'>비밀번호 찾기</button>
             </c:otherwise>
         </c:choose>
-
-
+        <button type="button" name="close" class="btn btn-outline-dark" id="cancel">로그인</button>
+    </fieldset>
 </div>
 
 <script>
-  function findId(){
-    location.href='/member/member.do?method=findId';
-  }
-  function close(){
-    location.href='/';
-  }
-  function findPwd(){
-    alert('안돼')
-  }
+  function findId(){location.href='/member/member.do?method=findId';}
+  function findPwd(){location.href='/member/member.do?method=findPwd';}
+  function close(){location.href='/member/member.do?method=login';}
+  document.getElementById('cancel').addEventListener('click', () => location.href = '/member/member.do?method=login')
 </script>
 </body>
 </html>

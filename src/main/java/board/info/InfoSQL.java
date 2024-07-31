@@ -10,7 +10,7 @@ public class InfoSQL {
 
     public static String SELECT_AVG_RATE
             = "SELECT TRUNCATE(AVG(r.rate), 2) as avg\r\n"
-            + " FROM reply r\r\n"
+            + " FROM review r\r\n"
             + " JOIN book bo\r\n"
             + "   ON r.book_seq = bo.book_seq\r\n"
             + " JOIN board b\r\n"
@@ -18,8 +18,8 @@ public class InfoSQL {
             + "WHERE b.board_seq = ?";
 
     public static String SELECT_REVIEW_CNT
-            = "SELECT COUNT(r.reply_seq) as cnt\r\n"
-            + " FROM reply r\r\n"
+            = "SELECT COUNT(r.review_seq) as cnt\r\n"
+            + " FROM review r\r\n"
             + " JOIN book bo\r\n"
             + "   ON r.book_seq = bo.book_seq\r\n"
             + " JOIN board b\r\n"

@@ -70,14 +70,14 @@
       }
 
 
-      #reply {
+      #review {
           background-color: skyblue;
           width: 400px;
           height: 150px;
           margin-bottom: 50px;
       }
 
-      #reply > a {
+      #review > a {
           background-color: cadetblue;
       }
 
@@ -103,7 +103,7 @@
       </div>
     </a>
     <a href="">
-      <div id="reply">
+      <div id="review">
         <div>나의 리뷰</div>
       </div>
     </a>

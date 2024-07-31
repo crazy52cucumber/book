@@ -1,4 +1,3 @@
-<%@ page import="static member.util.SignupConst.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
@@ -143,39 +142,25 @@
         <h2 class="header-text">강남땃쥐맘 로그인 및 가입</h2>
     </header>
     <main class="main">
-        <form name="login-form" action="/member/member.do?method=match" method="post">
+        <form name="login-form" id="loginForm" action="/member/member.do?method=match" method="post">
             <fieldset>
                 <input type="text" id="login-email" name="login-email" placeholder="이메일" autofocus/>
             </fieldset>
+            <div class="login-email-msg hide">이메일이 잘못되었습니다. 이메일을 정확히 입력해 주세요.</div>
             <fieldset>
                 <select title="email" id="email-select">
                     <option class="option" value="none">직접입력</option>
-                    <option class="option" value="naver">naver.com</option>
-                    <option class="option" value="gmail">gmail.com</option>
+                    <option class="option" value="naver.com">naver.com</option>
+                    <option class="option" value="gmail.com">gmail.com</option>
                 </select>
             </fieldset>
             <fieldset class="password">
-                <input
-                        type="password"
-                        id="login-password"
-                        name="login-password"
-                        placeholder="비밀번호"
-                />
+                <input type="password" id="login-password" name="login-password" placeholder="비밀번호"/>
                 <div class="eyes"><i class="fa-regular fa-eye"></i></div>
             </fieldset>
+            <div class="login-password-msg hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
             <fieldset>
-                <div class="login-email-msg hide">
-                    이메일이 잘못되었습니다. 이메일을 정확히 입력해 주세요.
-                </div>
-                <div class="login-password-msg hide">
-                    비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <button id="login-btn" class="login" type="submit">
-                  강남땃쥐 시작하기
-                </button>
+                <button id="login-btn" class="login" type="button">강남땃쥐 시작하기</button>
             </fieldset>
         </form>
 
@@ -203,10 +188,10 @@
   function domain_remove(email) {
     email = email.trim();
     let atIndex = email.indexOf('@');
-    if (atIndex != -1) {
+    if (atIndex !== -1) {
       return email.substring(0, atIndex);
     }
-    return email
+    return email;
   }
 
   const email = document.getElementById('login-email');
@@ -237,16 +222,42 @@
   })
   const emailMsg = document.querySelector('.login-email-msg');
   const passwordMsg = document.querySelector('.login-password-msg');
-  <c:choose>
-  <c:when test="${result == NOPASSWORD}">
-  passwordMsg.classList.remove('hide');
-  emailMsg.classList.add('hide')
-  </c:when>
-  <c:when test="${result == NOID}">
-  emailMsg.classList.remove('hide');
-  passwordMsg.classList.add('hide')
-  </c:when>
-  </c:choose>
+
+    const loginBtn = document.getElementById('login-btn');
+  const memberCheck = () => {
+    const emailMsg = document.querySelector('.login-email-msg');
+    const pwdMsg = document.querySelector('.login-password-msg');
+    $.ajax({
+      url: '/member/member.do?method=memberCheck',
+      type: 'POST',
+      data: {email: $('#login-email').val(),
+      password:$('#login-password').val()
+      },
+      success: (data) => {
+        if (data.result === 1) {
+          document.getElementById('loginForm').submit();
+        }else if (data.result === 0){
+          loginBtn.type = 'button';
+          emailMsg.classList.remove('hide');
+          pwdMsg.classList.add('hide');
+        }else if (data.result ===-1){
+          loginBtn.type = 'button';
+          emailMsg.classList.add('hide');
+          pwdMsg.classList.remove('hide');
+        }else {
+          loginBtn.type = 'button';
+          console.log('DB오류')
+        }
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.error('Error:', textStatus, errorThrown);
+      },
+    });
+  };
+  const password = document.getElementById('login-password');
+ loginBtn.addEventListener('click',memberCheck);
+  email.addEventListener('keydown', (evt) => {if (evt.key === 'Enter') {memberCheck()}})
+  password.addEventListener('keydown', (evt) => {if(evt.key === 'Enter'){memberCheck()}})
 </script>
 </body>
 </html>

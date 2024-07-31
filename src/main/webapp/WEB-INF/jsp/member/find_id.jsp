@@ -31,16 +31,19 @@
         flex-direction: column;
         align-items: center;
       }
-      fieldset{
+
+      fieldset {
         display: flex;
         justify-content: center;
         margin: 10px;
         padding: 10px 12px;
       }
-      button{
+
+      button {
         margin-right: 5px;
       }
-      .hide{
+
+      .hide {
         display: none;
       }
     </style>
@@ -49,9 +52,9 @@
 <div class="container" style="width: 600px">
     <h1>아이디 찾기</h1>
     <form action="/member/member.do?method=myId" method="post">
-        <fieldset><input type="text" placeholder="이름"  id="name" name="name"></fieldset>
+        <fieldset><input type="text" placeholder="이름" id="name" name="name" autofocus></fieldset>
         <div class="msg input-name hide">이름을 입력해주세요</div>
-        <fieldset><input type="text" placeholder="전화번호"  id="phone" name="phone">
+        <fieldset><input type="text" placeholder="전화번호" id="phone" name="phone">
         </fieldset>
         <div class="msg input-phone hide">010으로 시작하는 번호를 '-' 없이 입력해주세요</div>
         <fieldset>
@@ -60,11 +63,8 @@
         </fieldset>
     </form>
 </div>
-
 <script>
-  document.getElementById('cancel').addEventListener('click',()=>{
-    history.back()
-  })
+  document.getElementById('cancel').addEventListener('click', () => location.href = '/member/member.do?method=login')
 
   const name = document.getElementById('name');
 
@@ -98,7 +98,6 @@
     }
     checkFormValidity();
   };
-  phone.addEventListener('keyup', checkPhone);
   const nickName = document.getElementById('nickname');
 
   function validateNickname(nickname) {
@@ -109,23 +108,28 @@
   name.addEventListener('keyup', checkName);
   phone.addEventListener('keyup', checkPhone);
 
-  const checkFormValidity = ()=>{
+  const checkFormValidity = () => {
     const findIdBtn = document.getElementById('find-id')
     const isNameValid = name.value.trim() !== '';
     const isPhoneValid = validatePhone(phone.value);
 
-    if(isNameValid && isPhoneValid){
+    if (isNameValid && isPhoneValid) {
       findIdBtn.type = 'submit';
-    }else {
+    } else {
       findIdBtn.type = 'button';
     }
   }
 
-  $('input[type="text"]').keydown((event) => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    }
+  const findIdBtn = document.getElementById('find-id');
+  joinBtn.addEventListener('click', () => {
+    checkPhone();
+    checkName();
   });
+
+  findIdBtn.addEventListener('keydown', (evt) => {
+    evt.target.ENTER;
+  });
+
 </script>
 </body>
 </html>
