@@ -133,7 +133,6 @@ public class MemberController extends HttpServlet {
         res.addCookie(loginCookie);
         session.setAttribute("member", member);
       }
-      System.out.println("result: " + result);
       req.setAttribute("result", result);
       req.getRequestDispatcher("/WEB-INF/jsp/member/message.jsp").forward(req, res);
     }
