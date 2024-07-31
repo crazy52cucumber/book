@@ -21,10 +21,12 @@
   <nav class="search-form">
     <form>
       <div class="search-input">
-        <input class="search-bar" type="text" placeholder="학원을 검색해주세요.">
+        <input class="search-bar" type="text" placeholder="학원을 검색해주세요."
+        onkeyup="search(this);">
         <span class="search-image--icon">
         <img src="${pageContext.request.contextPath}/resources/imgs/search_icon.png" alt="검색이미지">
         </span>
+
       </div>
     </form>
   </nav>
