@@ -1,5 +1,4 @@
 export const drwaReview = (obj) => {
-  console.log(obj)
   let html = '';
   for (let item of obj) {
     html += `<li>`
@@ -27,6 +26,22 @@ export const drwaReview = (obj) => {
   return html;
 }
 
-export const drawContent = () => {
+export const drawContent = (obj) => {
+  let imgHtml = '';
 
+  $('.modal-wrapper').addClass('active')
+  $('.modal-container').css('display', 'block');
+  $('.writer-info span:first-child').text(obj.nickname);
+  $('.writer-info span:last-child').text(obj.grade);
+  $('#title').val(obj.title);
+  $('#pros').html(obj.pros);
+  $('#cons').html(obj.cons);
+  $('#features').html(obj.features);
+  $('#wishes').html(obj.wishes);
+  $('#date').text(obj.cdate);
+
+  for (let i = 0; i < obj.rate; i++) {
+    imgHtml += `<img src="/resources/imgs/별.png" alt="별">`
+  }
+  $('.rate').empty().append(imgHtml);
 }

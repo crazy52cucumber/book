@@ -1,13 +1,15 @@
 import {getReviewByReviewPk} from "./review/review-api.js";
+import {drawContent} from "./draw.js";
 
 const modalCancleBtnEle = $('#modalCancle');
 
 export const drawModal = (item) => {
-  $(item).on('click', e => {
+  $(item).on('click', async (e) => {
     const reviewPk = item.childNodes[1].className.split('-')[2];
-    getReviewByReviewPk(reviewPk);
-    /*$('.modal-wrapper').addClass('active')
-    $('.modal-container').css('display', 'block');*/
+    const data = await getReviewByReviewPk(reviewPk);
+    const obj = JSON.parse(data);
+    drawContent(obj);
+
   });
 }
 
@@ -30,33 +32,8 @@ $('label').on('click', (e) => {
   $(`#${$(e.currentTarget).attr('for')}`).focus();
 });
 
-/*
-*  const currUser = $('input[type="hidden"]').data('curruser');
-    const writerPk = $(item).data('writer');
-    $('.modal-wrapper').addClass('active')
-    $('.modal-container').css('display', 'block');
-    const textarea = $('<textarea></textarea>');
-    const review = $(e.currentTarget).find('p').text().trim()
-    const info = $(e.currentTarget).find('li')
-    const writer = $(info[0]).text();
-    const grade = $(info[1]).text();
-    const date = $(info[2]).text();
 
-    $('.modal-container--top > div:first-child > span:first-child').text(writer);
-    $('.modal-container--top > div:first-child > span:last-child').text(grade);
-    textarea.text(review);
-    textarea.attr('readonly', 'readonly');
-
-    if (currUser === writerPk) {
-      const updateBtnEle = $('<button id="updateBtn" class="btn btn-primary">수정</button>')
-      modalCancleBtnEle.after(updateBtnEle);
-      $('#updateBtn').click(() => {
-        textarea.removeAttr('readonly');
-        textarea.focus();
-        textarea[0].setSelectionRange(textarea.val().length, textarea.val().length);
-      })
-    }
-
-    $('.modal-container--top > div:last-child').append(textarea);
-    $('.modal-container--bottom > p').text(date);
-* */
+// 수정 버튼 클릭
+$('#submitBtn').click(e => {
+  alert("얍삐")
+})

@@ -43,6 +43,8 @@ public class ReviewService {
     return reviewDAO.insertReview(dto, bookSeq);
   }
 
-  public void getReviewByReviewPk(int reviewPk) {
+  public ReviewResponseDTO getReviewByReviewPk(int reviewPk) {
+    ReviewResponseDTO dto = reviewDAO.selectReviewByReviewPk(reviewPk).orElseThrow();
+    return dto;
   }
 }

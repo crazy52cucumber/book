@@ -38,6 +38,10 @@ public class ReviewDAO extends BaseDAO {
                 .bookSeq(rs.getLong("booK_seq"))
                 .nickname(rs.getString("nickname"))
                 .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
                 .grade(rs.getString("grade"))
                 .rate(rs.getInt("rate"))
                 .cdate(rs.getDate("cdate"))
@@ -107,6 +111,10 @@ public class ReviewDAO extends BaseDAO {
                 .bookSeq(rs.getLong("booK_seq"))
                 .nickname(rs.getString("nickname"))
                 .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
                 .grade(rs.getString("grade"))
                 .rate(rs.getInt("rate"))
                 .cdate(rs.getDate("cdate"))
@@ -142,5 +150,37 @@ public class ReviewDAO extends BaseDAO {
       closeAll(null, pstmt);
     }
     return result;
+  }
+
+  public Optional<ReviewResponseDTO> selectReviewByReviewPk(int reviewPk) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    ReviewResponseDTO dto = null;
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.SELECT_REVIEW_BY_REVIEWPK);
+      pstmt.setInt(1, reviewPk);
+
+      rs = pstmt.executeQuery();
+      while (rs.next()) {
+        dto = ReviewResponseDTO.builder()
+                .reviewSeq(rs.getLong("review_seq"))
+                .memberSeq(rs.getInt("member_seq"))
+                .boardSeq(rs.getInt("board_seq"))
+                .bookSeq(rs.getLong("booK_seq"))
+                .nickname(rs.getString("nickname"))
+                .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
+                .grade(rs.getString("grade"))
+                .rate(rs.getInt("rate"))
+                .cdate(rs.getDate("cdate"))
+                .build();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return Optional.ofNullable(dto);
   }
 }

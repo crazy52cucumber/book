@@ -21,31 +21,31 @@
       </div>
 
       <div class="input-container">
-        <div><h4><input id="title" type="text" name="title" value="제목"></h4></div>
+        <div><h4><input id="title" type="text" name="title" readonly></h4></div>
         <div>
           <label for="pros"><strong>좋은점</strong></label>
-          <div contenteditable="true" id="pros" name="pros"/>
+          <div contenteditable="false" id="pros" name="pros"/>
         </div>
         <div>
           <label for="cons"><strong>아쉬운점</strong></label>
-          <div contenteditable="true" id="cons" name="cons"/>
+          <div contenteditable="false" id="cons" name="cons"/>
         </div>
         <div>
           <label for="features"><strong>수업방식 및 특징</strong></label>
-          <div contenteditable="true" id="features" name="feature"/>
+          <div contenteditable="false" id="features" name="feature"/>
         </div>
         <div>
           <label for="wishes"><strong>학원에 바라는점</strong></label>
-          <div contenteditable="true" id="wishes" name="wishes"/>
+          <div contenteditable="false" id="wishes" name="wishes"/>
         </div>
 
       </div>
     </div>
   </div>
   <div class="modal-container--bottom">
-    <p>날짜는 지우고, 가져올때 추가</p>
+    <p id="date">날짜는 지우고, 가져올때 추가</p>
     <div>
-      <button id="submitBtn" class="btn btn-primary">작성</button>
+      <button id="submitBtn" class="btn btn-primary">수정</button>
       <button id="modalCancle" class="btn btn-danger">닫기</button>
     </div>
   </div>

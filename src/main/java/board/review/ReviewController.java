@@ -28,27 +28,29 @@ public class ReviewController extends HttpServlet {
     String[] method = uri.split("/");
     String reviewPkPara = req.getParameter("re");
 
-    if (reviewPkPara != null) {
-      int reviewPk = Integer.parseInt(reviewPkPara);
-      getReviewByReviewPk(req, res, reviewPk);
-    }
-
     try {
-      if (method[2].startsWith("all")) {
+      if (reviewPkPara != null) {
+        int reviewPk = Integer.parseInt(reviewPkPara);
+        getReviewByReviewPk(req, res, reviewPk);
+      } else if (method[2].startsWith("all")) {
         long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         getReviewByBoardPk(req, res, boardPk);
-      }
-      if (method[2].startsWith("auth"))
+      } else if (method[2].startsWith("auth")) {
         checkCookie(req, res);
-      if (method[2].startsWith("write"))
+      } else if (method[2].startsWith("write")) {
         moveToWrite(req, res);
+      }
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
   }
 
-  private void getReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, int reviewPk) {
-    reviewService.getReviewByReviewPk(reviewPk);
+  private void getReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, int reviewPk) throws ServletException, IOException {
+    Gson gson = new Gson();
+    PrintWriter out = res.getWriter();
+    ReviewResponseDTO dto = reviewService.getReviewByReviewPk(reviewPk);
+
+    out.print(gson.toJson(dto));
   }
 
   private void moveToWrite(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
