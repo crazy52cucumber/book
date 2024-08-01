@@ -1,5 +1,10 @@
 package board.review;
 
+import board.BoardResponseDTO;
+import board.BoardService;
+import board.util.DateTimeUtil;
+import book.BookResponseDTO;
+import book.BookService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -11,15 +16,21 @@ import jakarta.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/reviews/*")
 public class ReviewController extends HttpServlet {
   private ReviewService reviewService;
+  private BookService bookService;
+  private BoardService boardService;
 
   public ReviewController() {
     reviewService = ReviewService.getInstance();
+    bookService = BookService.getInstance();
+    boardService = BoardService.getInstance();
   }
 
   @Override
@@ -60,16 +71,21 @@ public class ReviewController extends HttpServlet {
         checkWriter(req, res, writerPk);
       }
 
+      if (method[2].startsWith("valid")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        checkValid(req, res, boardPk);
+      }
+
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
   }
 
+
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
     String[] method = uri.split("/");
-    System.out.println("뽀스트 uri: " + uri);
     try {
       long pk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
       if (method[2].startsWith("all"))
@@ -83,6 +99,35 @@ public class ReviewController extends HttpServlet {
       nfe.printStackTrace();
     }
   }
+
+  private void checkValid(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
+    Gson gson = new Gson();
+    PrintWriter out = res.getWriter();
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int result = 0;
+    if (member == null) {
+      out.print("{\"result\":\"" + result + "\"}");
+    } else {
+      long memberPk = member.getSeq();
+      int findResult = bookService.getBoardPkFromBookByMemberPk(memberPk, boardPk);
+      if (findResult > 0) {
+        BoardResponseDTO board = boardService.getBoardByBoardPk(boardPk);
+        String today = DateTimeUtil.transfer(new java.util.Date());
+        try {
+          Date parse = DateTimeUtil.sdf.parse(today);
+          int compared = parse.compareTo(board.getLdate());
+          if (compared > 0) result = 1;
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+      } else {
+        result = -1;
+      }
+      out.print("{\"result\":\"" + result + "\"}");
+    }
+  }
+
 
   private void removeReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
     HttpSession session = req.getSession();
