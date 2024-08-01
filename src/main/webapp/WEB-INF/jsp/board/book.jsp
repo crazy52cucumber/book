@@ -1,5 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" import="book.util.BookConst" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+         import="book.util.BookConst, board.BoardResponseDTO" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="now" class="java.util.Date"/>
+<fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-mm-dd"/>
+<fmt:formatDate var="lDate" value="${BoardResponseDTO.getLdate()}" pattern="yyyy-mm-dd"/>
 
 <body>
 <div class="book-container">

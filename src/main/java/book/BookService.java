@@ -23,16 +23,16 @@ public class BookService {
         return bookUser;
     }
 
-    public int insertBook(long review, long boardPK) {
-        return bookDAO.insertBook(review, boardPK);
+    public int insertBook(long memberPk, long boardPK) {
+        return bookDAO.insertBook(memberPk, boardPK);
     }
 
-    public int updateBook(long review, long boardPK) {
-        return bookDAO.updateBook(review, boardPK);
+    public int updateBook(long memberPk, long boardPK) {
+        return bookDAO.updateBook(memberPk, boardPK);
     }
 
-    public int reUpdateBook(long review, long boardPK) {
-        return bookDAO.reUpdateBook(review, boardPK);
+    public int reUpdateBook(long memberPk, long boardPK) {
+        return bookDAO.reUpdateBook(memberPk, boardPK);
     }
 
     public int getCancelBook(long memberPk, long boardPK) {

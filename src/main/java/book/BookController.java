@@ -38,17 +38,14 @@ public class BookController extends HttpServlet {
             System.out.println("bookOk " + bookOk);
             //신규예약
             if (cancelOk == BookConst.LOGIN_NO) {
-                System.out.println("insert");
                 result = insertBook(req, res, review, boardPk);
             }
             //예약취소
             if (cancelOk == BookConst.BOOk_NO) {
-                System.out.println("update");
                 result = updateBook(req, res, review, boardPk);
             }
             //재예약
             if (cancelOk == BookConst.CANCEL_YES) {
-                System.out.println("reUpdate");
                 result = reUpdateBook(req, res, review, boardPk);
             }
             res.getWriter().print("{\"result\":\"" + result + "\"}");
