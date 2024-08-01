@@ -117,6 +117,11 @@ li {
     border-radius: 15px;
 }
 
+#reviewButton {
+    max-height: 450px;
+    width: 100%;
+}
+
 .review-wrapper > div:first-child {
     display: flex;
     justify-content: space-between;
@@ -154,6 +159,10 @@ li {
 .book-container {
     position: fixed;
     bottom: 70px;
+    display: flex;
+    max-width: 500px;
+    width: 100%;
+    justify-content: center;
 }
 
 #bookBtn, #cancelBtn {
