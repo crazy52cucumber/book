@@ -1,0 +1,65 @@
+html, body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+main{
+  width: 500px;
+  height: 100vh;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 5px solid #000;
+  width: 500px;
+  height: 100vh;
+  align-self:center;
+}
+select{
+  border: #dddddd 1px solid;
+}
+
+#modifyBtn {
+  cursor: pointer;
+  width: 16.3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 20px;
+}
+
+.hide {
+  display: none;
+  overflow: hidden;
+}
+
+.password {
+  position: relative;
+}
+
+.password .eyes {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto 2px;
+  height: 30px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+button {
+  margin-right: 5px;
+
+}
+.need-top{
+  margin-top: 16px;
+}
+fieldset{
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}

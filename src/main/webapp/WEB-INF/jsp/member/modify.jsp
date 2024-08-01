@@ -82,6 +82,7 @@
           justify-content: center;
       }
   </style>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/member.css"/>
 </head>
 <body>
 <form id="modifyForm" action="member.do?method=modify" method="post">
@@ -252,5 +253,6 @@
   });
 </script>
 
+<script src="${pageContext.request.contextPath}/resources/js/member/modify.js"></script>
 </body>
 </html>
