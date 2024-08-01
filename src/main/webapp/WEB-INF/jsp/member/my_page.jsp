@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<jsp:include page="/WEB-INF/jsp/common/login_module.jsp"/>
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
@@ -116,7 +117,7 @@
     </a>
   </div>
 </div>
-
+<a href="/member/member.do?method=logout">로그아웃</a>
 
 </body>
 </html>
