@@ -18,4 +18,6 @@ public class MemberSQL {
   public static final String MODIFYPASSWORD = "update MEMBER set PASSWORD=? where EMAIL=? and VALID=0";
 
   public static final String EMAILNAME = "select * from MEMBER where EMAIL = ? and NAME = ? and VALID=0";
+
+  public static final String MYREVIEW = "select BOARD_SEQ, TITLE, CDATE from book join review using (BOOK_SEQ) where VALID=0 and review.MEMBER_SEQ=?";
 }

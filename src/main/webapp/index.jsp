@@ -26,7 +26,7 @@
               <li itemprop="ldate" class="academy-item-ldate">강의일 : ${board.ldate}</li>
               <li itemprop="book_limit" class="academy-item-limit">예약 가능 인원 : ${board.book_limit}명</li>
             </ul>
-            <div class="academy-item-menus">
+            <div class="academy-item-menus" style="border-bottom: 1px solid black">
               <div class="academy-rate">
                 <img src="/resources/imgs/star.png" class="academy-rate-img"/>
                 <span itemprop="rate">${board.rate} 점</span>

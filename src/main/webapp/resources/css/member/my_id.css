@@ -1,0 +1,24 @@
+html, body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+main{
+  width: 500px;
+  height: 100vh;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+fieldset{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+button{
+  margin-top: 10px;
+}
