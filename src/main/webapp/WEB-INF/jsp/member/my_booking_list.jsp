@@ -63,92 +63,61 @@
   />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
-      /** {*/
-      /*    text-decoration: none;*/
-      /*    text-align: center;*/
-      /*}*/
 
-      /*#container {*/
-      /*    display: flex;*/
-      /*    justify-content: center;*/
-      /*    width: 100vw;*/
-      /*    height: 100vw;*/
-      /*}*/
+      * {
+          box-sizing: border-box;
+      }
 
-      /*#layout {*/
-      /*    display: flex;*/
-      /*    flex-direction: column;*/
-      /*    align-items: center;*/
-      /*    background-color: bisque;*/
-      /*    width: 500px;*/
-      /*    height: auto;*/
-      /*    margin-top: 50px;*/
-      /*}*/
-
-      /*#btns {*/
-      /*    margin-top: 50px;*/
-      /*}*/
-
-      /*#bookingList {*/
-      /*    background-color: salmon;*/
-      /*    margin-top: 50px;*/
-
-      /*    width: 400px;*/
-
-      /*}*/
-
-      /*.data {*/
-      /*    background-color: peru;*/
-      /*    margin-bottom: 50px;*/
-      /*    width: 400px;*/
-      /*    height: 150px;*/
-      /*    text-align: center;*/
-      /*    justify-content: center;*/
-
-      /*}*/
-
-      /*a {*/
-      /*    text-decoration: none;*/
-      /*}*/
-      .main-container {
-          background-color: lightblue;
-          padding-top: 300px;
+      main {
+          max-width: 500px;
+          width: 100%;
       }
 
       main > div {
           margin-top: 150px;
       }
 
-      * {
-          box-sizing: border-box;
+      section {
+          border: 1px solid violet;
+          height: 175px;
       }
 
-      div {
-          display: block;
-          unicode-bidi: isolate;
+      a {
+          text-decoration: none;
       }
 
-      body {
-          font-size: 1rem;
-          font-weight: 400;
-          line-height: 1.5;
-          color: #212529;
-          background-color: #fff;
-          -webkit-text-size-adjust: 100%;
-          -webkit-tap-highlight-color: transparent;
+      @media screen and (min-width: 501px) {
+          main {
+              margin: 0 auto;
+          }
+      }
+
+      @media screen and (max-width: 500px) {
+          main {
+              margin: 0;
+          }
+      }
+
+
+      .main-container {
+          background-color: lightblue;
       }
 
       .search-count-academy {
           font-weight: bolder;
       }
 
-      a {
-          text-decoration: none;
-          color: black;
+      .main-contents {
+          margin-top: 1px;
       }
 
       .main-card {
           background-color: white;
+      }
+
+      .academy-item-name {
+          font-weight: bold;
+          padding: 10px;
       }
 
       .main-ul {
@@ -156,10 +125,6 @@
           background-color: antiquewhite;
           display: flex;
           flex-direction: column;
-      }
-
-      ul {
-          padding-left: 2rem;
       }
 
       .academy-item-content {
@@ -168,17 +133,35 @@
           padding-bottom: 1px;
       }
 
-      i {
-          display: list-item;
-          text-align: -webkit-match-parent;
-          unicode-bidi: isolate;
+      .academy-item-address {
+          font-size: 12px;
       }
 
-      .main-ul {
-          list-style-type: none;
-          background-color: antiquewhite;
+      .academy-item-ldate {
+          font-size: 12px;
+          flex-direction: row;
+      }
+
+      .academy-item-limit {
+          font-size: 12px;
+          flex-direction: row;
+      }
+
+      .academy-item-menus {
           display: flex;
-          flex-direction: column;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          height: 50px;
+      }
+
+      .academy-rate-img {
+          height: 20px;
+          width: 20px;
+      }
+
+      .academy-count-img {
+          height: 20px;
+          width: 20px;
       }
 
 
@@ -189,12 +172,41 @@
         $.ajax({
           url: "member.do?method=reserved1",
           type: "GET",
+          dataType: "json",
+
           success: function (data) {
+            let html = "";
+            data.forEach(item => {
+              html += "<a href='#'>";
+              html += "<div class='main-card'>";
+              html += "<h4>data.academy_name</h4>";
+              html += "<ul class='main - ul'>";
+              html += "<li itemprop='content' class='academy-item-content'>data.content</li>";
+              html += "<li itemprop='addr' class='academy-item-address'>data.addr</li>";
+              html += "<li itemprop='ldate' class='academy-item-ldate'>강의일 : data.lDate</li>";
+              html += "<li itemprop='book_limit' class='academy-item-limit'>예약가능 인원 : data.book_limit</li>";
+              html += "</ul>";
+              html += "<div class='academy_item-menus'>";
+              html += "<div class='academy-rate'>";
+              html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
+              html += "<span itemprop='rate'>0점/span>";
+              html += "</div>";
+              html += "<div class='academy-review'>";
+              html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
+              html += "<span itemprop='review_count'>0 개</span>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+              html += "</a>";
+            });
+            $("#result-container").html(html);
 
           },
-          error: function (data) {
-            alert("예약된 강의가 없습니다");
-          }
+          error:
+
+              function (data) {
+                alert("예약된 강의가 없습니다");
+              }
         })
       })
       $("#danger-outlined").on("click", function () {
@@ -247,7 +259,8 @@
         <div class="main-card">예약한 강의가 없습니다</div>
       </c:if>
       <c:forEach items="${myBookingList}" var="board">
-        <a href="">
+        <div id="result-container"></div>
+        <a href="#">
           <div class="main-card">
             <h4>${board.academy_name}</h4>
             <ul class="main-ul">
@@ -259,7 +272,7 @@
             <div class="academy_item-menus">
               <div class="academy-rate">
                 <img src="/resources/imgs/star.png" class="academy-rate-img"/>
-                <span itemprop="rate">0점/span>
+                <span itemprop="rate">0점</span>
               </div>
               <div class="academy-review">
                 <img src="/resources/imgs/review.png" class="academy-count-img"/>
