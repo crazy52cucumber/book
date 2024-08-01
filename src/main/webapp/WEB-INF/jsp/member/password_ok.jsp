@@ -11,11 +11,12 @@
       }
 
       #passwordForm {
+          background-color: darkseagreen;
           display: flex;
           flex-direction: column;
           align-items: center;
           align-self: center;
-          border: 5px solid #000;
+          border-radius: 10px;
           width: 500px;
           height: 400px;
 
@@ -46,7 +47,7 @@
   <div class="main-container">
     <form id="passwordForm" action="/member/member.do?method=modifyForm" method="post">
       <fieldset class="password">
-        <input type="password" id="login-password" name="password" placeholder="비밀번호"/>
+        <input type="password" id="login-password" name="password" placeholder="비밀번호 확인"/>
       </fieldset>
       <div class="login-password-msg hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
       <fieldset>

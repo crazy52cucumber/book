@@ -11,75 +11,79 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <style>
-    html, body {
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-    }
-    main{
-      width: 500px;
-      height: 100vh;
-      border: 1px solid #000;
-      box-sizing: border-box;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border: 5px solid #000;
-      width: 500px;
-      height: 100vh;
-      align-self:center;
-    }
-    select{
-      border: #dddddd 1px solid;
-    }
+      html, body {
+          height: 100vh;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+      }
 
-    #modifyBtn {
-      cursor: pointer;
-      width: 16.3rem;
-      height: 3rem;
-      border: none;
-      border-radius: 20px;
-    }
+      main {
+          width: 500px;
+          height: 100vh;
+          border: 1px solid #000;
+          box-sizing: border-box;
+      }
 
-    .hide {
-      display: none;
-      overflow: hidden;
-    }
+      form {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          border: 5px solid #000;
+          width: 500px;
+          height: 100vh;
+          align-self: center;
+      }
 
-    .password {
-      position: relative;
-    }
+      select {
+          border: #dddddd 1px solid;
+      }
 
-    .password .eyes {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      margin: auto 2px;
-      height: 30px;
-      font-size: 22px;
-      cursor: pointer;
-    }
+      #modifyBtn {
+          cursor: pointer;
+          width: 16.3rem;
+          height: 3rem;
+          border: none;
+          border-radius: 20px;
+      }
 
-    button {
-      margin-right: 5px;
+      .hide {
+          display: none;
+          overflow: hidden;
+      }
 
-    }
-    .need-top{
-      margin-top: 16px;
-    }
-    fieldset{
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-    }
+      .password {
+          position: relative;
+      }
+
+      .password .eyes {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto 2px;
+          height: 30px;
+          font-size: 22px;
+          cursor: pointer;
+      }
+
+      button {
+          margin-right: 5px;
+
+      }
+
+      .need-top {
+          margin-top: 16px;
+      }
+
+      fieldset {
+          margin-top: 16px;
+          display: flex;
+          justify-content: center;
+      }
   </style>
 </head>
 <body>
-<h1>비밀번호 확인 완료</h1>
 <form id="modifyForm" action="member.do?method=modify" method="post">
   <div class="form-floating">
     <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임"/>
@@ -99,7 +103,8 @@
   </div>
   <div class="msg input-password text-danger hide">비밀번호를 입력해주세요</div>
   <div class="form-floating">
-    <input type="password" class="form-control need-top" id="password-retype" name="password-retype" placeholder="비밀번호 확인"/>
+    <input type="password" class="form-control need-top" id="password-retype" name="password-retype"
+           placeholder="비밀번호 확인"/>
     <label for="password-retype">비밀번호 확인</label>
   </div>
   <div class="msg miss-pwd text-danger hide">비밀번호가 일치하지 않습니다</div>
@@ -143,17 +148,17 @@
 
   nickName.addEventListener('keyup', checkNickname);
 
-  document.getElementById('cancel').addEventListener('click',()=>location.href='/');
+  document.getElementById('cancel').addEventListener('click', () => location.href = '/');
   const checkFormValidity = () => {
     const modifyBtn = document.getElementById('modifyBtn');
     const isPasswordValid = validatePassword(password.value);
     const isPasswordRetypeValid = validatePasswordRetype(
-            password.value,
-            passwordRetype.value
+        password.value,
+        passwordRetype.value
     );
     if (
-            isPasswordValid &&
-            isPasswordRetypeValid
+        isPasswordValid &&
+        isPasswordRetypeValid
     ) {
       modifyBtn.type = 'submit';
 
@@ -171,9 +176,10 @@
   modifyBtn.addEventListener('keydown', (evt) => {
     evt.target.ENTER;
   });
+
   function validatePassword(password) {
     const pattern =
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     return pattern.test(password);
   }
 
@@ -208,7 +214,7 @@
   const checkPasswordRetype = () => {
     const failRetypePasswordMsg = document.querySelector('.miss-pwd');
     const inputPasswordRetypeMsg = document.querySelector(
-            '.input-password-retype'
+        '.input-password-retype'
     );
     if (validatePasswordRetype(password.value, passwordRetype.value)) {
       failRetypePasswordMsg.classList.add('hide');
@@ -237,10 +243,10 @@
 
       if ($('.password').hasClass('active') === true) {
         $(this).find('.fa-eye').attr('class', "fa-regular fa-eye-slash").parents('.password').find(
-                '#password').attr('type', 'text');
+            '#password').attr('type', 'text');
       } else {
         $(this).find('.fa-eye-slash').attr('class', "fa-regular fa-eye").parents('.password').find(
-                '#password').attr('type', 'password');
+            '#password').attr('type', 'password');
       }
     });
   });
