@@ -12,6 +12,6 @@ import java.sql.Date;
 public class ReviewResponseDTO {
   private long reviewSeq, memberSeq, boardSeq, bookSeq;
   private int rate, count;
-  private String nickname, title, grade;
+  private String nickname, title, grade, pros, cons, features, wishes;
   private Date cdate;
 }

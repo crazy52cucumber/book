@@ -5,41 +5,54 @@ import book.BookDAO;
 import java.util.List;
 
 public class ReviewService {
-  private static ReviewService instance = new ReviewService();
-  private ReviewDAO reviewDAO;
-  private BookDAO bookDAO;
+    private static ReviewService instance = new ReviewService();
+    private ReviewDAO reviewDAO;
+    private BookDAO bookDAO;
 
-  private ReviewService() {
-    reviewDAO = new ReviewDAO();
-    bookDAO = new BookDAO();
-  }
+    private ReviewService() {
+        reviewDAO = new ReviewDAO();
+        bookDAO = new BookDAO();
+    }
 
-  public static ReviewService getInstance() {
-    return instance;
-  }
+    public static ReviewService getInstance() {
+        return instance;
+    }
 
-  public ResponseDTO<ReviewResponseDTO> getReviewsByBoardPk(long boardPk) {
-    List<ReviewResponseDTO> dto = reviewDAO.selectReviewsByBoardPk(boardPk).orElseThrow();
-    int count = getCountbyBoardPk(boardPk);
-    double average = reviewDAO.selectAllRateByBoardPk(boardPk);
-    return new ResponseDTO(dto, count, average);
-  }
+    public ResponseDTO<ReviewResponseDTO> getReviewsByBoardPk(long boardPk) {
+        List<ReviewResponseDTO> dto = reviewDAO.selectReviewsByBoardPk(boardPk).orElseThrow();
+        int count = getCountbyBoardPk(boardPk);
+        double average = reviewDAO.selectAllRateByBoardPk(boardPk);
+        return new ResponseDTO(dto, count, average);
+    }
 
-  public int getCountbyBoardPk(long boardPk) {
-    return reviewDAO.countByBoardPk(boardPk);
-  }
+    public int getCountbyBoardPk(long boardPk) {
+        return reviewDAO.countByBoardPk(boardPk);
+    }
 
-  public List<ReviewResponseDTO> getReviewsByBoardPkWithPaging(long boardPk, RequestDTO dto) {
-    List<ReviewResponseDTO> responseDto = reviewDAO.selectReviewsByBoardPkWithPaging(boardPk, dto).orElseThrow();
-    return responseDto;
-  }
+    public List<ReviewResponseDTO> getReviewsByBoardPkWithPaging(long boardPk, RequestDTO dto) {
+        List<ReviewResponseDTO> responseDto = reviewDAO.selectReviewsByBoardPkWithPaging(boardPk, dto).orElseThrow();
+        return responseDto;
+    }
 
-  // 서버에서 예약되지 않은 사람의 예약일 때 예외 발생시켜야됨
+  //todo : 서버에서 예약되지 않은 사람의 예약일 때 예외 발생시켜야됨
   public int addReview(ReviewRequestDTO dto, int memberPk) {
     long bookSeq = bookDAO.selectBookPkFromBooked(dto, memberPk);
     if (bookSeq == 0) {
       return 2;
     }
     return reviewDAO.insertReview(dto, bookSeq);
+  }
+
+  public ReviewResponseDTO getReviewByReviewPk(long reviewPk) {
+    ReviewResponseDTO dto = reviewDAO.selectReviewByReviewPk(reviewPk).orElseThrow();
+    return dto;
+  }
+
+  public int updateReviewByReviewPk(ReviewRequestDTO dto, long reviewPk) {
+    return reviewDAO.updateReviewByReviewPk(dto, reviewPk);
+  }
+
+  public int removeReviewByReviewPk(long reviewPk) {
+    return reviewDAO.deleteReviewByReviewPk(reviewPk);
   }
 }

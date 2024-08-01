@@ -1,14 +1,16 @@
 const boardPk = new URLSearchParams(location.search).get('seq');
-$('form[name="hi"]').submit(async (e) => {
+$('form[name="bookBtn"]').submit(async (e) => {
     e.preventDefault()
     const btn = ($(e.target).children()[0])
-    const formEle = $('form[name="hi"]');
+    const formEle = $('form[name="bookBtn"]');
     let result = 0;
     // console.log($(btn).text())
     if ($(btn).text().trim() === '예약취소') {
-        confirm("예약취소 하시겠습니까?")
+        if (confirm("예약취소 하시겠습니까?")) ;
+        else return;
     } else {
-        confirm("예약 하시겠습니까?")
+        if (confirm("예약 하시겠습니까?")) ;
+        else return;
     }
     formEle.attr('action', `/book/${boardPk}`);
     result = await $.get(formEle.attr('action'));

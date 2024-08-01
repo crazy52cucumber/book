@@ -3,7 +3,7 @@
 
 <body>
 <div class="book-container">
-    <form name='hi' method="get">
+    <form name='bookBtn' method="get">
         <c:choose>
             <c:when test="${book.bookCnt == book.totalBookLimit}">
                 <button id="fullyBtn" class="btn btn-warning" disabled>예약마감</button>
