@@ -6,7 +6,7 @@
       리뷰 (${review.average})
     <strong>${review.count}개</strong>
     </span>
-    <button class="review-btn">리뷰 작성</button>
+    <button class="review-btn btn btn-primary">리뷰 작성</button>
   </div>
 
   <div class="review-conainer">

@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
-    font-family: "Jua", sans-serif;
+    font-family: "Noto Serif KR", "Jua", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
