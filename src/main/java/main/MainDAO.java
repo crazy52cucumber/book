@@ -35,7 +35,6 @@ public class MainDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         String sql = SELECT_ALL;
-        System.out.println("어디까지 될까");
 
         try{
             con = ds.getConnection();
@@ -107,12 +106,12 @@ public class MainDAO {
         ArrayList<Main> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement pstmt = null;
-        String sql = SEARCH_ACADEMY;
+        String sql = AUTO_SEARCH;
         ResultSet rs = null;
         try {
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, "%" + acd_name + "%");
+            pstmt.setString(1, "%"+acd_name+"%");
             rs = pstmt.executeQuery();
             Main dto = null;
             while (rs.next()) {
