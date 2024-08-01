@@ -5,10 +5,12 @@
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd"/>
 <fmt:formatDate var="lDate" value="${info.dto.ldate}" pattern="yyyy-MM-dd"/>
+<%--<c:set var="member" value="${member}"/>--%>
 
 <body>
 <div class="book-container">
-    <form name='bookBtn' method="get">
+    <form name='bookForm' method="get">
+        <input type="hidden" id="member" value="${member}"/>
         <c:choose>
             <c:when test="${book.bookCnt == book.totalBookLimit || currentDate > lDate}">
                 <button id="fullyBtn" class="btn btn-warning" disabled>예약마감</button>
@@ -16,7 +18,7 @@
             <c:otherwise>
                 <c:choose>
                     <c:when test="${statusBook == BookConst.LOGIN_NO || statusBook == BookConst.BOOk_NO}">
-                        <button id="bookBtn" class="btn btn-warning">예약하기${member.seq}
+                        <button id="bookBtn" class="btn btn-warning">예약하기
                             (${book.bookCnt}/${book.totalBookLimit})
                         </button>
                     </c:when>

@@ -1,5 +1,6 @@
 package book;
 
+import board.review.ResponseDTO;
 import board.review.ReviewRequestDTO;
 import dbutil.BaseDAO;
 

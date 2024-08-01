@@ -28,6 +28,7 @@ public class BookController extends HttpServlet {
         HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
         req.setAttribute("member", member);
+
         if (member != null) {
             memberPk = member.getSeq();
         }

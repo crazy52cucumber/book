@@ -1,12 +1,16 @@
-import {checkCookie} from "../content-api";
-
 const boardPk = new URLSearchParams(location.search).get('seq');
-$('form[name="bookBtn"]').submit(async (e) => {
+$('form[name="bookForm"]').submit(async (e) => {
     e.preventDefault()
-    const btn = ($(e.target).children()[0])
-    const formEle = $('form[name="bookBtn"]');
+    const aa = document.getElementById('member')
+    if (aa.value === '') {
+        alert('강남땃지와 함께 하시면 이용할 수 있는 서비스입니다 :)')
+        location.href = '/member/member.do?method=login';
+        return;
+    }
+    const btn = ($(e.target).children()[1])
+    const formEle = $('form[name="bookForm"]');
     let result = 0;
-    // console.log($(btn).text())
+    console.log($(btn).text())
     if ($(btn).text().trim() === '예약취소') {
         if (!confirm("예약취소 하시겠습니까?")) return;
     } else {
