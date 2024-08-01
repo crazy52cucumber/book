@@ -31,9 +31,8 @@ $('section').on('click', '.review-btn', async (e) => {
   }
 
   // 이미 달았는지 확인
-  //flag =
   flag = await isWrite();
-  if (!flag) {
+  if (flag) {
     alert("이미 작성하셨습니다.")
     return;
   }
@@ -71,7 +70,7 @@ const isValid = async () => {
 const isWrite = async () => {
   const data = await checkWrite(boardPk);
   const obj = JSON.parse(data);
-  console.log(data)
+  console.log("obj", obj)
   if (obj.result === '0') return false;
   else return true;
 }

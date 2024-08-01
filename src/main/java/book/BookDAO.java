@@ -189,4 +189,24 @@ public class BookDAO extends BaseDAO {
     System.out.println("result: " + result);
     return result;
   }
+
+  public int selectBookUser(long memberPk, long boardPk) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    String sql = "select book_seq from book where member_seq = ? and board_seq = ?";
+    int result = 0;
+    try {
+      pstmt = con.prepareStatement(sql);
+
+      pstmt.setLong(1, memberPk);
+      pstmt.setLong(2, boardPk);
+
+      rs = pstmt.executeQuery();
+      if (rs.next()) result = rs.getInt("book_seq");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
 }

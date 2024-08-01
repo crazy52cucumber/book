@@ -10,6 +10,7 @@
 <body>
 <main>
   <header>
+
     <div class="header-logo">
       <a href="/">보령엄마</a>
       <c:choose>
@@ -23,6 +24,32 @@
     </div>
   </header>
   <section class="form-wrapper">
+
+    <div class="board-container">
+      <div class="img-container">
+        <img src="" alt="">
+      </div>
+      <table>
+        <tbody>
+        <tr>
+          <th>학원</th>
+          <td>${board.academyName}</td>
+        </tr>
+        <tr>
+          <th>주소</th>
+          <td>${board.addr}</td>
+        </tr>
+        <tr>
+          <th>학년</th>
+          <td>${board.grade}</td>
+        </tr>
+        <tr>
+          <th>과목</th>
+          <td>${board.subject}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="form-container">
       <div class="form-container--top">
         <div><input id="title" type="text" name="title" placeholder="제목을 입력해주세요"></div>
@@ -61,7 +88,7 @@
     <div class="form-container--bottom">
       <div>
         <button id="submitBtn" class="btn btn-primary">작성</button>
-        <button id="formCancle" class="btn btn-danger">뒤로가기</button>
+        <button id="formCancle" class="btn btn-danger" onclick="history.back()">뒤로가기</button>
       </div>
     </div>
   </section>

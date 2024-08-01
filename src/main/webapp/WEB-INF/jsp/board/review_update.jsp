@@ -12,7 +12,7 @@
   <c:choose>
     <c:when test="${empty member}">
       <script>
-        alert("로그인해")
+        alert("로그인이 필요합니다.")
         history.go(-1)
       </script>
     </c:when>
@@ -26,6 +26,32 @@
     </c:otherwise>
   </c:choose>
   <section class="form-wrapper">
+
+    <div class="board-container">
+      <div class="img-container">
+        <img src="" alt="">
+      </div>
+      <table>
+        <tbody>
+        <tr>
+          <th>학원</th>
+          <td>${board.academyName}</td>
+        </tr>
+        <tr>
+          <th>주소</th>
+          <td>${board.addr}</td>
+        </tr>
+        <tr>
+          <th>학년</th>
+          <td>${board.grade}</td>
+        </tr>
+        <tr>
+          <th>과목</th>
+          <td>${board.subject}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="form-container">
       <div class="form-container--top">
         <div><input id="title" type="text" name="title" placeholder="제목을 입력해주세요" value="${dto.title}"></div>
@@ -42,10 +68,8 @@
             <option value="4" ${dto.rate == 4 ? 'selected' : ''}>4</option>
             <option value="5" ${dto.rate == 5 ? 'selected' : ''}>5</option>
           </select>
-
         </div>
       </div>
-
       <div class="input-container">
         <div>
           <label for="pros"><strong>좋은점</strong></label>
@@ -71,6 +95,7 @@
         </div>
 
       </div>
+
     </div>
     <div class="form-container--bottom">
       <div>
@@ -83,3 +108,5 @@
 </main>
 </body>
 </html>
+
+

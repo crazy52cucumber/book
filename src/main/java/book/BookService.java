@@ -20,7 +20,6 @@ public class BookService {
 
   public int getBookUser(long memberPk, long boardPk) {
     int bookUser = bookDAO.getBookUser(memberPk, boardPk);
-    System.out.println("bookUser ?? => " + bookUser);
     return bookUser;
   }
 
@@ -42,5 +41,9 @@ public class BookService {
 
   public int getBoardPkFromBookByMemberPk(long memberPk, long boardPk) {
     return bookDAO.selectBoardPkFromBookByMemberPk(memberPk, boardPk);
+  }
+
+  public int getBookUserWriteBySuwan(long memberPk, long boardPk) {
+    return bookDAO.selectBookUser(memberPk, boardPk);
   }
 }
