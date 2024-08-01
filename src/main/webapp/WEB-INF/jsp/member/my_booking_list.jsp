@@ -21,15 +21,6 @@
           rel="stylesheet"
   />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-  />
-  <link
-          href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-          rel="stylesheet"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
 
       * {
@@ -183,46 +174,14 @@
 </div>
 
 <script>
-  $(function () {
-    $("#success-outlined").on("click", function () {
-      $.ajax({
-        url: "member.do?method=reserved1",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-          let html = "";
-          data.forEach(item => {
-            html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
-            html += "<div class='main-card'>";
-            html += "<h4 class='academy-item-name'>" + item.academy_name + "</h4>";
-            html += "<ul class='main-ul'>";
-            html += "<li itemprop='content' class='academy-item-content'>" + item.content + "</li>";
-            html += "<li itemprop='addr' class='academy-item-address'>" + item.addr + "</li>";
-            html += "<li itemprop='ldate' class='academy-item-ldate'>강의일 : " + item.lDate + "</li>";
-            html += "<li itemprop='book_limit' class='academy-item-limit'>예약가능 인원 : " + item.bookLimit + "</li>";
-            html += "</ul>";
-            html += "<div class='academy-item-menus'>";
-            html += "<div class='academy-rate'>";
-            html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
-            html += "<span itemprop='rate'>0점/span>";
-            html += "</div>";
-            html += "<div class='academy-review'>";
-            html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
-            html += "<span itemprop='review_count'>0 개</span>";
-            html += "</div>";
-            html += "</div>";
-            html += "</div>";
-            html += "</a>";
-          });
+  $(document).ready(function () {
+    // 페이지 로드 시 기본으로 첫 번째 AJAX 요청 실행
+    fetchReservedData();
 
-          $("#result-container").html(html);
-        },
-        error:
-            function (data) {
-              alert("예약된 강의가 없습니다");
-            }
-      });
+    $("#success-outlined").on("click", function () {
+      fetchReservedData();
     });
+
     $("#danger-outlined").on("click", function () {
       $.ajax({
         url: "member.do?method=reserved2",
@@ -231,9 +190,9 @@
         success: function (data) {
           let html = "";
           data.forEach(item => {
-            html += "<a href = " + "http://localhost:8080/board?seq=" + item.board_seq + "/>";
+            html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
             html += "<div class='main-card'>";
-            html += "<h4>" + item.academy_name + "</h4>";
+            html += "<h4 class='academy-item-name'>" + item.academy_name + "</h4>";
             html += "<ul class='main-ul'>";
             html += "<li itemprop='content' class='academy-item-content'>" + item.content + "</li>";
             html += "<li itemprop='addr' class='academy-item-address'>" + item.addr + "</li>";
@@ -254,16 +213,50 @@
             html += "</a>";
           });
           $("#result-container").html(html);
-
+        },
+        error: function (data) {
+          alert("예약된 강의가 없습니다");
         }
-        ,
-        error:
-            function (data) {
-              alert("예약된 강의가 없습니다");
-            }
       });
-    })
-    ;
+    });
+
+    function fetchReservedData() {
+      $.ajax({
+        url: "member.do?method=reserved1",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          let html = "";
+          data.forEach(item => {
+            html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
+            html += "<div class='main-card'>";
+            html += "<h4 class='academy-item-name'>" + item.academy_name + "</h4>";
+            html += "<ul class='main-ul'>";
+            html += "<li itemprop='content' class='academy-item-content'>" + item.content + "</li>";
+            html += "<li itemprop='addr' class='academy-item-address'>" + item.addr + "</li>";
+            html += "<li itemprop='ldate' class='academy-item-ldate'>강의일 : " + item.lDate + "</li>";
+            html += "<li itemprop='book_limit' class='academy-item-limit'>예약가능 인원 : " + item.bookLimit + "</li>";
+            html += "</ul>";
+            html += "<div class='academy-item-menus'>";
+            html += "<div class='academy-rate'>";
+            html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
+            <%--html += "<span itemprop='rate'>${}점</span>";--%>
+            html += "</div>";
+            html += "<div class='academy-review'>";
+            html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
+            <%--html += "<span itemprop='review_count'>${}개</span>";--%>
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+            html += "</a>";
+          });
+          $("#result-container").html(html);
+        },
+        error: function (data) {
+          alert("예약된 강의가 없습니다");
+        }
+      });
+    }
   });
 </script>
 </body>
