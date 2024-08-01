@@ -66,5 +66,16 @@
         <p> ${info.dto.subject} </p>
       </div>
     </div>
+
+    <%--  content 추가--%>
+    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?
+    </div>
+
   </div>
 </div>
