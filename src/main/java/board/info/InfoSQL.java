@@ -6,7 +6,7 @@ public class InfoSQL {
             + "  FROM board\r\n"
             + " WHERE 1=1\r\n"
             + "   AND BOARD_SEQ = ?\r\n"
-            + "	AND VALID = 0";
+            + "	  AND VALID = 0";
 
     public static String SELECT_AVG_RATE
             = "SELECT TRUNCATE(AVG(r.rate), 2) as avg\r\n"

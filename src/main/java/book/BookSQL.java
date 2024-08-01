@@ -1,6 +1,12 @@
 package book;
 
 public class BookSQL {
+    public final static String FIND_BOOK
+            = "SELECT *\n"
+            + "  FROM book\n"
+            + " WHERE member_seq = ?\n"
+            + "   AND book_seq = ?";
+
     public final static String TOTAL_BOOK_LIMIT
             = "SELECT book_limit\r\n"
             + "  FROM board\r\n"
@@ -25,7 +31,8 @@ public class BookSQL {
     public final static String GET_CANCEL_YN
             = "SELECT cancel_yn\n"
             + "  FROM book\n"
-            + " WHERE member_seq = ?\n"
+            + " WHERE 1=1\n"
+            + "   AND member_seq = ?\n"
             + "   AND board_seq = ?";
 
     public final static String INSERT_BOOK

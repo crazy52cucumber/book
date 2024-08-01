@@ -75,7 +75,6 @@ header {
     border: 1px;
     border-radius: 7px;
     height: 40px;
-    width: 450px; /*(수정) 전체 크기의 상대값*/
 }
 
 .info-container {
