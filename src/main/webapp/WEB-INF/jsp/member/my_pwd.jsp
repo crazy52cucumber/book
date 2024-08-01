@@ -113,6 +113,7 @@
         </fieldset>
     </form>
     <script>
+      document.getElementById('cancel').addEventListener('click',()=>location.href='/');
       const checkFormValidity = () => {
         const modifyBtn = document.getElementById('modifyBtn');
         const isPasswordValid = validatePassword(password.value);
@@ -126,6 +127,7 @@
             isAuth
         ) {
           modifyBtn.type = 'submit';
+
         } else {
           modifyBtn.type = 'button';
         }
@@ -145,7 +147,6 @@
       const authenticCode = document.getElementById('authenticCode');
 
       document.getElementById('authConfirmBtn').addEventListener('click',()=>{
-        alert('${code}')
         if(authenticCode.value === '${code}'){
           document.querySelector('.input-authCode').classList.remove('hide');
           document.querySelector('.fail-authCode').classList.add('hide');
