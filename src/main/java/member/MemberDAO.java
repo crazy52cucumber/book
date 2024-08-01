@@ -9,7 +9,6 @@ import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
 import static member.util.MemberSQL.EMAILNAME;
-import static member.util.MemberSQL.EMAILNAME;
 import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.GETMEMBER;
