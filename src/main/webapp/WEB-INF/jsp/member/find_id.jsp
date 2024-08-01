@@ -102,8 +102,10 @@
     const inputNameMsg = document.querySelector('.input-name');
     if (name.value === '') {
       inputNameMsg.classList.remove('hide');
+      name.classList.add('is-invalid')
     } else {
       inputNameMsg.classList.add('hide');
+      name.classList.remove('is-invalid')
     }
     checkFormValidity();
   };
@@ -123,8 +125,10 @@
     const failPhoneMsg = document.querySelector('.input-phone');
     if (validatePhone(phone.value)) {
       failPhoneMsg.classList.add('hide');
+      phone.classList.remove('is-invalid')
     } else {
       failPhoneMsg.classList.remove('hide');
+      phone.classList.add('is-invalid')
     }
     checkFormValidity();
   };
