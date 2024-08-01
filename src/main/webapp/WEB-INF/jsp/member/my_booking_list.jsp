@@ -25,7 +25,7 @@
         $(function(){
             $("#success-outlined").on("click", function (){
                 $.ajax({
-                    url: "",
+                    url: "member.do?m=myBookingList",
                     type: GET,
                     data: {so : $("#success-outlined").val()},
                     datatype: 'json',

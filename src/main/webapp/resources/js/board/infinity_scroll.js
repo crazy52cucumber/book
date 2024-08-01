@@ -1,11 +1,11 @@
 // 무한 스크롤
 import {getReviewsByBoardPkWithPaging} from "./review/review-api.js";
 import {drwaReview} from "./draw.js";
-import {closeModal, drawModal} from "./modal.js";
+import {closeModal, modal} from "./modal.js";
 
 const paging = {
   startNum: 0,
-  count   : 0
+  count: 0
 }
 let boardPk = 0;
 
@@ -32,7 +32,7 @@ const io = new IntersectionObserver(entries => {
   const reviewAEle = $('li a');
   const modalCancleBtnEle = $('#modalCancle');
   reviewAEle.each((idx, item) => {
-    drawModal(item);
+    modal(item);
 
     $(document).click(e => {
       if ($(e.target).attr('class')?.startsWith('modal-wrapper')) {

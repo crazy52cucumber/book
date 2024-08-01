@@ -16,7 +16,7 @@ import static member.util.MemberSQL.PASSWORDMATCH;
 import domain.Board;
 import dbutil.BaseDAO;
 import domain.Member;
-import domain.Reply;
+import domain.Review;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -139,23 +139,6 @@ class MemberDAO extends BaseDAO {
     }
     return FAILURE;
   }
-//  int emailCheck(String email) {
-//    Connection con = null;
-//    PreparedStatement ps = null;
-//    ResultSet rs = null;
-//    try {
-//      con = getConnection();
-//      ps = con.prepareStatement(EMAILCHECK);
-//      ps.setString(1, email);
-//      rs = ps.executeQuery();
-//      if (rs.next()) {
-//        return rs.getInt("valid");
-//      }
-//    } catch (SQLException se) {
-//      System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
-//    }
-//    return FAILURE;
-//  }
 
   String findId(String name, long phoneNum) {
     Connection con = null;
@@ -224,11 +207,11 @@ class MemberDAO extends BaseDAO {
   }
 
 
-  public ArrayList<Reply> myReplyList(int member_seq) {
-    ArrayList<Reply> myRelpyList = null;
+  public ArrayList<Review> myReviewList(int member_seq) {
+    ArrayList<Review> myRelpyList = new ArrayList<>();
     Connection con = null;
     PreparedStatement pstmt = null;
-    String sql = MY_REPLY;
+    String sql = MY_REVIEW;
     ResultSet rs = null;
     try {
       con = getConnection();
@@ -236,15 +219,23 @@ class MemberDAO extends BaseDAO {
       pstmt.setInt(1, member_seq);
       rs = pstmt.executeQuery();
       while (rs.next()) {
-        int reply_seq = rs.getInt(1);
+        int review_seq = rs.getInt(1);
         int rate = rs.getInt(2);
-        String content = rs.getString(3);
-        Date cdate = rs.getDate(4);
-        int board_seq = rs.getInt(6);
-        int valid = rs.getInt(7);
+        String title = rs.getString(3);
+        String pros = rs.getString(4);
+        String cons = rs.getString(5);
+        String features = rs.getString(6);
+        String wishes = rs.getString(7);
+        Date cdate = rs.getDate(8);
+        int valid = rs.getInt(9);
+        int book_seq = rs.getInt(10);
 
-        Reply myReply = new Reply(reply_seq, rate, content, cdate, member_seq, board_seq, valid);
-        myRelpyList.add(myReply);
+
+        System.out.println(review_seq);
+
+
+        Review myReview = new Review(review_seq, rate, title, pros, cons, features, wishes, cdate, valid, book_seq, member_seq);
+        myRelpyList.add(myReview);
       }
       return myRelpyList;
     } catch (SQLException se) {
@@ -260,47 +251,31 @@ class MemberDAO extends BaseDAO {
   }
 
   public ArrayList<Board> myBookingList(int member_seq) {
-    ArrayList<Board> myBookingList = null;
+    ArrayList<Board> myBookingList = new ArrayList();
     Connection con = null;
-    PreparedStatement pstmt1 = null;
-    PreparedStatement pstmt2 = null;
-    String sql1 = MY_BOOKING1;
-    String sql2 = MY_BOOKING2;
-    ResultSet rs1 = null;
-    ResultSet rs2 = null;
+    PreparedStatement pstmt = null;
+    String sql = MY_BOOKING;
+    ResultSet rs = null;
     try {
       con = getConnection();
-      pstmt1 = con.prepareStatement(sql1);
-      pstmt1.setInt(1, member_seq);
-      rs1 = pstmt1.executeQuery();
-      while (rs1.next()) {
-        //int book_seq = rs.getInt(1);
-        //Date bDate = rs.getDate(2);
-        //int cancel_YN = rs.getInt(3);
-        //Date cDate = rs.getDate(4);
-        int board_seq = rs1.getInt(6);
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, member_seq);
+      rs = pstmt.executeQuery();
+      while (rs.next()) {
+        int board_seq = rs.getInt(1);
+        String academy_name = rs.getString(2);
+        String addr = rs.getString(3);
+        String phone_num = rs.getString(4);
+        Date eDate = rs.getDate(5);
+        Date lDate = rs.getDate(6);
+        String grade = rs.getString(7);
+        String subject = rs.getString(8);
+        String content = rs.getString(9);
+        int book_limit = rs.getInt(10);
+        int valid = rs.getInt(11);
 
-        //Book myBooking = new Book(book_seq, bDate, cancel_YN, cDate, member_seq, board_seq);
-
-        pstmt2 = con.prepareStatement(sql2);
-        pstmt2.setInt(1, board_seq);
-        rs2 = pstmt2.executeQuery();
-        while (rs2.next()) {
-          String academy_name = rs2.getString(2);
-          String addr = rs2.getString(3);
-          String phone_num = rs2.getString(4);
-          Date eDate = rs2.getDate(5);
-          Date lDate = rs2.getDate(6);
-          String grade = rs2.getString(7);
-          String subject = rs2.getString(8);
-          String content = rs2.getString(9);
-          int book_limit = rs2.getInt(10);
-          int valid = rs2.getInt(11);
-
-          Board myBooking = new Board(board_seq, academy_name, addr, phone_num, eDate, lDate, grade,
-              subject, content, book_limit, valid);
-          myBookingList.add(myBooking);
-        }
+        Board myBooking = new Board(board_seq, academy_name, addr, phone_num, eDate, lDate, grade, subject, content, book_limit, valid);
+        myBookingList.add(myBooking);
       }
       return myBookingList;
 
@@ -308,8 +283,7 @@ class MemberDAO extends BaseDAO {
       se.printStackTrace();
     } finally {
       try {
-        pstmt2.close();
-        pstmt1.close();
+        pstmt.close();
         con.close();
       } catch (SQLException se) {
       }
@@ -330,8 +304,8 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-            .email(rs.getString("email"))
-            .name(rs.getString("name")).build();
+                .email(rs.getString("email"))
+                .name(rs.getString("name")).build();
       }
       return member;
     } catch (SQLException se) {
@@ -339,6 +313,4 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-
-
 }

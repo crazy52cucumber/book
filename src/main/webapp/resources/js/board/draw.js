@@ -1,9 +1,9 @@
-export const drwaReview = (jsonData) => {
+export const drwaReview = (obj) => {
   let html = '';
-  for (let item of jsonData) {
+  for (let item of obj) {
     html += `<li>`
-    html += `<a href="javascript:void(0)">`
-    html += `<div class="review-card">`
+    html += `<a href="javascript:void(0)" data-writer="${item.memberSeq}">`
+    html += `<div class="review-card-${item.reviewSeq}">`
     html += `<div class="review-card--header">`
     html += `<div>`
     html += `<img src="/resources/imgs/별.png" alt="">`
@@ -24,4 +24,25 @@ export const drwaReview = (jsonData) => {
     html += `</li>`
   }
   return html;
+}
+
+export const drawContent = (obj) => {
+  let imgHtml = '';
+  $('.modal-wrapper').addClass('active')
+  $('.modal-container').css('display', 'block');
+  $('.modal-container').removeClass().addClass(`modal-container ${obj.reviewSeq}`);
+  $('.writer-info span:first-child').text(obj.nickname);
+  $('.writer-info span:last-child').text(obj.grade);
+  $('.writer-info')[0].dataset.writer = obj.memberSeq;
+  $('#title').val(obj.title);
+  $('#pros').html(obj.pros);
+  $('#cons').html(obj.cons);
+  $('#features').html(obj.features);
+  $('#wishes').html(obj.wishes);
+  $('#date').text(obj.cdate);
+
+  for (let i = 0; i < obj.rate; i++) {
+    imgHtml += `<img src="/resources/imgs/별.png" alt="별">`
+  }
+  $('.rate').empty().append(imgHtml);
 }

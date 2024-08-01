@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 
 public class ReviewDAO extends BaseDAO {
   private Connection con;
@@ -32,12 +31,16 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("review_seq"))
+                .reviewSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))
                 .nickname(rs.getString("nickname"))
                 .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
                 .grade(rs.getString("grade"))
                 .rate(rs.getInt("rate"))
                 .cdate(rs.getDate("cdate"))
@@ -48,7 +51,6 @@ public class ReviewDAO extends BaseDAO {
     } finally {
       closeAll(rs, pstmt);
     }
-    System.out.println("dao에서 list: " + list);
     return Optional.ofNullable(list);
   }
 
@@ -102,12 +104,16 @@ public class ReviewDAO extends BaseDAO {
       rs = pstmt.executeQuery();
       while (rs.next()) {
         list.add(ReviewResponseDTO.builder()
-                .boardSeq(rs.getLong("review_seq"))
+                .reviewSeq(rs.getLong("review_seq"))
                 .memberSeq(rs.getInt("member_seq"))
                 .boardSeq(rs.getInt("board_seq"))
                 .bookSeq(rs.getLong("booK_seq"))
                 .nickname(rs.getString("nickname"))
                 .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
                 .grade(rs.getString("grade"))
                 .rate(rs.getInt("rate"))
                 .cdate(rs.getDate("cdate"))
@@ -141,6 +147,73 @@ public class ReviewDAO extends BaseDAO {
       e.printStackTrace();
     } finally {
       closeAll(null, pstmt);
+    }
+    return result;
+  }
+
+  public Optional<ReviewResponseDTO> selectReviewByReviewPk(long reviewPk) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    ReviewResponseDTO dto = null;
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.SELECT_REVIEW_BY_REVIEWPK);
+      pstmt.setLong(1, reviewPk);
+
+      rs = pstmt.executeQuery();
+      while (rs.next()) {
+        dto = ReviewResponseDTO.builder()
+                .reviewSeq(rs.getLong("review_seq"))
+                .memberSeq(rs.getInt("member_seq"))
+                .boardSeq(rs.getInt("board_seq"))
+                .bookSeq(rs.getLong("booK_seq"))
+                .nickname(rs.getString("nickname"))
+                .title(rs.getString("title"))
+                .pros(rs.getString("pros"))
+                .cons(rs.getString("cons"))
+                .features(rs.getString("features"))
+                .wishes(rs.getString("wishes"))
+                .grade(rs.getString("grade"))
+                .rate(rs.getInt("rate"))
+                .cdate(rs.getDate("cdate"))
+                .build();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return Optional.ofNullable(dto);
+  }
+
+  public int updateReviewByReviewPk(ReviewRequestDTO dto, long reviewPk) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.UPDATE_REVIEW_BY_REVIEWPK);
+      pstmt.setString(1, dto.getTitle());
+      pstmt.setString(2, dto.getPros());
+      pstmt.setString(3, dto.getCons());
+      pstmt.setString(4, dto.getFeatures());
+      pstmt.setString(5, dto.getWishes());
+      pstmt.setInt(6, dto.getRate());
+      pstmt.setLong(7, reviewPk);
+
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+
+  public int deleteReviewByReviewPk(long reviewPk) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+
+    try {
+      pstmt = con.prepareStatement(ReviewSQL.DELETE_REVIEW_BY_REVIEWPK);
+      pstmt.setLong(1, reviewPk);
+
+      result = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     return result;
   }

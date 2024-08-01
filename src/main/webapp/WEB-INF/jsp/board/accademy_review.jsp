@@ -14,15 +14,13 @@
       <c:forEach var="review" items="${review.dto}">
         <li>
           <a href="javascript:void(0)" data-writer='${review.memberSeq}'>
-            <div class="review-card">
+            <div class="review-card-${review.reviewSeq}">
               <div class="review-card--header">
                 <div>
                   <img src="${pageContext.request.contextPath}/resources/imgs/별.png" alt="">
                   <span>${review.rate}</span>
                 </div>
-                <div>
-                  정성리뷰
-                </div>
+                <div>정성리뷰</div>
               </div>
               <p class="review-card--content">
                 <span class="title">${review.title}</span>
