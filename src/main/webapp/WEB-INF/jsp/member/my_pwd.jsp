@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <html>
 <head>
     <title>Title</title>
@@ -81,12 +81,13 @@
 </head>
 <body>
 <main>
-    <form action="/member/member.do?method=myPwd" method="post">
+    <form action="/member/member.do?method=modifyPwd" method="post">
         <div class="form-floating input-group mb-3">
             <input type="text" class="form-control" id="authenticCode" name="authenticCode" placeholder="인증번호"/>
             <label for="authenticCode">인증번호</label>
             <button class="btn btn-outline-secondary" type="button" id="authConfirmBtn">인증하기</button>
         </div>
+        <div  class="emailDiv"></div>
         <div class="msg input-authCode text-success hide">인증이 완료되었습니다</div>
         <div class="msg fail-authCode text-danger hide">인증 코드가 맞지않습니다. 다시 입력해주세요</div>
         <div class="form-floating password">
@@ -112,7 +113,6 @@
         </fieldset>
     </form>
     <script>
-      <%String code = (String)request.getAttribute("code");%>
       const checkFormValidity = () => {
         const modifyBtn = document.getElementById('modifyBtn');
         const isPasswordValid = validatePassword(password.value);
@@ -122,7 +122,8 @@
         );
         if (
             isPasswordValid &&
-            isPasswordRetypeValid
+            isPasswordRetypeValid &&
+            isAuth
         ) {
           modifyBtn.type = 'submit';
         } else {
@@ -143,25 +144,28 @@
       let isAuth = false;
       const authenticCode = document.getElementById('authenticCode');
 
-
-        document.getElementById('authConfirmBtn').addEventListener('click',()=>{
-          const code = <%=code%>;
-          alert(code)
-          if(authenticCode.value === code){
-            document.querySelector('.input-authCode').classList.remove('hide');
-            document.querySelector('.fail-authCode').classList.add('hide');
-            document.getElementById('authenticCode').classList.remove('is-invalid')
-            document.getElementById('authenticCode').classList.add('is-valid')
-            isAuth = true;
-          }else {
-            document.getElementById('authenticCode').classList.remove('is-valid')
-            document.querySelector('.input-authCode').classList.add('hide');
-            document.querySelector('.fail-authCode').classList.remove('hide');
-            document.getElementById('authenticCode').classList.add('is-invalid')
-            isAuth = false;
-          }
-          checkFormValidity();
-        })
+      document.getElementById('authConfirmBtn').addEventListener('click',()=>{
+        alert('${code}')
+        if(authenticCode.value === '${code}'){
+          document.querySelector('.input-authCode').classList.remove('hide');
+          document.querySelector('.fail-authCode').classList.add('hide');
+          document.getElementById('authenticCode').classList.remove('is-invalid')
+          document.getElementById('authenticCode').classList.add('is-valid')
+          const newInput = document.createElement('input');
+          newInput.type = 'hidden';
+          newInput.name = 'hiddenEmail';
+          newInput.value = '${email}';
+          document.querySelector('.emailDiv').appendChild(newInput);
+          isAuth = true;
+        }else {
+          document.getElementById('authenticCode').classList.remove('is-valid')
+          document.querySelector('.input-authCode').classList.add('hide');
+          document.querySelector('.fail-authCode').classList.remove('hide');
+          document.getElementById('authenticCode').classList.add('is-invalid')
+          isAuth = false;
+        }
+        checkFormValidity();
+      })
 
 
       function validatePassword(password) {

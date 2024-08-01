@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <html>
 <head>
     <title>Title</title>
@@ -75,7 +76,6 @@
 </head>
 <body>
 <div class="container">
-    <h1>비밀번호 찾기</h1>
     <form action="/member/member.do?method=myPwd" method="post">
         <div class="form-floating input-group mb-3">
             <input type="email" id="email" name="email" class="form-control" aria-label="Text input with dropdown button" placeholder="name@example.com" >
@@ -149,8 +149,7 @@
       },
     });
   };
-  $('#name').on('keydown', emailCheck);
-  $('#email').on('keydown', emailCheck);
+  $('#name').on('keyup', emailCheck);
   findPwdBtn.addEventListener('click',()=>{
     if(findPwdBtn.type === 'button'){
       document.querySelector('.duplicated-email').classList.remove('hide')

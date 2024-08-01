@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <html>
 <head>
     <title>Title</title>
@@ -75,7 +76,6 @@
 </head>
 <body>
 <div class="container" style="width: 600px">
-    <h1>아이디 찾기</h1>
     <form action="/member/member.do?method=myId" method="post">
         <div class="form-floating">
             <input type="text" class="form-control need-top" id="name" name="name" placeholder="이름"/>

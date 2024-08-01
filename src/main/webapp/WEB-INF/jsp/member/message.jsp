@@ -7,13 +7,13 @@
 <script>
   const result = ${result}
   if (result == <%=NOID%>) {
-    alert("그런 이메일을 가진 회원이 없어요");
+    alert("그런 이메일을 가진 땃쥐는 없어요");
   } else if (result == <%=NOPASSWORD%>) {
     alert("비밀번호가 맞지 않아요");
   } else if (result==<%=ERROR%>) {
     alert("DB오류")
   } else {
-    alert("로긴 성공");
+    alert('${member.nickname} 땃쥐님이시군요. 어서오세요 :)');
     location.href = "/";
   }
 </script>

@@ -1,6 +1,5 @@
-<%@ page import="static member.util.SignupConst.SUCCESS" %>
-<%@ page import="static member.util.SignupConst.FAILURE" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,31 +199,19 @@
   const checkEmail = () => {
     const failEmailMsg = document.querySelector('.miss-email');
     const inputEmailMsg = document.querySelector('.input-email');
-    const missEmail = document.querySelector('.miss-email').classList.contains('hide');
-    const inputEmail = document.querySelector('.input-email').classList.contains('hide');
-    const duplicatedEmail = document.querySelector('.duplicated-email').classList.contains('hide');
-    if(missEmail && inputEmail && duplicatedEmail){
+    if (validateEmail(emailInput.value)) {
       email.classList.remove('is-invalid')
       email.classList.add('is-valid')
-    }else {
-      email.classList.add('is-invalid')
-      email.classList.remove('is-valid')
-    }
-
-
-    if (validateEmail(emailInput.value)) {
-      // email.classList.remove('is-invalid')
-      // email.classList.add('is-valid')
       failEmailMsg.classList.add('hide');
       inputEmailMsg.classList.add('hide');
     } else if (emailInput.value === '') {
-      // email.classList.remove('is-valid')
-      // email.classList.add('is-invalid')
+      email.classList.remove('is-valid')
+      email.classList.add('is-invalid')
       failEmailMsg.classList.add('hide');
       inputEmailMsg.classList.remove('hide');
     } else {
-      // email.classList.remove('is-valid')
-      // email.classList.add('is-invalid')
+      email.classList.remove('is-valid')
+      email.classList.add('is-invalid')
       failEmailMsg.classList.remove('hide');
       inputEmailMsg.classList.add('hide');
     }
@@ -587,8 +574,6 @@
         }
       }
   )
-
-  // $('#email-select').on('change', emailCheck);
 </script>
 </body>
 </html>

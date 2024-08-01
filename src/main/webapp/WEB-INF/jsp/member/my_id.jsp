@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -42,7 +43,9 @@
     <fieldset>
         <c:choose>
             <c:when test="${empty email}">
-                <input type="text" class="form-control" title="이메일" id="email" name="email" placeholder="email" value="해당하는 이메일이 없습니다"/>
+                <div>
+                    해당하는 이메일이 없습니다 땃쥐 맞습니까 닝겐..? :o
+                </div>
                 <button type="button" name="findId" class="btn btn-dark" id="find-id" onclick='findId()'>아이디 찾기</button>
             </c:when>
             <c:otherwise>
