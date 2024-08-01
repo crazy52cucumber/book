@@ -15,4 +15,5 @@ public class MemberSQL {
 
   public static final String FINDID = "select EMAIL from MEMBER where NAME=? and PHONE=? and VALID=0";
 
+  public static final String MODIFYPASSWORD = "update MEMBER set PASSWORD=? where EMAIL=? and VALID=0";
 }

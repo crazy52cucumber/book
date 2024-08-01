@@ -69,5 +69,7 @@ public class MemberService {
   public Member getMemberByEmail(String email, String name) {
     return dao.getMemberByEmail(email, name);
   }
-
+  public int modify(String email, String password){
+    return dao.modify(email, password);
+  }
 }
