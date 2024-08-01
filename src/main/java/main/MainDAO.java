@@ -35,6 +35,7 @@ public class MainDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         String sql = SELECT_ALL;
+        System.out.println("어디까지 될까");
 
         try{
             con = ds.getConnection();

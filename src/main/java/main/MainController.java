@@ -13,25 +13,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/")
+@WebServlet(value = {"/",""},loadOnStartup = 1)
 public class MainController extends HttpServlet {
 
     private ServletContext context;
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
 
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse res)
+    public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String m = req.getParameter("m");
-        if (m != null && !m.equals("")) {
-            m = m.trim();
-            switch (m) {
-                case "list": list(req, res); break;
-//                case "search" : search(req, res); break;
-            }
-        }else {
-            list(req, res);
-        }
+        list(req,res);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse res)
