@@ -75,8 +75,8 @@ public class MemberService {
   public Board reservedS(int memberSeq) {
     return dao.reserved(memberSeq);
   }
-  public int modify(String email, String password){
-    return dao.modify(email, password);
 
+  public int modify(String email, String password) {
+    return dao.modify(email, password);
   }
 }
