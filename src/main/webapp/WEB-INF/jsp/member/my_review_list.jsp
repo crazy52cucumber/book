@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2024-07-26
-  Time: 오전 10:18
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
@@ -101,13 +94,13 @@
       <div>작성한 리뷰가 없음</div>
     </c:if>
     <c:forEach items="${myReviewList}" var="review">
-      <a>
-        <div class="my-review-card">
-          <div class="my-review-card--header">
+      <a href = "#">
+       <div class="my-review-card">
+         <!--  <div class="my-review-card--header">
             <img src="/>resources/imgs/별.png" alt>
             <span>${review.rate}</span>
 
-          </div>
+          </div>-->
           <p class="my-review-card--content">
             <span class="title">${review.title}</span>
           </p>
