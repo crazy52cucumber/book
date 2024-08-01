@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #f8f9fa;
+
+}
+
 main {
     max-width: 500px;
     width: 100%;
@@ -36,52 +41,63 @@ a {
 .main-container {
     background-color: lightblue;
 }
-.search-count-academy{
+
+.search-count-academy {
     font-weight: bolder;
 }
+
 .main-contents {
     margin-top: 1px;
 }
 
-.main-card{
+.main-card {
     background-color: white;
 }
-.academy-item-name{
+
+.academy-item-name {
     font-weight: bold;
     padding: 10px;
 }
+
 .main-ul {
     list-style-type: none;
     background-color: antiquewhite;
     display: flex;
     flex-direction: column;
 }
+
 .academy-item-content {
     font-size: 20px;
     font-weight: bold;
     padding-bottom: 1px;
 }
+
 .academy-item-address {
     font-size: 12px;
 }
+
 .academy-item-ldate {
     font-size: 12px;
     flex-direction: row;
 }
+
 .academy-item-limit {
     font-size: 12px;
     flex-direction: row;
 }
+
 .academy-item-menus {
-    display : flex;
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     height: 50px;
 }
-.academy-rate-img{
+
+.academy-rate-img {
     height: 20px;
     width: 20px;
 }
+
 .academy-count-img {
     height: 20px;
     width: 20px;
