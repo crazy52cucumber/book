@@ -1,7 +1,5 @@
 package book;
 
-import java.util.Date;
-
 public class BookService {
     private static BookService instance = new BookService();
     private BookDAO bookDAO;
@@ -14,10 +12,10 @@ public class BookService {
         return instance;
     }
 
-    public BookResponseDTO getBookByBoardPK(long boardPk) {
+    public ResponseDTO getBookByBoardPK(long boardPk) {
         int totalBookLimit = bookDAO.getTotalBookLimit(boardPk);
         int bookCnt = bookDAO.getBookCnt(boardPk);
-        return new BookResponseDTO(totalBookLimit, bookCnt);
+        return new ResponseDTO(totalBookLimit, bookCnt);
     }
 
     public int getBookUser(long review, long boardPk) {

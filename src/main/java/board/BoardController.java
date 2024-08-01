@@ -1,17 +1,13 @@
 package board;
 
 
-import board.info.InfoResponseDTO;
 import board.info.InfoService;
 import board.info.Response2DTO;
-import board.review.ResponseDTO;
 import board.review.ReviewResponseDTO;
 import board.review.ReviewService;
-import book.BookResponseDTO;
+import book.ResponseDTO;
 import book.BookService;
-import book.util.BookConst;
 import domain.Member;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,8 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -51,11 +45,11 @@ public class BoardController extends HttpServlet {
             req.setAttribute("info", info);
 
             // review 불러오기
-            ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
+            board.review.ResponseDTO<ReviewResponseDTO> review = reviewService.getReviewsByBoardPk(seq);
             req.setAttribute("review", review);
 
             // book cnt 불러오기
-            BookResponseDTO book = bookService.getBookByBoardPK(seq);
+            ResponseDTO book = bookService.getBookByBoardPK(seq);
             req.setAttribute("book", book);
 
             // book user 불러오기

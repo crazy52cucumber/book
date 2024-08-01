@@ -5,9 +5,6 @@ import dbutil.BaseDAO;
 
 import java.sql.*;
 
-import board.review.RequestDTO;
-import dbutil.BaseDAO;
-
 public class BookDAO extends BaseDAO {
     private Connection con;
 

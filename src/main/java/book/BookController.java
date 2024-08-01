@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @WebServlet("/book/*")
@@ -28,6 +27,7 @@ public class BookController extends HttpServlet {
         int result = 0;
         HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
+        req.setAttribute("member", member);
         if (member != null) {
             memberPk = member.getSeq();
         }
