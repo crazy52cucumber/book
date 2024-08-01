@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2024-07-26
-  Time: 오전 10:17
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
@@ -25,18 +18,19 @@
     $(function () {
       $("#success-outlined").on("click", function () {
         $.ajax({
-          url: "member.do?m=myBookingList",
-          type: GET,
-          data: {so: $("#success-outlined").val()},
+          url     : "member.do?m=myBookingList",
+          type    : "GET",
+          data    : {so: $("#success-outlined").val()},
           datatype: 'json',
-          success: function (data) {
+          success : function (data) {
+            console.log(data)
             let html = "";
             html += "";
             if (data.length() == 0) {
               html += "<div>데이터가 없음</div>";
             } else {
               for (const board of data) {
-                html += "<a href = " + "링크" + "/>";
+                html += "<a href = " + "http://localhost:8080/board?seq=" + board.board_seq + "/>";
                 html += "<div>" + board.board_seq + "</div>";
                 html += "<div>" + board.academy_name + "</div>";
                 html += "<div>" + board.addr + "</div>";
@@ -45,7 +39,7 @@
               }
             }
           },
-          error: function (data) {
+          error   : function (data) {
 
           }
         });
@@ -53,15 +47,6 @@
     });
   </script>
 
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-  />
-  <link
-          href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-          rel="stylesheet"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
 
       * {
@@ -170,8 +155,8 @@
     $(function () {
       $("#success-outlined").on("click", function () {
         $.ajax({
-          url: "member.do?method=reserved1",
-          type: "GET",
+          url     : "member.do?method=reserved1",
+          type    : "GET",
           dataType: "json",
 
           success: function (data) {
@@ -202,7 +187,7 @@
             $("#result-container").html(html);
 
           },
-          error:
+          error  :
 
               function (data) {
                 alert("예약된 강의가 없습니다");
@@ -211,12 +196,12 @@
       })
       $("#danger-outlined").on("click", function () {
         $.ajax({
-          url: "member.do?method=reserved2",
-          type: "GET",
+          url    : "member.do?method=reserved2",
+          type   : "GET",
           success: function (data) {
 
           },
-          error: function (data) {
+          error  : function (data) {
             alert("예약된 강의가 없습니다");
           }
         })
@@ -260,7 +245,8 @@
       </c:if>
       <c:forEach items="${myBookingList}" var="board">
         <div id="result-container"></div>
-        <a href="#">
+        ${board.board_seq}
+        <a href="http://localhost:8080/board?seq=${board.board_seq}" class="">
           <div class="main-card">
             <h4>${board.academy_name}</h4>
             <ul class="main-ul">
