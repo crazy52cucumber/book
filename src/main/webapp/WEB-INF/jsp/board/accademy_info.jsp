@@ -84,4 +84,48 @@
         </div>
 
     </div>
+<<<<<<< HEAD
+=======
+    <div class='info-item'>
+      <div>
+        <img src='${pageContext.request.contextPath}/resources/imgs/addr.png'/>
+        <p> 설립 </p>
+      </div>
+      <div>
+        <p> ${info.dto.edate} </p>
+      </div>
+    </div>
+    <div class='info-item'>
+      <div>
+        <img src='${pageContext.request.contextPath}/resources/imgs/school.png'/>
+        <p> 학년 </p>
+      </div>
+      <div>
+        <p> ${info.dto.grade} </p>
+      </div>
+    </div>
+    <div class='info-item'>
+      <div>
+        <img src='${pageContext.request.contextPath}/resources/imgs/subject.png'/>
+        <p> 과목 </p>
+      </div>
+      <div>
+        <p> ${info.dto.subject} </p>
+      </div>
+    </div>
+
+    <%--  content 추가--%>
+    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error facere
+      harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure officia
+      sit?
+
+      <p class="ldate">${info.dto.ldate}</p>
+    </div>
+
+  </div>
+>>>>>>> 0132a23451b582f3ed223e3e15bd31b8dae49b07
 </div>

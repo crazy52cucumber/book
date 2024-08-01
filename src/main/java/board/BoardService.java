@@ -12,4 +12,7 @@ public class BoardService {
     return instance;
   }
 
+  public BoardResponseDTO getBoardByBoardPk(long boardPk) {
+    return boardDAO.selectBoardByBoardPk(boardPk);
+  }
 }
