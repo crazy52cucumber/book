@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <div class='academy-container'>
     <div class='academy-item'>
-        <div class='content'>
+        <div class='item-content'>
             <div class='content-info'>
                 <h3> ${info.dto.academyName} </h3>
                 <p> ${info.dto.addr} </p>
             </div>
             <div class='content-img'>
-                이미지??
+                <img class='hb-img' src='${pageContext.request.contextPath}/resources/imgs/hb.jpg'/>
             </div>
         </div>
 
@@ -68,21 +68,22 @@
                 <p> ${info.dto.subject} </p>
             </div>
         </div>
+        <div class='info-item'>
+            <div class='info-wrapper'>
+                <img src='${pageContext.request.contextPath}/resources/imgs/date.png'/>
+                <p> 강의일
+            </div>
+            <div class='info-wrapper'>
+                <p> ${info.dto.ldate}</p>
+            </div>
+        </div>
 
         <%--  content 추가--%>
-        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error
-            facere
-            harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure
-            officia
-            sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error
-            facere
-            harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure
-            officia
-            sit?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, autem consequuntur debitis error
-            facere
-            harum illum ipsam magnam maiores necessitatibus praesentium rem sed unde? Consequuntur ducimus ipsum iure
-            officia
-            sit?
+        <div class='academy-content'>
+            <h5> 강의소개 </h5>
+            <div class='content'>
+                ${info.dto.content}
+            </div>
         </div>
     </div>
 </div>

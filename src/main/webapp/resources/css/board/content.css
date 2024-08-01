@@ -46,6 +46,11 @@ header {
     padding: 15px;
 }
 
+.item-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 .content {
     display: flex;
 }
@@ -106,7 +111,21 @@ header {
 }
 
 .info-wrapper p {
-    margin: 0;
+    margin: 0;;
+    font-weight: bold;
+}
+
+.academy-content {
+    margin-top: 15px;
+}
+
+.hb-img {
+    width: 100px;
+    height: 100px;;
+}
+
+.content {
+    padding: 10px;
 }
 
 /*수완*/
