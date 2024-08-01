@@ -138,6 +138,8 @@ public class MemberController extends HttpServlet {
           case "phoneCheck":
             phoneCheck(req, res);
             break;
+
+          case "logout":logout(req,res);break;
         }
       }
       //req.getRequestDispatcher("/").forward(req, res);
@@ -565,5 +567,16 @@ public class MemberController extends HttpServlet {
     int result = service.modify(email, password);
     req.setAttribute("result", result);
     req.getRequestDispatcher("/WEB-INF/jsp/member/modifyPwd_message.jsp").forward(req, res);
+  }
+
+  private void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    HttpSession session = req.getSession(false);
+    if (session != null) {
+    session.invalidate();
+      System.out.println("로그아웃");
+    }else {
+      System.out.println("session is null");
+    }
+    res.sendRedirect("/");
   }
 }

@@ -1,32 +1,35 @@
 package member;
 
+import static member.MemberSQL.MODIFY_INFO;
+import static member.MemberSQL.MY_BOOKING;
+import static member.MemberSQL.MY_REVIEW;
+import static member.MemberSQL.RESERVED;
+import static member.MemberSQL.WITHDRAW;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
+import static member.util.MemberSQL.EMAILNAME;
 import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
+import static member.util.MemberSQL.GETMEMBER;
 import static member.util.MemberSQL.JOIN;
 import static member.util.MemberSQL.MODIFYPASSWORD;
+import static member.util.MemberSQL.PASSWORDMATCH;
 import static member.util.MemberSQL.PHONECHECK;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.NOID;
-import static member.util.MemberSQL.GETMEMBER;
-import static member.util.MemberSQL.PASSWORDMATCH;
 
-import domain.Board;
 import dbutil.BaseDAO;
+import domain.Board;
 import domain.Member;
 import domain.Review;
-
-import java.sql.*;
-import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static member.MemberSQL.*;
+import java.util.ArrayList;
 
 class MemberDAO extends BaseDAO {
 
@@ -343,7 +346,8 @@ class MemberDAO extends BaseDAO {
         int bookLimit = rs.getInt("book_limit");
         int valid = rs.getInt("valid");
 
-        reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject, content, bookLimit, valid);
+        reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject,
+            content, bookLimit, valid);
       }
       return reservedBoard;
     } catch (SQLException se) {
@@ -357,7 +361,7 @@ class MemberDAO extends BaseDAO {
       }
     }
     return null;
-
+  }
   int modify(String email, String password){
     Connection con = null;
     PreparedStatement ps = null;
