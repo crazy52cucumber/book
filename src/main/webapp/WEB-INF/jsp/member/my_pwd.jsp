@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
@@ -36,7 +37,7 @@
         border: #dddddd 1px solid;
       }
 
-      .login {
+      #modifyBtn {
         cursor: pointer;
         width: 16.3rem;
         height: 3rem;
@@ -106,25 +107,62 @@
             비밀번호 확인을 입력해주세요
         </div>
         <fieldset class="join">
-            <button type="button" class="btn btn-dark" id="join">비밀번호 변경</button>
+            <button type="button" class="btn btn-dark" id="modifyBtn">비밀번호 변경</button>
             <button type="button" class="btn btn-outline-dark" id="cancel">취소</button>
         </fieldset>
     </form>
     <script>
-      const authenticCode = document.getElementById('authenticCode');
-      document.getElementById('authConfirmBtn').addEventListener('click',()=>{
-        if(authenticCode.value === "${code}"){
-          document.querySelector('.input-authCode').classList.remove('hide');
-          document.querySelector('.fail-authCode').classList.add('hide');
-          document.getElementById('authenticCode').classList.remove('is-invalid')
-          document.getElementById('authenticCode').classList.add('is-valid')
-        }else {
-          document.getElementById('authenticCode').classList.remove('is-valid')
-          document.querySelector('.input-authCode').classList.add('hide');
-          document.querySelector('.fail-authCode').classList.remove('hide');
-          document.getElementById('authenticCode').classList.add('is-invalid')
+      <%String code = (String)request.getAttribute("code");%>
+      const checkFormValidity = () => {
+        const modifyBtn = document.getElementById('modifyBtn');
+        const isPasswordValid = validatePassword(password.value);
+        const isPasswordRetypeValid = validatePasswordRetype(
+            password.value,
+            passwordRetype.value
+        );
+        if (
+            isPasswordValid &&
+            isPasswordRetypeValid
+        ) {
+          modifyBtn.type = 'submit';
+        } else {
+          modifyBtn.type = 'button';
         }
-      })
+      };
+
+      const modifyBtn = document.getElementById('modifyBtn');
+      modifyBtn.addEventListener('click', () => {
+        checkPassword();
+        checkPasswordRetype();
+      });
+
+      modifyBtn.addEventListener('keydown', (evt) => {
+        evt.target.ENTER;
+      });
+
+      let isAuth = false;
+      const authenticCode = document.getElementById('authenticCode');
+
+
+        document.getElementById('authConfirmBtn').addEventListener('click',()=>{
+          const code = <%=code%>;
+          alert(code)
+          if(authenticCode.value === code){
+            document.querySelector('.input-authCode').classList.remove('hide');
+            document.querySelector('.fail-authCode').classList.add('hide');
+            document.getElementById('authenticCode').classList.remove('is-invalid')
+            document.getElementById('authenticCode').classList.add('is-valid')
+            isAuth = true;
+          }else {
+            document.getElementById('authenticCode').classList.remove('is-valid')
+            document.querySelector('.input-authCode').classList.add('hide');
+            document.querySelector('.fail-authCode').classList.remove('hide');
+            document.getElementById('authenticCode').classList.add('is-invalid')
+            isAuth = false;
+          }
+          checkFormValidity();
+        })
+
 
       function validatePassword(password) {
         const pattern =
