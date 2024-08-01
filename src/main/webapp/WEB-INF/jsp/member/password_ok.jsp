@@ -4,18 +4,18 @@
   <title>Title</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    .hide {
-      display: none;
-    }
+      .hide {
+          display: none;
+      }
 
-    .password {
-      position: relative;
-    }
+      .password {
+          position: relative;
+      }
 
-    .button-disabled {
-      background-color: #ddd; /* 비활성화된 버튼 색상 */
-      cursor: not-allowed; /* 커서 스타일 */
-    }
+      .button-disabled {
+          background-color: #ddd; /* 비활성화된 버튼 색상 */
+          cursor: not-allowed; /* 커서 스타일 */
+      }
   </style>
 </head>
 <body>
@@ -44,6 +44,7 @@
         if (data.result === 1) {
           // 비밀번호가 맞으면 버튼 활성화 및 클릭 시 폼 제출
           loginBtn.classList.remove('button-disabled');
+          pwdMsg.classList.add('hide');
           loginBtn.disabled = false;
           loginBtn.addEventListener('click', () => {
             document.getElementById('passwordForm').submit();

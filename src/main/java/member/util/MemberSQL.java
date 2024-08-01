@@ -9,6 +9,7 @@ public class MemberSQL {
   public static final String JOIN = "insert into MEMBER(EMAIL,PASSWORD,NAME,PHONE,NICKNAME,RDATE,USER_TYPE,VALID) values(?,?,?,?,?,now(),0,0)";
 
   public static final String EMAILCHECK = "select VALID from MEMBER where EMAIL = ? and VALID=0";
+  public static final String PHONECHECK = "select VALID from MEMBER where PHONE = ? and VALID=0";
 
   public static final String EMAILNAMECHECK = "select VALID from MEMBER where EMAIL = ? and NAME =? and VALID=0";
 

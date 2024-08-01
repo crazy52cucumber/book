@@ -55,7 +55,11 @@ public class MemberService {
   }
 
   public int emailCheck(String email, String name) {
-    return dao.emailCheck(email);
+    return dao.emailCheck(email, name);
+  }
+
+  public int phoneCheck(String phone) {
+    return dao.phoneCheck(phone);
   }
 
   public String findId(String name, long phoneNum) {

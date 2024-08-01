@@ -3,8 +3,10 @@ package member;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
+import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
+import static member.util.MemberSQL.PHONECHECK;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
 import static member.util.SignupConst.NOID;
@@ -56,14 +58,14 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-                .seq(rs.getInt("member_seq"))
-                .email(rs.getString("email"))
-                .name(rs.getString("name"))
-                .phone(rs.getString("phone"))
-                .nickname(rs.getString("nickname"))
-                .rdate(rs.getDate("rdate"))
-                .user_type(rs.getByte("user_type"))
-                .valid(rs.getByte("valid")).build();
+            .seq(rs.getInt("member_seq"))
+            .email(rs.getString("email"))
+            .name(rs.getString("name"))
+            .phone(rs.getString("phone"))
+            .nickname(rs.getString("nickname"))
+            .rdate(rs.getDate("rdate"))
+            .user_type(rs.getByte("user_type"))
+            .valid(rs.getByte("valid")).build();
       }
       return member;
     } catch (SQLException se) {
@@ -78,7 +80,7 @@ class MemberDAO extends BaseDAO {
     return null;
   }
 
-  int join(String email, String password, String name, String phoneNum, String nickname) {
+  int join(String email, String password, String name, String phone, String nickname) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -89,7 +91,7 @@ class MemberDAO extends BaseDAO {
       ps.setString(1, email);
       ps.setString(2, hashedPassword);
       ps.setString(3, name);
-      ps.setString(4, phoneNum);
+      ps.setString(4, phone);
       ps.setString(5, nickname);
       return ps.executeUpdate();
     } catch (SQLException se) {
@@ -97,21 +99,43 @@ class MemberDAO extends BaseDAO {
       return FAILURE;
     }
   }
-
-  int emailCheck(String email) {
+  int emailCheck(String email, String name) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
       con = getConnection();
-      ps = con.prepareStatement(EMAILCHECK);
-      ps.setString(1, email);
+      if(name ==null){
+        ps = con.prepareStatement(EMAILCHECK);
+        ps.setString(1, email);
+      }else {
+        ps = con.prepareStatement(EMAILNAMECHECK);
+        ps.setString(1, email);
+        ps.setString(2,name);
+      }
       rs = ps.executeQuery();
       if (rs.next()) {
         return rs.getInt("valid");
       }
     } catch (SQLException se) {
       System.out.println("[memberDAO] emailCheck: Error: " + se.getMessage());
+    }
+    return FAILURE;
+  }
+  int phoneCheck(String phone) {
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+        ps = con.prepareStatement(PHONECHECK);
+        ps.setString(1, phone);
+      rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("valid");
+      }
+    } catch (SQLException se) {
+      System.out.println("[memberDAO] phoneCheck: Error: " + se.getMessage());
     }
     return FAILURE;
   }
@@ -129,7 +153,7 @@ class MemberDAO extends BaseDAO {
       if (rs.next()) {
         return rs.getString("email");
       }
-    } catch (SQLException se) {
+    }catch (SQLException se){
       System.out.println("[memberDAO] findId: Error: " + se.getMessage());
     }
     return null;
@@ -145,7 +169,7 @@ class MemberDAO extends BaseDAO {
       pstmt.setString(1, modifiedMember.getPassword());
       pstmt.setString(2, modifiedMember.getNickname());
       pstmt.setInt(3, modifiedMember.getSeq());
-      System.out.println(modifiedMember.getPassword());
+      //System.out.println();
       int i = pstmt.executeUpdate();
     } catch (SQLException se) {
       se.printStackTrace();

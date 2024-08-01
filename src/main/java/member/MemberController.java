@@ -59,18 +59,21 @@ public class MemberController extends HttpServlet {
             myId(req, res);
             break;
 
-          case "modify":
-            modify(req, res);
-            break;
-
           case "startModify":
             startModify(req, res);
+            break;
+
+          case "modifyForm":
+            modifyForm(req, res);
             break;
 
           case "modifyCheck":
             modifyCheck(req, res);
             break;
 
+          case "modify":
+            modify(req, res);
+            break;
           //수정 전 비번 확인
           case "passwordCheck":
             passwordCheck(req, res);
@@ -105,9 +108,9 @@ public class MemberController extends HttpServlet {
             }
             break;
 
-          case "authenticEmail":
+          case "authEmail":
             try {
-              authenticEmail(req, res);
+              authEmail(req, res);
             } catch (Exception e) {
               throw new RuntimeException(e);
             }
@@ -119,16 +122,15 @@ public class MemberController extends HttpServlet {
           case "memberCheck":
             memberCheck(req, res);
             break;
+
+          case "phoneCheck":
+            phoneCheck(req, res);
+            break;
         }
       }
       //req.getRequestDispatcher("/").forward(req, res);
     }
     //req.getRequestDispatcher("/").forward(req, res);
-  }
-
-  private void startModify(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
-    req.getRequestDispatcher("/WEB-INF/jsp/member/password_ok.jsp").forward(req, res);
   }
 
 
@@ -172,31 +174,46 @@ public class MemberController extends HttpServlet {
   //회원가입
   private void join(HttpServletRequest req, HttpServletResponse res)
           throws IOException, ServletException {
-    String email = req.getParameter("email");
+    String email = req.getParameter("emailHidden");
+    System.out.println("email:" + email);
     String password = req.getParameter("password");
     String name = req.getParameter("name");
     String phone = req.getParameter("phone");
     String nickname = req.getParameter("nickname");
     MemberService service = MemberService.getInstance();
+    int result = -1;
     if (email != null && password != null && name != null && phone != null && nickname != null) {
-      int result = service.join(email, password, name, phone, nickname);
+      result = service.join(email, password, name, phone, nickname);
       if (result != FAILURE) {
         Member member = service.getMember(email);
         HttpSession session = req.getSession();
         session.setAttribute("member", member);
       }
-      req.setAttribute("result", result);
-      req.getRequestDispatcher("/WEB-INF/jsp/member/join_message.jsp").forward(req, res);
+
     }
+    req.setAttribute("result", result);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/join_message.jsp").forward(req, res);
   }
 
   private void emailCheck(HttpServletRequest req, HttpServletResponse res)
           throws IOException, ServletException {
     String email = req.getParameter("email");
-    System.out.println("email: " + email);
     MemberService service = MemberService.getInstance();
     int valid = service.emailCheck(email);
-    System.out.println("valid: " + valid);
+    String json = "{\"valid\":" + valid + "}";
+    res.setContentType("application/json;charset=UTF-8");
+    res.setCharacterEncoding("UTF-8");
+    PrintWriter out = res.getWriter();
+    out.print(json);
+    out.flush();
+    out.close();
+  }
+
+  private void phoneCheck(HttpServletRequest req, HttpServletResponse res)
+          throws IOException, ServletException {
+    String phone = req.getParameter("phone");
+    MemberService service = MemberService.getInstance();
+    int valid = service.phoneCheck(phone);
     String json = "{\"valid\":" + valid + "}";
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
@@ -245,6 +262,15 @@ public class MemberController extends HttpServlet {
     }
   }
 
+  private void startModify(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/password_ok.jsp").forward(req, res);
+  }
+
+  private void modifyForm(HttpServletRequest req, HttpServletResponse res)
+          throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/jsp/member/modify.jsp").forward(req, res);
+  }
 
   private void modifyCheck(HttpServletRequest req, HttpServletResponse res)
           throws IOException, ServletException {
@@ -279,19 +305,22 @@ public class MemberController extends HttpServlet {
     out.close();
   }
 
-  private void authenticEmail(HttpServletRequest req, HttpServletResponse res)
+  private void authEmail(HttpServletRequest req, HttpServletResponse res)
           throws Exception {
     String email = req.getParameter("email");
-    MailService mailService = new MailService();
-    String code = mailService.sendEmail(email);
-    String json = "{\"code\":" + code + "}";
+    String code = null;
+    if (email != null) {
+      MailService mailService = new MailService();
+      code = mailService.sendEmail(email);
+    }
+
+    String json = "{\"code\":\"" + code + "\",\"email\":\"" + email + "\"}";
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
     PrintWriter out = res.getWriter();
     out.print(json);
     out.flush();
     out.close();
-
   }
 
   private void myPage(HttpServletRequest req, HttpServletResponse res)
@@ -303,6 +332,10 @@ public class MemberController extends HttpServlet {
       req.setAttribute("member", member);
     }
     req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
+
+    //String view = "my_page.jsp";
+    //RequestDispatcher rd = req.getRequestDispatcher(view);
+    //rd.forward(req, res);
   }
 
   //회원정보 수정
@@ -338,7 +371,6 @@ public class MemberController extends HttpServlet {
 
     req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
   }
-
 
   //회원 탈퇴
   private void withdraw(HttpServletRequest req, HttpServletResponse res)
