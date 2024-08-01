@@ -76,9 +76,31 @@ public class ReviewController extends HttpServlet {
         checkValid(req, res, boardPk);
       }
 
+      if (method[2].startsWith("write")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        System.out.println("boardPk: " + boardPk);
+        checkWrite(req, res, boardPk);
+      }
+
+      if (method[2].startsWith("dup")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        System.out.println("boardPk: " + boardPk);
+        checkDup(req, res, boardPk);
+      }
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
     }
+  }
+
+  private void checkDup(HttpServletRequest req, HttpServletResponse res, long boardPk) throws IOException {
+    System.out.println("너가 호출?");
+    PrintWriter out = res.getWriter();
+
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int result = bookService.getCancelBook(member.getSeq(), boardPk);
+    out.print("{\"result\":\"" + result + "\"}");
+    out.flush();
   }
 
 
@@ -100,8 +122,23 @@ public class ReviewController extends HttpServlet {
     }
   }
 
+  private void checkWrite(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
+    System.out.println("너가 호출?");
+    PrintWriter out = res.getWriter();
+    res.setContentType("application/json");
+    res.setCharacterEncoding("UTF-8");
+    /*
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int result = bookService.getCancelBook(member.getSeq(), boardPk);
+    System.out.println("Response content: {\"result\":\"" + result + "\"}");*/
+    //out.print("{\"result\":\"" + result + "\"}");
+    out.print("1");
+    out.flush();
+  }
+
+
   private void checkValid(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
-    Gson gson = new Gson();
     PrintWriter out = res.getWriter();
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");

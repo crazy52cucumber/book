@@ -17,3 +17,8 @@ export const checkValid = async (boardPk) => {
   const response = await $.get(`${SERVER_IP}/reviews/valid/${boardPk}`)
   return response;
 }
+
+export const checkWrite = async (boardPk) => {
+  const response = await $.get(`${SERVER_IP}/reviews/dup/${boardPk}`)
+  return response;
+}

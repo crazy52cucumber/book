@@ -44,7 +44,10 @@
 
 div[contenteditable="false"] {
     border: 1px solid black;
-    height: 100px;
+    min-height: 100px;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 15px;
 }
 
 .input-container {

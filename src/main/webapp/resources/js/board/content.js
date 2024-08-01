@@ -1,5 +1,5 @@
 import {modal} from "./modal.js";
-import {checkCookie, checkValid} from "./content-api.js";
+import {checkCookie, checkValid, checkWrite} from "./content-api.js";
 import {viewTarget} from "./infinity_scroll.js";
 import {drwaReview} from "./draw.js";
 import {getReviewsByBoardPk} from "./review/review-api.js";
@@ -30,6 +30,14 @@ $('section').on('click', '.review-btn', async (e) => {
     return;
   }
 
+  // 이미 달았는지 확인
+  //flag =
+  flag = await isWrite();
+  if (!flag) {
+    alert("이미 작성하셨습니다.")
+    return;
+  }
+
   // 요일이 지난거에만 리뷰가 작성되게끔,
   flag = await isValid();
   if (flag === -1) return;
@@ -38,13 +46,13 @@ $('section').on('click', '.review-btn', async (e) => {
     return;
   }
 
+
   location.href = `/reviews/write?seq=${boardPk}`
 })
 
 const isLogin = async () => {
   const data = await checkCookie();
   const obj = JSON.parse(data);
-  console.log("obj", obj)
   if (obj.result === '0') return false;
   else return true;
 }
@@ -52,7 +60,6 @@ const isLogin = async () => {
 const isValid = async () => {
   const data = await checkValid(boardPk);
   const obj = JSON.parse(data);
-  console.log(obj)
   if (obj.result === '-1') {
     alert("예약 신청이 안되어 있습니다.")
     return -1;
@@ -61,3 +68,10 @@ const isValid = async () => {
   else return true;
 }
 
+const isWrite = async () => {
+  const data = await checkWrite(boardPk);
+  const obj = JSON.parse(data);
+  console.log(data)
+  if (obj.result === '0') return false;
+  else return true;
+}
