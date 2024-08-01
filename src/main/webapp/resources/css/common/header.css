@@ -4,7 +4,6 @@ a {
 }
 
 header {
-    border: 1px solid rebeccapurple;
     box-sizing: border-box;
     height: 150px;
     max-width: 500px;
@@ -23,7 +22,6 @@ header .header-logo {
 }
 
 header > div:first-child {
-    border: 1px solid darkcyan;
 }
 
 header .search-form {

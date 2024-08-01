@@ -1,16 +1,13 @@
 main {
     max-width: 500px;
     width: 100%;
-    border: 1px solid violet;
     height: 175px;
 }
 
 section {
-    border: 1px solid goldenrod;
 }
 
 header {
-    border: 1px solid rebeccapurple;
     box-sizing: border-box;
     height: 70px;
     max-width: 500px;
@@ -107,7 +104,7 @@ ul {
 }
 
 li {
-    border: 1px dashed hotpink;
+    border: 1px solid black;
 }
 
 #allReviewBtn {
@@ -131,7 +128,6 @@ li {
 .review-card--header {
     display: flex;
     justify-content: space-between;
-    border: 1px dot-dash bisque;
 }
 
 .review-card--content {
@@ -179,6 +175,5 @@ li {
     width: 10rem;
     height: 3rem;
     background-color: #ccc8c8;
-    border: 1px solid #ccc8c8;
     opacity: 100%;
 }
