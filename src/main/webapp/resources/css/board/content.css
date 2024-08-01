@@ -1,10 +1,10 @@
 * {
     box-sizing: border-box;
-    font-family: "Jua", sans-serif;
+    font-family: "Noto Serif KR", "Jua", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
-
 
 main {
     max-width: 500px;
@@ -288,10 +288,8 @@ div[class^="review-card-"] {
 .book-container {
     position: fixed;
     bottom: 70px;
-    display: flex;
-    max-width: 500px;
-    width: 100%;
-    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #bookBtn, #cancelBtn {
