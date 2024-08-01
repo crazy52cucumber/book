@@ -410,7 +410,7 @@ public class MemberController extends HttpServlet {
 
   //내 리뷰리스트 불러오기
   private void myReviewList(HttpServletRequest req, HttpServletResponse res)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member loginMember = (Member) session.getAttribute("member");
     int member_seq = loginMember.getSeq();

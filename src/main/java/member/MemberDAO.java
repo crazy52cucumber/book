@@ -1,6 +1,11 @@
 package member;
 
-import static member.MemberSQL.*;
+import static member.MemberSQL.COUNT_MYBOOKING;
+import static member.MemberSQL.MODIFY_INFO;
+import static member.MemberSQL.MY_BOOKING;
+import static member.MemberSQL.MY_REVIEW;
+import static member.MemberSQL.RESERVED;
+import static member.MemberSQL.WITHDRAW;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
@@ -10,6 +15,7 @@ import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.GETMEMBER;
 import static member.util.MemberSQL.JOIN;
 import static member.util.MemberSQL.MODIFYPASSWORD;
+import static member.util.MemberSQL.MYREVIEW;
 import static member.util.MemberSQL.PASSWORDMATCH;
 import static member.util.MemberSQL.PHONECHECK;
 import static member.util.SignupConst.ERROR;
@@ -27,7 +33,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class MemberDAO extends BaseDAO {
 
@@ -346,7 +354,7 @@ class MemberDAO extends BaseDAO {
         int valid = rs.getInt("valid");
 
         reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject,
-                content, bookLimit, valid);
+            content, bookLimit, valid);
         myReservedList.add(reservedBoard);
       }
       return myReservedList;
@@ -362,8 +370,7 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-
-  int modify(String email, String password) {
+  int modify(String email, String password){
     Connection con = null;
     PreparedStatement ps = null;
     String hashedPassword = encode(password);
@@ -371,9 +378,9 @@ class MemberDAO extends BaseDAO {
       con = getConnection();
       ps = con.prepareStatement(MODIFYPASSWORD);
       ps.setString(1, hashedPassword);
-      ps.setString(2, email);
+      ps.setString(2,email);
       return ps.executeUpdate();
-    } catch (SQLException se) {
+    }catch (SQLException se){
       System.out.println("[memberDAO] modify: Error: ]" + se.getMessage());
     }
     return FAILURE;
