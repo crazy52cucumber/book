@@ -46,6 +46,6 @@
 </main>
 </body>
 <script>
-  location.href="/main?m=list";
+    
 </script>
 </html>

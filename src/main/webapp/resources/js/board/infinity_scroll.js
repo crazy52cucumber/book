@@ -5,7 +5,7 @@ import {closeModal, modal} from "./modal.js";
 
 const paging = {
   startNum: 0,
-  count   : 0
+  count: 0
 }
 let boardPk = 0;
 
