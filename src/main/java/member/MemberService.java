@@ -2,7 +2,7 @@ package member;
 
 import domain.Board;
 import domain.Member;
-import domain.Reply;
+import domain.Review;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -30,8 +30,8 @@ public class MemberService {
     return dao.withdraw(seq);
   }
 
-  public ArrayList<Reply> myReplyListS(int member_seq) {
-    return dao.myReplyList(member_seq);
+  public ArrayList<Review> myReviewListS(int member_seq) {
+    return dao.myReviewList(member_seq);
   }
 
   public ArrayList<Board> myBookingListS(int member_seq) {
@@ -55,7 +55,7 @@ public class MemberService {
   }
 
   public int emailCheck(String email, String name) {
-    return dao.emailCheck(email , name);
+    return dao.emailCheck(email, name);
   }
 
   public int phoneCheck(String phone) {
@@ -69,4 +69,5 @@ public class MemberService {
   public Member getMemberByEmail(String email, String name) {
     return dao.getMemberByEmail(email, name);
   }
+
 }

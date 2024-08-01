@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
       * {
           text-decoration: none;
           text-align: center;
+          justify-content: center;
       }
 
       #container {
           display: flex;
-          justify-content: center;
           width: 100%;
           height: 100%;
       }
@@ -26,17 +28,23 @@
           margin-top: 50px;
       }
 
-      #userInfo {
-          background-color: salmon;
+      .content {
           display: flex;
-          margin-top: 50px;
-          margin-bottom: 50px;
+          align-items: center;
+          background-color: skyblue;
           width: 400px;
           height: 150px;
+          border-radius: 10px;
       }
 
-      #infoWindow {
+      #userInfo {
           background-color: seagreen;
+          margin-top: 50px;
+          margin-bottom: 50px;
+      }
+
+
+      #infoWindow {
           width: 300px;
           display: flex;
           flex-direction: column;
@@ -44,71 +52,71 @@
 
       #infoWindow > div {
           display: flex;
-          height: 150px;
+          height: 75px;
           align-items: center;
-          border: 1px solid black;
+          justify-content: left;
+          margin-left: 50px;
+          font-size: larger;
       }
 
       #ebtn {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: teal;
           height: 150px;
           width: 100px;
       }
 
-      #book {
-          background-color: skyblue;
-          width: 400px;
-          height: 150px;
+      #btn {
+          border-radius: 30px;
+          width: 50px;
+          height: 50px;
+      }
+
+      a {
           margin-bottom: 50px;
-      }
-
-      #book > a {
-          background-color: cadetblue;
-      }
-
-
-      #review {
-          background-color: skyblue;
-          width: 400px;
-          height: 150px;
-          margin-bottom: 50px;
-      }
-
-      #review > a {
-          background-color: cadetblue;
       }
 
 
   </style>
+
+
 </head>
 <body>
 <div id="container">
   <div id="layout">
-    <div id="userInfo">
+    <div id="userInfo" class="content">
       <div id="infoWindow">
-        <div>닉네임</div>
-        <div>이메일</div>
+        <div>${member.nickname}</div>
+        <div>${member.email}</div>
       </div>
       <div id="ebtn">
-        <input type="button" value="편집">
+        <input id="btn" type="button" value="편집"/>
       </div>
-
     </div>
-    <a href="">
-      <div id="book">
-        <div>나의 예약현황</div>
+
+    <script>
+      $(function () {
+        $("#btn").click(function () {
+          window.location.href = 'member.do?method=startModify';
+        });
+      });
+    </script>
+
+
+    <a href="member.do?method=myBookingList">
+      <div class="content">
+        <p>나의 예약현황</p>
       </div>
     </a>
-    <a href="">
-      <div id="review">
-        <div>나의 리뷰</div>
+    <a href="member.do?method=myReviewList">
+      <div class="content">
+        <p>나의 리뷰</p>
       </div>
     </a>
   </div>
 </div>
+
 
 </body>
 </html>
