@@ -2,11 +2,13 @@ package board;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.sql.Date;
 
 @Builder
 @Getter
+@ToString
 public class BoardResponseDTO {
   private int boardSeq;
   private String academyName;

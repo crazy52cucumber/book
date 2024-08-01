@@ -52,12 +52,15 @@ public class ReviewController extends HttpServlet {
       }
 
       if (method[2].startsWith("add")) {
-        moveToWrite(req, res);
+        String boardPkParam = req.getParameter("seq");
+        long boardPk = 0L;
+        if (boardPkParam != null) boardPk = Long.parseLong(boardPkParam);
+        moveToWrite(req, res, boardPk);
       }
 
       if (method[2].startsWith("update")) {
         long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-        moveUpdateReviewPage(req, res, reviewPk);
+        moveToUpdateReviewPage(req, res, reviewPk);
       }
 
       if (method[2].startsWith("remove")) {
@@ -75,12 +78,6 @@ public class ReviewController extends HttpServlet {
         checkValid(req, res, boardPk);
       }
 
-      if (method[2].startsWith("write")) {
-        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-        System.out.println("boardPk: " + boardPk);
-        checkWrite(req, res, boardPk);
-      }
-
       if (method[2].startsWith("dup")) {
         long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         System.out.println("boardPk: " + boardPk);
@@ -96,6 +93,7 @@ public class ReviewController extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String uri = req.getRequestURI();
     String[] method = uri.split("/");
+    System.out.println("uri: " + uri);
     try {
       long pk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
       if (method[2].startsWith("all"))
@@ -112,30 +110,21 @@ public class ReviewController extends HttpServlet {
 
   private void checkDup(HttpServletRequest req, HttpServletResponse res, long boardPk) throws IOException {
     PrintWriter out = res.getWriter();
-
     HttpSession session = req.getSession(false);
     Member member = (Member) session.getAttribute("member");
-    int bookUser = bookService.getBookUser(member.getSeq(), boardPk);
-    if (bookUser == -1) {
+    int bookPk = bookService.getBookUserWriteBySuwan(member.getSeq(), boardPk);
+    int result = 0;
+    System.out.println("result=> " + bookPk);
+    if (bookPk == -1) {
+      // 예약 안했으니 글 못씀
+      result = bookPk;
+    } else {
+      // 예약 했어
+      int reviewPk = reviewService.getReviewPkByMemberPk(bookPk, member.getSeq());
+      System.out.println("reviewPk => " + reviewPk);
+      result = reviewPk;
     }
-    System.out.println("result=> " + bookUser);
-    out.print("{\"result\":\"" + bookUser + "\"}");
-    out.flush();
-  }
-
-
-  private void checkWrite(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
-    System.out.println("너가 호출?");
-    PrintWriter out = res.getWriter();
-    res.setContentType("application/json");
-    res.setCharacterEncoding("UTF-8");
-    /*
-    HttpSession session = req.getSession(false);
-    Member member = (Member) session.getAttribute("member");
-    int result = bookService.getCancelBook(member.getSeq(), boardPk);
-    System.out.println("Response content: {\"result\":\"" + result + "\"}");*/
-    //out.print("{\"result\":\"" + result + "\"}");
-    out.print("1");
+    out.print("{\"result\":\"" + result + "\"}");
     out.flush();
   }
 
@@ -206,14 +195,17 @@ public class ReviewController extends HttpServlet {
     out.print(gson.toJson(dto));
   }
 
-  private void moveUpdateReviewPage(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+  private void moveToUpdateReviewPage(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
     ReviewResponseDTO dto = reviewService.getReviewByReviewPk(reviewPk);
     req.setAttribute("dto", dto);
     req.getRequestDispatcher("/WEB-INF/jsp/board/review_update.jsp").forward(req, res);
   }
 
 
-  private void moveToWrite(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+  private void moveToWrite(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
+    BoardResponseDTO board = boardService.getBoardByBoardPk(boardPk);
+    req.setAttribute("board", board);
+    System.out.println("board => " + board);
     req.getRequestDispatcher("/WEB-INF/jsp/board/review_write.jsp").forward(req, res);
   }
 

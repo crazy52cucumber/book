@@ -14,4 +14,9 @@ public class ReviewResponseDTO {
   private int rate, count;
   private String nickname, title, grade, pros, cons, features, wishes;
   private Date cdate;
+
+  public void setCdate(Date cdate) {
+    this.cdate = cdate;
+  }
+
 }

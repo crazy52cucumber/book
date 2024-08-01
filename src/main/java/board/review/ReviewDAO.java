@@ -217,4 +217,25 @@ public class ReviewDAO extends BaseDAO {
     }
     return result;
   }
+
+  public int selectReviewPkByMemberPk(long bookSeq, long bookUser) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    int result = 0;
+    String sql = "select review_seq from review where book_seq = ? and member_seq = ?";
+
+    try {
+      pstmt = con.prepareStatement(sql);
+      pstmt.setLong(1, bookSeq);
+      pstmt.setLong(2, bookUser);
+
+      rs = pstmt.executeQuery();
+      if (rs.next()) result = rs.getInt("review_seq");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeAll(rs, pstmt);
+    }
+    return result;
+  }
 }

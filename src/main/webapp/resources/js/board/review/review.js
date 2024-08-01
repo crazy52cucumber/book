@@ -48,13 +48,13 @@ $('#submitBtn').click(async (e) => {
     location.href = `${SERVER_IP}/board?seq=${boardPk}`
   } else {
     const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
-    data = await updateReviewByReviewPk(reviewPk, object);
+    data = await updateReviewByReviewPk(boardPk, reviewPk, object);
     let jsonData = JSON.parse(data);
     if (jsonData.result === "0") {
       alert("수정이 안됐습니다.")
       return;
     }
-    location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
+    //location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
   }
 })
 

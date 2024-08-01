@@ -9,12 +9,19 @@
   <script type="module" defer src="${pageContext.request.contextPath}/resources/js/board/content.js"></script>
   <script type="module" defer src="${pageContext.request.contextPath}/resources/js/board/review/review.js"></script>
   <script type="module" defer src="${pageContext.request.contextPath}/resources/js/board/book/book.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 </head>
 <body>
 <main>
   <header>
     <div class="header-logo">
-      <a href="/">보령엄마</a>
+      <div>
+        <a href="/"> <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt=""></a>
+        <p>강남땃쥐</p>
+      </div>
       <c:choose>
         <c:when test="${empty member}">
           <a href="<c:url value='/member/member.do?method=login'/>">로그인하기</a>
