@@ -14,5 +14,9 @@ class MemberSQL {
   final static String MY_BOOKING
           = "select * from BOARD b1 join BOOK b2 on b1.BOARD_SEQ = b2.BOARD_SEQ where MEMBER_SEQ= ?";
 
+  static final String RESERVED = "select LDATE from BOARD b1 join BOOK b2 on b1.BOARD_SEQ = b2.BOARD_SEQ where MEMBER_SEQ= ?";
+
   public static final String EMAILNAME = "select * from MEMBER where EMAIL = ? and NAME = ? and VALID=0";
+
+
 }
