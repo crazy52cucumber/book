@@ -42,7 +42,6 @@ header {
     }
 }
 
-
 /*유리*/
 .academy-container {
     margin-top: 70px;
@@ -53,11 +52,16 @@ header {
     padding: 15px;
 }
 
+.item-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 .content {
     display: flex;
 }
 
-.content-info > p {
+.content-info p {
     font-size: 13px;
     color: gray;
 }
@@ -65,6 +69,7 @@ header {
 .academy-score {
     display: flex;
     flex-flow: row wrap;
+    margin-bottom: 25px;
 }
 
 .review {
@@ -76,6 +81,10 @@ header {
     width: 115px;
 }
 
+.menu p {
+    margin-left: 3px;
+}
+
 .button {
     color: red;
     border: 1px;
@@ -84,8 +93,7 @@ header {
 }
 
 .info-container {
-    padding: 10px;
-    margin-top: 30px;
+    padding: 15px;
 }
 
 .info-container > div {
@@ -99,8 +107,36 @@ header {
     justify-content: space-between;
 }
 
-.info-item > div:first-child {
+.info-item div:first-child {
     display: flex;
+}
+
+.info-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.info-wrapper img {
+    margin-right: 10px;
+}
+
+.info-wrapper p {
+    margin: 0;;
+    font-weight: bold;
+}
+
+.academy-content {
+    margin-top: 15px;
+}
+
+.hb-img {
+    width: 100px;
+    height: 100px;;
+}
+
+.content {
+    padding: 10px;
 }
 
 /*수완*/
@@ -185,5 +221,6 @@ li {
     width: 10rem;
     height: 3rem;
     background-color: #ccc8c8;
+    border: 1px solid #ccc8c8;
     opacity: 100%;
 }

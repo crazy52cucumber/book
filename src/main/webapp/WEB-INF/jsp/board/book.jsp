@@ -5,7 +5,6 @@
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd"/>
 <fmt:formatDate var="lDate" value="${info.dto.ldate}" pattern="yyyy-MM-dd"/>
-<%--<c:set var="member" value="${member}"/>--%>
 
 <body>
 <div class="book-container">

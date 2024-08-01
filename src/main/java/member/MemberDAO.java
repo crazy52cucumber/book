@@ -1,10 +1,6 @@
 package member;
 
-import static member.MemberSQL.MODIFY_INFO;
-import static member.MemberSQL.MY_BOOKING;
-import static member.MemberSQL.MY_REVIEW;
-import static member.MemberSQL.RESERVED;
-import static member.MemberSQL.WITHDRAW;
+import static member.MemberSQL.*;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
@@ -24,12 +20,14 @@ import dbutil.BaseDAO;
 import domain.Board;
 import domain.Member;
 import domain.Review;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 class MemberDAO extends BaseDAO {
 
@@ -321,7 +319,8 @@ class MemberDAO extends BaseDAO {
   }
 
 
-  Board reserved(int memberSeq) {
+  List<Board> reserved(int memberSeq) {
+    List<Board> myReservedList = new ArrayList();
     Connection con = null;
     PreparedStatement pstmt = null;
     String sql = RESERVED;
@@ -332,7 +331,7 @@ class MemberDAO extends BaseDAO {
       pstmt.setInt(1, memberSeq);
       rs = pstmt.executeQuery();
       Board reservedBoard = null;
-      if (rs.next()) {
+      while (rs.next()) {
 
         int boardSeq = rs.getInt("board_seq");
         String academyName = rs.getString("academy_name");
@@ -347,9 +346,10 @@ class MemberDAO extends BaseDAO {
         int valid = rs.getInt("valid");
 
         reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject,
-            content, bookLimit, valid);
+                content, bookLimit, valid);
+        myReservedList.add(reservedBoard);
       }
-      return reservedBoard;
+      return myReservedList;
     } catch (SQLException se) {
       System.out.println("Error: " + se.getMessage());
     } finally {
@@ -362,7 +362,8 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-  int modify(String email, String password){
+
+  int modify(String email, String password) {
     Connection con = null;
     PreparedStatement ps = null;
     String hashedPassword = encode(password);
@@ -370,11 +371,42 @@ class MemberDAO extends BaseDAO {
       con = getConnection();
       ps = con.prepareStatement(MODIFYPASSWORD);
       ps.setString(1, hashedPassword);
-      ps.setString(2,email);
+      ps.setString(2, email);
       return ps.executeUpdate();
-    }catch (SQLException se){
+    } catch (SQLException se) {
       System.out.println("[memberDAO] modify: Error: ]" + se.getMessage());
     }
     return FAILURE;
+  }
+
+  public int countMyBooking(int memberSeq) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    String sql = COUNT_MYBOOKING;
+    ResultSet rs = null;
+    int count = 0;
+    try {
+      con = getConnection();
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, memberSeq);
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+        count = rs.getInt(1);
+        //System.out.println(count);
+      }
+      return count;
+    } catch (SQLException se) {
+
+    }
+    return 0;
+  }
+
+  public int getRate(int memberSeq) {
+    return 0;
+  }
+
+  public int getReview(int memberSeq) {
+    return 0;
   }
 }
