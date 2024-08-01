@@ -3,11 +3,15 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-  <title>Title</title>
+  <title>강남땃쥐</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <jsp:include page="/WEB-INF/jsp/inc/header_link.jsp"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/index.css"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -45,10 +49,4 @@
 
 </main>
 </body>
-<<<<<<< HEAD
-<script>
-
-</script>
-=======
->>>>>>> 557f0fbf65044d42ed0fb232b274c6a286d16409
 </html>

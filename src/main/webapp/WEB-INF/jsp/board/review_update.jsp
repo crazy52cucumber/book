@@ -19,7 +19,7 @@
     <c:otherwise>
       <header>
         <div class="header-logo">
-          <a href="/">보령엄마</a>
+          <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt="">
           <a href="/member/member.do?method=myPage">${member.nickname}</a>
         </div>
       </header>

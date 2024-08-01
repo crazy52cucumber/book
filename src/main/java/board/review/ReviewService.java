@@ -1,7 +1,9 @@
 package board.review;
 
+import board.util.DateTimeUtil;
 import book.BookDAO;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class ReviewService {
@@ -20,6 +22,10 @@ public class ReviewService {
 
   public ResponseDTO<ReviewResponseDTO> getReviewsByBoardPk(long boardPk) {
     List<ReviewResponseDTO> dto = reviewDAO.selectReviewsByBoardPk(boardPk).orElseThrow();
+    System.out.println("dto = " + dto);
+    for (ReviewResponseDTO dto1 : dto) {
+      String format = DateTimeUtil.sdf.format(dto1.getCdate());
+    }
     int count = getCountbyBoardPk(boardPk);
     double average = reviewDAO.selectAllRateByBoardPk(boardPk);
     return new ResponseDTO(dto, count, average);

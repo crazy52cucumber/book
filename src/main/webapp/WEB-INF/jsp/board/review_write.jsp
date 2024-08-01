@@ -12,7 +12,7 @@
   <header>
 
     <div class="header-logo">
-      <a href="/">보령엄마</a>
+      <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt="">
       <c:choose>
         <c:when test="${empty member}">
           <a href="<c:url value='/member/member.do?method=login'/>">로그인하기</a>

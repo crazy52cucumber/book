@@ -1,11 +1,12 @@
 export const drwaReview = (obj) => {
   let html = '';
   for (let item of obj) {
+    console.log(item)
     html += `<li>`
     html += `<a href="javascript:void(0)" data-writer="${item.memberSeq}">`
     html += `<div class="review-card-${item.reviewSeq}">`
     html += `<div class="review-card--header">`
-    html += `<div>`
+    html += `<div class="review-item">`
     html += `<img src="/resources/imgs/별.png" alt="">`
     html += `<span class="rate">${item.rate}</span>`
     html += `</div>`
