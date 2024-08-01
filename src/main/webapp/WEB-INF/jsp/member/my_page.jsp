@@ -5,6 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <jsp:include page="/WEB-INF/jsp/inc/header_link.jsp"/>
   <style>
       * {
           text-decoration: none;
@@ -14,18 +15,11 @@
 
       #container {
           display: flex;
-          width: 100%;
-          height: 100%;
-      }
-
-      #layout {
-          display: flex;
           flex-direction: column;
           align-items: center;
-          background-color: bisque;
-          width: 500px;
-          height: 650px;
-          margin-top: 50px;
+          margin: 50px auto;
+          max-width: 500px;
+          width: 100%;
       }
 
       .content {
@@ -84,37 +78,35 @@
 </head>
 <body>
 <div id="container">
-  <div id="layout">
-    <div id="userInfo" class="content">
-      <div id="infoWindow">
-        <div>${member.nickname}</div>
-        <div>${member.email}</div>
-      </div>
-      <div id="ebtn">
-        <input id="btn" type="button" value="편집"/>
-      </div>
+  <div id="userInfo" class="content">
+    <div id="infoWindow">
+      <div>${member.nickname}</div>
+      <div>${member.email}</div>
     </div>
-
-    <script>
-      $(function () {
-        $("#btn").click(function () {
-          window.location.href = 'member.do?method=startModify';
-        });
-      });
-    </script>
-
-
-    <a href="member.do?method=myBookingList">
-      <div class="content">
-        <p>나의 예약현황</p>
-      </div>
-    </a>
-    <a href="member.do?method=myReviewList">
-      <div class="content">
-        <p>나의 리뷰</p>
-      </div>
-    </a>
+    <div id="ebtn">
+      <input id="btn" type="button" value="편집"/>
+    </div>
   </div>
+
+  <script>
+    $(function () {
+      $("#btn").click(function () {
+        window.location.href = 'member.do?method=startModify';
+      });
+    });
+  </script>
+
+
+  <a href="member.do?method=myBookingList">
+    <div class="content">
+      <p>나의 예약현황</p>
+    </div>
+  </a>
+  <a href="member.do?method=myReviewList">
+    <div class="content">
+      <p>나의 리뷰</p>
+    </div>
+  </a>
 </div>
 <a href="/member/member.do?method=logout">로그아웃</a>
 
