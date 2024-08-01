@@ -13,7 +13,7 @@
     <c:when test="${empty member}">
       <script>
         alert("로그인해")
-        history.back()
+        history.go(-1)
       </script>
     </c:when>
     <c:otherwise>

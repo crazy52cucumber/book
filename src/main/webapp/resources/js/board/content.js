@@ -29,6 +29,10 @@ $('section').on('click', '.review-btn', async (e) => {
     alert("로그인 후 이용 가능합니다.")
     return;
   }
+
+  // 요일이 지난거에만 리뷰가 작성되게끔,
+
+
   location.href = `/reviews/write?seq=${boardPk}`
 })
 
@@ -38,3 +42,11 @@ const isLogin = async () => {
   if (obj.result === '0') return false;
   else return true;
 }
+
+const isLogin = async () => {
+  const data = await checkCookie();
+  const obj = JSON.parse(data);
+  if (obj.result === '0') return false;
+  else return true;
+}
+

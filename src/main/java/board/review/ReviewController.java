@@ -85,8 +85,13 @@ public class ReviewController extends HttpServlet {
   }
 
   private void removeReviewByReviewPk(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+    HttpSession session = req.getSession();
+    Member member = (Member) session.getAttribute("member");
     PrintWriter out = res.getWriter();
-    int result = reviewService.removeReviewByReviewPk(reviewPk);
+    int result = 0;
+    if (member != null) {
+      result = reviewService.removeReviewByReviewPk(reviewPk);
+    }
     out.print("{\"result\":\"" + result + "\"}");
   }
 

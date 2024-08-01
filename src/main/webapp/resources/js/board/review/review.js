@@ -90,8 +90,10 @@ $('#updateBtn').click(async (e) => {
 $('#deleteBtn').click(async e => {
   const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
   const response = await $.get(`${SERVER_IP}/reviews/remove/${reviewPk}`);
-  console.log(response)
-  location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
+  const obj = JSON.parse(response);
+  if (obj === '1')
+    location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
+  else history.go(-1);
 })
 
 const isLogin = async () => {
