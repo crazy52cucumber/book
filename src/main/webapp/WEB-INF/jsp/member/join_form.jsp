@@ -13,6 +13,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
           integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       html, body {
         height: 100vh;
@@ -89,7 +90,6 @@
 <body>
 <main>
     <form name="join-form" action="/member/member.do?method=join" method="post">
-        <div id="liveAlertPlaceholder"></div>
         <div class="form-floating input-group mb-3">
             <input type="email" id="email" name="email" class="form-control"
                    aria-label="Text input with dropdown button" placeholder="name@example.com"
@@ -426,10 +426,10 @@
       success: (data) => {
         if (data.valid === 0) {
           document.querySelector('.duplicated-email').classList.remove('hide');
-          // email.classList.add('is-invalid')
+          email.classList.add('is-invalid')
         } else {
           document.querySelector('.duplicated-email').classList.add('hide');
-          // email.classList.remove('is-invalid')
+          email.classList.remove('is-invalid')
         }
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -482,7 +482,6 @@
       type: 'POST',
       data: {email: $('#email').val()},
       success: (data) => {
-        alert(data.code)
         $('#email').on('keyup', () => {
           document.getElementById('emailHidden').value = data.email;
           auth(data.code, data.email)
@@ -522,42 +521,56 @@
     })
   }
 
-  const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-  const appendAlert = (message, type) => {
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = [
-      '<div class="alert alert-primary alert-dismissible" role="alert">',
-      '   <div>인증번호를 보냈습니다</div>',
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>'
-    ].join('')
+function success(){
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'center-center',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
 
-    alertPlaceholder.append(wrapper)
+  Toast.fire({
+    icon: 'success',
+    title: '인증번호가 정상적으로 보내졌습니다 :)'
+  })
+}
+
+  function fail(){
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'center-center',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'error',
+      title: '이메일을 다시 확인해주세요'
+    })
   }
 
-  const appendAlertReverse = (message, type) => {
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = [
-      '<div class="alert alert-danger alert-dismissible" role="alert">',
-      '   <div>알맞은 이메일을 입력해주세요</div>',
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>'
-    ].join('')
-
-    alertPlaceholder.append(wrapper)
-  }
 
   document.getElementById('authSendBtn').addEventListener('click', () => {
+
     const isEmailValid = validateEmail(emailInput.value);
     const isEmailDuplicated = document.querySelector('.duplicated-email').classList.contains(
         'hide');
     if (isEmailValid && isEmailDuplicated) {
       document.getElementById('emailHidden').value
-      appendAlert('message', 'success');
+      success();
       authenticEmail();
     } else {
-      appendAlertReverse('message', 'fail')
-
+      fail();
     }
   })
 
