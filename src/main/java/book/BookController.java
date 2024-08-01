@@ -28,7 +28,7 @@ public class BookController extends HttpServlet {
         HttpSession session = req.getSession(false);
         Member member = (Member) session.getAttribute("member");
         req.setAttribute("member", member);
-        
+
         if (member != null) {
             memberPk = member.getSeq();
         }
@@ -36,7 +36,6 @@ public class BookController extends HttpServlet {
             long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
             int bookOk = bookService.getBookUser(memberPk, boardPk);
             int cancelOk = bookService.getCancelBook(memberPk, boardPk);
-
             //신규예약
             if (cancelOk == BookConst.LOGIN_NO) {
                 result = bookService.insertBook(memberPk, boardPk);

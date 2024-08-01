@@ -14,8 +14,10 @@
 
         <div class='academy-score'>
             <div class='menu'>
-                <p> ${info.avg} </p>
-                <img src='${pageContext.request.contextPath}/resources/imgs/star.png'/>
+                <div class="menu-wrapper">
+                    <p> ${info.avg} </p>
+                    <img src='${pageContext.request.contextPath}/resources/imgs/star.png'/>
+                </div>
             </div>
             <div class='menu'>
                 <p> ${info.cnt} </p>
@@ -31,38 +33,38 @@
     <div class='info-container'>
         <h5> 정보 </h5>
         <div class='info-item'>
-            <div>
+            <div class='info-wrapper'>
                 <img src='${pageContext.request.contextPath}/resources/imgs/map.png'/>
                 <p> 주소
             </div>
-            <div>
+            <div class='info-wrapper'>
                 <p> ${info.dto.addr} </p>
             </div>
         </div>
         <div class='info-item'>
-            <div>
+            <div class='info-wrapper'>
                 <img src='${pageContext.request.contextPath}/resources/imgs/addr.png'/>
                 <p> 설립 </p>
             </div>
-            <div>
+            <div class='info-wrapper'>
                 <p> ${info.dto.edate} </p>
             </div>
         </div>
         <div class='info-item'>
-            <div>
+            <div class='info-wrapper'>
                 <img src='${pageContext.request.contextPath}/resources/imgs/school.png'/>
                 <p> 학년 </p>
             </div>
-            <div>
+            <div class='info-wrapper'>
                 <p> ${info.dto.grade} </p>
             </div>
         </div>
         <div class='info-item'>
-            <div>
+            <div class='info-wrapper'>
                 <img src='${pageContext.request.contextPath}/resources/imgs/subject.png'/>
                 <p> 과목 </p>
             </div>
-            <div>
+            <div class='info-wrapper'>
                 <p> ${info.dto.subject} </p>
             </div>
         </div>
