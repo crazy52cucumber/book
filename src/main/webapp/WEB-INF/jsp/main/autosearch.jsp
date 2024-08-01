@@ -19,7 +19,7 @@
             source : function( request, response ) {
                 $.ajax({
                     type: 'post',
-                    url: "?m=search",
+                    url: "search?m=autocomplete",
                     dataType: "json",
                     data: {acd_name : $("#academy_name").val()},
                     success: function(data) {
@@ -40,14 +40,36 @@
             },
             //조회를 위한 최소글자수
             minLength: 1,
-            select: function( event, ui ) {
-                // 만약 검색리스트에서 선택하였을때 선택한 데이터에 의한 이벤트발생
-                alert("선택된 아이템: " + ui.item.value);
+            select: function(target) {
+                const selected = document.getElementById("academy_name");
+                selected.innerText = target.innerText;
+
             }
         });
     })
+    $(function search(target){
+        $.ajax({
+            type: 'GET',
+            dataType: 'JSON',
+            url: "search?m=search",
+            date: {acd_name : $("#academy_name").val()},
+            error: function(err){
+                console.log(err);
+            },
+            success: function(data){
+                var checkWord = $("#academy_name").val();
+                console.log(checkWord);
+
+            }
+        })
+    });
+
+
+
 </script>
 
 <body onload="$('#academy_name').focus()">
-    <input id = "academy_name" name = "academy_name" class="search-bar" type="text" placeholder="학원을 검색해주세요." size="200px">
+<form name="search-form" action="search?m=search" method="post">
+   <input id = "academy_name" name = "acd_name" class="search-bar" type="search" placeholder="학원을 검색해주세요." size="50px">
+</form>
 </body>
