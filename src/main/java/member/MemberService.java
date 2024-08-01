@@ -5,6 +5,7 @@ import domain.Member;
 import domain.Review;
 import lombok.Getter;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class MemberService {
@@ -69,7 +70,13 @@ public class MemberService {
   public Member getMemberByEmail(String email, String name) {
     return dao.getMemberByEmail(email, name);
   }
+
+
+  public Board reservedS(int memberSeq) {
+    return dao.reserved(memberSeq);
+
   public int modify(String email, String password){
     return dao.modify(email, password);
+
   }
 }

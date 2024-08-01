@@ -91,6 +91,14 @@ public class MemberController extends HttpServlet {
             myBookingList(req, res);
             break;
 
+          case "reserved1":
+            reserved1(req, res);
+            break;
+
+          case "reserved2":
+            reserved2(req, res);
+            break;
+
           case "myPage":
             myPage(req, res);
             break;
@@ -135,6 +143,80 @@ public class MemberController extends HttpServlet {
       //req.getRequestDispatcher("/").forward(req, res);
     }
     //req.getRequestDispatcher("/").forward(req, res);
+  }
+
+  private void reserved1(HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+
+    String addressJson = "";
+    if (member_seq != -1) {
+      MemberService service = MemberService.getInstance();
+      Board reservedboard = service.reservedS(member_seq);
+      Date lDate = reservedboard.getlDate();
+      if (lDate != null) {
+        if (lDate.getTime() > System.currentTimeMillis()) {
+          addressJson
+                  = "{\"board_seq\":" + reservedboard.getBoard_seq()
+                  + ", \"academy_name\":\"" + reservedboard.getAcademy_name()
+                  + "\", \"addr\":\"" + reservedboard.getAddr()
+                  + "\", \"phone\":\"" + reservedboard.getPhone_num()
+                  + "\", \"addr\":\"" + reservedboard.getAddr()
+                  + "\", \"eDate\":\"" + reservedboard.geteDate()
+                  + "\", \"lDate\":\"" + reservedboard.getlDate()
+                  + "\", \"grade\":\"" + reservedboard.getGrade()
+                  + "\", \"subject\":\"" + reservedboard.getSubject()
+                  + "\", \"content\":\"" + reservedboard.getContent()
+                  + "\", \"bookLimit\":\"" + reservedboard.getBook_limit()
+                  + "\", \"valid\":\"" + reservedboard.getValid()
+                  + "\"}";
+        }
+      }
+    }
+    try {
+      res.setContentType("application/json:charset=utf-8");
+      PrintWriter pw = res.getWriter();
+      pw.print(addressJson);
+    } catch (IOException ie) {
+    }
+  }
+
+  private void reserved2(HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+
+    String addressJson = "";
+    if (member_seq != -1) {
+      MemberService service = MemberService.getInstance();
+      Board reservedboard = service.reservedS(member_seq);
+      Date lDate = reservedboard.getlDate();
+      if (lDate != null) {
+        if (lDate.getTime() < System.currentTimeMillis()) {
+          addressJson
+                  = "{\"board_seq\":" + reservedboard.getBoard_seq()
+                  + ", \"academy_name\":\"" + reservedboard.getAcademy_name()
+                  + "\", \"addr\":\"" + reservedboard.getAddr()
+                  + "\", \"phone\":\"" + reservedboard.getPhone_num()
+                  + "\", \"addr\":\"" + reservedboard.getAddr()
+                  + "\", \"eDate\":\"" + reservedboard.geteDate()
+                  + "\", \"lDate\":\"" + reservedboard.getlDate()
+                  + "\", \"grade\":\"" + reservedboard.getGrade()
+                  + "\", \"subject\":\"" + reservedboard.getSubject()
+                  + "\", \"content\":\"" + reservedboard.getContent()
+                  + "\", \"bookLimit\":\"" + reservedboard.getBook_limit()
+                  + "\", \"valid\":\"" + reservedboard.getValid()
+                  + "\"}";
+        }
+      }
+    }
+    try {
+      res.setContentType("application/json:charset=utf-8");
+      PrintWriter pw = res.getWriter();
+      pw.print(addressJson);
+    } catch (IOException ie) {
+    }
   }
 
 

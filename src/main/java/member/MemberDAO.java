@@ -59,14 +59,14 @@ class MemberDAO extends BaseDAO {
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
-            .seq(rs.getInt("member_seq"))
-            .email(rs.getString("email"))
-            .name(rs.getString("name"))
-            .phone(rs.getString("phone"))
-            .nickname(rs.getString("nickname"))
-            .rdate(rs.getDate("rdate"))
-            .user_type(rs.getByte("user_type"))
-            .valid(rs.getByte("valid")).build();
+                .seq(rs.getInt("member_seq"))
+                .email(rs.getString("email"))
+                .name(rs.getString("name"))
+                .phone(rs.getString("phone"))
+                .nickname(rs.getString("nickname"))
+                .rdate(rs.getDate("rdate"))
+                .user_type(rs.getByte("user_type"))
+                .valid(rs.getByte("valid")).build();
       }
       return member;
     } catch (SQLException se) {
@@ -100,19 +100,20 @@ class MemberDAO extends BaseDAO {
       return FAILURE;
     }
   }
+
   int emailCheck(String email, String name) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
       con = getConnection();
-      if(name ==null){
+      if (name == null) {
         ps = con.prepareStatement(EMAILCHECK);
         ps.setString(1, email);
-      }else {
+      } else {
         ps = con.prepareStatement(EMAILNAMECHECK);
         ps.setString(1, email);
-        ps.setString(2,name);
+        ps.setString(2, name);
       }
       rs = ps.executeQuery();
       if (rs.next()) {
@@ -123,14 +124,15 @@ class MemberDAO extends BaseDAO {
     }
     return FAILURE;
   }
+
   int phoneCheck(String phone) {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
       con = getConnection();
-        ps = con.prepareStatement(PHONECHECK);
-        ps.setString(1, phone);
+      ps = con.prepareStatement(PHONECHECK);
+      ps.setString(1, phone);
       rs = ps.executeQuery();
       if (rs.next()) {
         return rs.getInt("valid");
@@ -154,7 +156,7 @@ class MemberDAO extends BaseDAO {
       if (rs.next()) {
         return rs.getString("email");
       }
-    }catch (SQLException se){
+    } catch (SQLException se) {
       System.out.println("[memberDAO] findId: Error: " + se.getMessage());
     }
     return null;
@@ -314,6 +316,48 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
+
+
+  Board reserved(int memberSeq) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    String sql = RESERVED;
+    ResultSet rs = null;
+    try {
+      con = getConnection();
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, memberSeq);
+      rs = pstmt.executeQuery();
+      Board reservedBoard = null;
+      if (rs.next()) {
+
+        int boardSeq = rs.getInt("board_seq");
+        String academyName = rs.getString("academy_name");
+        String addr = rs.getString("addr");
+        String phone = rs.getString("phone_num");
+        Date eDate = rs.getDate("edate");
+        Date lDate = rs.getDate("ldate");
+        String grade = rs.getString("grade");
+        String subject = rs.getString("subject");
+        String content = rs.getString("content");
+        int bookLimit = rs.getInt("book_limit");
+        int valid = rs.getInt("valid");
+
+        reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject, content, bookLimit, valid);
+      }
+      return reservedBoard;
+    } catch (SQLException se) {
+      System.out.println("Error: " + se.getMessage());
+    } finally {
+      try {
+        rs.close();
+        pstmt.close();
+        con.close();
+      } catch (SQLException se) {
+      }
+    }
+    return null;
+
   int modify(String email, String password){
     Connection con = null;
     PreparedStatement ps = null;
@@ -330,3 +374,4 @@ class MemberDAO extends BaseDAO {
     return FAILURE;
   }
 }
+
