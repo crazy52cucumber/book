@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<jsp:include page="/WEB-INF/jsp/common/reverse_login_module.jsp"/>
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -60,55 +61,63 @@
       button{
         margin-top: 15px;
       }
+      .sub-item{
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      a{
+        color: black;
+        text-decoration: none;
+      }
+      a:hover{
+        color: #007aff;
+      }
     </style>
 </head>
 <body>
-<div class="container" style="width: 600px">
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">땃쥐맘</a>
+<main class="form-signin">
+    <form name="login-form" id="loginForm" action="/member/member.do?method=match" method="post">
+        <img class="mb-4" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRgVwh0VgTDqVS-Cg_uvLhi6Ak8KXwO1iqA&s" alt=""/>
+        <h1 class="h3 mb-3 fw-normal">강남땃쥐에 어서오세요</h1>
+        <div class="form-floating input-group mb-3">
+            <input type="email" id="login-email" name="login-email" class="form-control" aria-label="Text input with dropdown button" placeholder="name@example.com" >
+            <label for="login-email">이메일</label>
+            <select title="email" id="email-select">
+                <option class="option" value="none">직접입력</option>
+                <option class="option" value="naver.com">naver.com</option>
+                <option class="option" value="gmail.com">gmail.com</option>
+            </select>
         </div>
-    </nav>
-    <header class="header">
-        <h2 class="header-text">강남땃쥐맘 로그인 및 가입</h2>
-    </header>
-    <main class="form-signin">
-        <form name="login-form" id="loginForm" action="/member/member.do?method=match" method="post">
-            <img class="mb-4" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRgVwh0VgTDqVS-Cg_uvLhi6Ak8KXwO1iqA&s" alt=""/>
-            <h1 class="h3 mb-3 fw-normal">강남땃쥐에 어서오세요</h1>
-            <div class="form-floating input-group mb-3">
-                <input type="email" id="login-email" name="login-email" class="form-control" aria-label="Text input with dropdown button" placeholder="name@example.com" >
-                <label for="login-email">이메일</label>
-                <select title="email" id="email-select">
-                    <option class="option" value="none">직접입력</option>
-                    <option class="option" value="naver.com">naver.com</option>
-                    <option class="option" value="gmail.com">gmail.com</option>
-                </select>
-            </div>
-            <div class="login-email-msg text-danger hide">이메일이 잘못되었습니다. 이메일을 정확히 입력해 주세요.</div>
-            <div class="form-floating password">
-                <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password"/>
-                <div class="eyes"><i class="fa-regular fa-eye"></i></div>
-                <label for="login-password">비밀번호</label>
-            </div>
-            <div class="login-password-msg text-danger hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
-            <button id="login-btn" class="login btn btn-primary w-100 py-2" type="button">
-                강남땃쥐 하기
-            </button>
-            <button id="cancel" class="login btn btn-primary w-100 py-2" type="button">돌아가기
-            </button>
-            <p class="mt-5 mb-3 text-body-secondary"><a href="/member/member.do?method=findId">아이디찾기</a>
+        <div class="login-email-msg text-danger hide">이메일이 잘못되었습니다. 이메일을 정확히 입력해 주세요.</div>
+        <div class="form-floating password">
+            <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password"/>
+            <div class="eyes"><i class="fa-regular fa-eye"></i></div>
+            <label for="login-password">비밀번호</label>
+        </div>
+        <div class="login-password-msg text-danger hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
+        <button id="login-btn" class="login btn btn-dark w-100 py-2" type="button">
+            강남땃쥐 마을 입장
+        </button>
+        <button id="cancel" class="login btn btn-outline-dark w-100 py-2" type="button">돌아가기
+        </button>
+        <div class="sub-item">
+            <div>
+                <a href="/member/member.do?method=findId">아이디찾기</a>
                 <span>/</span>
-                <a href="/member/member.do?method=findPwd">비밀번호찾기</a></p>
+                <a href="/member/member.do?method=findPwd">비밀번호찾기</a></div>
             <div>
                 <a href='/member/member.do?method=joinForm'>회원가입</a>
             </div>
-        </form>
-    </main>
-    <footer>
-        <p>팀땃쥐. All rights reserved.</p>
-    </footer>
-</div>
+        </div>
+
+<footer>
+    <p>팀땃쥐. All rights reserved.</p>
+</footer>
+    </form>
+</main>
 <script>
   document.getElementById('cancel').addEventListener('click',()=>location.href='/');
   document.getElementById('login-btn').addEventListener('keydown', (evt) => {
@@ -156,7 +165,7 @@
   const emailMsg = document.querySelector('.login-email-msg');
   const passwordMsg = document.querySelector('.login-password-msg');
 
-    const loginBtn = document.getElementById('login-btn');
+  const loginBtn = document.getElementById('login-btn');
   const memberCheck = () => {
     const emailMsg = document.querySelector('.login-email-msg');
     const pwdMsg = document.querySelector('.login-password-msg');
@@ -165,7 +174,7 @@
       url: '/member/member.do?method=memberCheck',
       type: 'POST',
       data: {email: $('#login-email').val(),
-      password:$('#login-password').val()
+        password:$('#login-password').val()
       },
       success: (data) => {
         if (data.result === 1) {
@@ -193,7 +202,7 @@
     });
   };
   const password = document.getElementById('login-password');
- loginBtn.addEventListener('click',memberCheck);
+  loginBtn.addEventListener('click',memberCheck);
   email.addEventListener('keydown', (evt) => {if (evt.key === 'Enter') {memberCheck()}})
   password.addEventListener('keydown', (evt) => {if(evt.key === 'Enter'){memberCheck()}})
 </script>

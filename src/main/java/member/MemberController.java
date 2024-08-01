@@ -107,6 +107,10 @@ public class MemberController extends HttpServlet {
             findPwd(req, res);
             break;
 
+          case "modifyPwd":
+            modifyPwd(req, res);
+            break;
+
           case "myPwd":
             try {
               myPwd(req, res);
@@ -306,10 +310,9 @@ public class MemberController extends HttpServlet {
   }
 
   private void memberCheck(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String email = req.getParameter("email");
     String password = req.getParameter("password");
-    //System.out.println("email: " + email + "password: " + password);
     if (email != null && password != null) {
       MemberService service = MemberService.getInstance();
       int result = service.passwordMatch(email, password);
@@ -373,7 +376,7 @@ public class MemberController extends HttpServlet {
   }
 
   private void emailNameCheck(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     MemberService service = MemberService.getInstance();
@@ -388,15 +391,15 @@ public class MemberController extends HttpServlet {
   }
 
   private void authEmail(HttpServletRequest req, HttpServletResponse res)
-          throws Exception {
+      throws Exception {
     String email = req.getParameter("email");
     String code = null;
-    if (email != null) {
+    if(email !=null){
       MailService mailService = new MailService();
       code = mailService.sendEmail(email);
     }
 
-    String json = "{\"code\":\"" + code + "\",\"email\":\"" + email + "\"}";
+    String json = "{\"code\":\"" + code + "\",\"email\":\""+email+"\"}";
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
     PrintWriter out = res.getWriter();
@@ -531,30 +534,36 @@ public class MemberController extends HttpServlet {
   }
 
   private void findPwd(HttpServletRequest req, HttpServletResponse res)
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/find_pwd.jsp").forward(req, res);
   }
 
   private void myPwd(HttpServletRequest req, HttpServletResponse res)
-          throws Exception {
+      throws Exception {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     Member member = null;
-    String authenticationCode = null;
-    HttpSession session = req.getSession();
+    String code = null;
     if (email != null && name != null) {
       MemberService service = MemberService.getInstance();
       member = service.getMemberByEmail(email, name);
       String myEmail = member.getEmail();
       if (myEmail != null) {
         MailService mailService = new MailService();
-        authenticationCode = mailService.sendEmail(myEmail);
+        code = mailService.sendEmail(myEmail);
       }
-      session.setAttribute("member", member);
-      session.setAttribute("authenticationCode", authenticationCode);
-
+      req.setAttribute("email", myEmail);
+      req.setAttribute("code", code);
       req.getRequestDispatcher("/WEB-INF/jsp/member/my_pwd.jsp").forward(req, res);
     }
   }
-
+  private void modifyPwd(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    String password = req.getParameter("password");
+    String email = req.getParameter("hiddenEmail");
+    MemberService service = MemberService.getInstance();
+    int result = service.modify(email, password);
+    req.setAttribute("result", result);
+    req.getRequestDispatcher("/WEB-INF/jsp/member/modifyPwd_message.jsp").forward(req, res);
+  }
 }

@@ -6,6 +6,7 @@ import static member.util.MemberSQL.EMAILCHECK;
 import static member.util.MemberSQL.EMAILNAMECHECK;
 import static member.util.MemberSQL.FINDID;
 import static member.util.MemberSQL.JOIN;
+import static member.util.MemberSQL.MODIFYPASSWORD;
 import static member.util.MemberSQL.PHONECHECK;
 import static member.util.SignupConst.ERROR;
 import static member.util.SignupConst.FAILURE;
@@ -316,6 +317,7 @@ class MemberDAO extends BaseDAO {
     return null;
   }
 
+
   Board reserved(int memberSeq) {
     Connection con = null;
     PreparedStatement pstmt = null;
@@ -355,6 +357,21 @@ class MemberDAO extends BaseDAO {
       }
     }
     return null;
+
+  int modify(String email, String password){
+    Connection con = null;
+    PreparedStatement ps = null;
+    String hashedPassword = encode(password);
+    try {
+      con = getConnection();
+      ps = con.prepareStatement(MODIFYPASSWORD);
+      ps.setString(1, hashedPassword);
+      ps.setString(2,email);
+      return ps.executeUpdate();
+    }catch (SQLException se){
+      System.out.println("[memberDAO] modify: Error: ]" + se.getMessage());
+    }
+    return FAILURE;
   }
 }
 

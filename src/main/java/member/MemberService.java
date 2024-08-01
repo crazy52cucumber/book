@@ -71,7 +71,12 @@ public class MemberService {
     return dao.getMemberByEmail(email, name);
   }
 
+
   public Board reservedS(int memberSeq) {
     return dao.reserved(memberSeq);
+
+  public int modify(String email, String password){
+    return dao.modify(email, password);
+
   }
 }
