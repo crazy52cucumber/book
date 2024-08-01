@@ -14,6 +14,11 @@ export const getReviewsByBoardPkWithPaging = async (boardPk, paging) => {
   return response;
 }
 
+export const getReviewByReviewPk = async (reviewPk) => {
+  const response = await $.ajax(`${SERVER_IP}/reviews/get/${reviewPk}`)
+  return response;
+}
+
 export const addReview = async (boardPk, object) => {
   const response = await $.ajax(`${SERVER_IP}/reviews/add/${boardPk}`, {
     type       : 'POST',
@@ -21,5 +26,15 @@ export const addReview = async (boardPk, object) => {
     processData: false,
     contentType: 'application/json'
   })
+  return response;
+}
+
+export const updateReviewByReviewPk = async (reviewPk, object) => {
+  const response = await $.ajax(`${SERVER_IP}/reviews/update/${reviewPk}`, {
+    type       : 'POST',
+    data       : JSON.stringify(object),
+    processData: false,
+    contentType: 'application/json'
+  });
   return response;
 }
