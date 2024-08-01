@@ -1,12 +1,11 @@
 package book;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public class BookResponseDTO {
-    private long bookSeq;
-    private Date bdate;
-    private Date cancelDate;
-    private int cancelYn;
-    private long memberSeq;
-    private long boardSeq;
+    private int totalBookLimit;
+    private int bookCnt;
 }

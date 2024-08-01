@@ -3,7 +3,7 @@ $('form[name="bookForm"]').submit(async (e) => {
     e.preventDefault()
     const aa = document.getElementById('member')
     if (aa.value === '') {
-        alert('강남땃지와 함께 하시면 이용할 수 있는 서비스입니다 :)')
+        alert('강남땃쥐와 함께 하시면 이용할 수 있는 서비스입니다 :)')
         location.href = '/member/member.do?method=login';
         return;
     }
