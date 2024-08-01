@@ -47,7 +47,7 @@ $('section').on('click', '.review-btn', async (e) => {
   }
 
 
-  location.href = `/reviews/write?seq=${boardPk}`
+  location.href = `/reviews/add?seq=${boardPk}`
 })
 
 const isLogin = async () => {

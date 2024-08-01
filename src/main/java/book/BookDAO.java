@@ -1,12 +1,10 @@
 package book;
 
+import board.review.ResponseDTO;
 import board.review.ReviewRequestDTO;
 import dbutil.BaseDAO;
 
 import java.sql.*;
-
-import board.review.RequestDTO;
-import dbutil.BaseDAO;
 
 public class BookDAO extends BaseDAO {
   private Connection con;
@@ -58,32 +56,32 @@ public class BookDAO extends BaseDAO {
   }
 
   /*강의 예약 여부*/
-  int getBookUser(long review, long boardPK) {
+  int getBookUser(long memberPK, long boardPK) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
+    int cnt = 0;
     try {
       pstmt = con.prepareStatement(BookSQL.GET_BOOK_USER);
-      pstmt.setLong(1, review);
+      pstmt.setLong(1, memberPK);
       pstmt.setLong(2, boardPK);
       rs = pstmt.executeQuery();
-      int cnt = 0;
-      if (rs.next()) {
+      if (rs.next())
         cnt = rs.getInt(1);
-      }
-      return cnt;
+      else
+        cnt = -1;
     } catch (SQLException se) {
       se.printStackTrace();
-      return -1;
     }
+    return cnt;
   }
 
   /*강의 예약*/
-  int insertBook(long review, long boardPK) {
+  int insertBook(long memberPK, long boardPK) {
     PreparedStatement pstmt = null;
     int result = 0;
     try {
       pstmt = con.prepareStatement(BookSQL.INSERT_BOOK);
-      pstmt.setLong(1, review);
+      pstmt.setLong(1, memberPK);
       pstmt.setLong(2, boardPK);
       result = pstmt.executeUpdate();
       if (result == 0) {
@@ -96,12 +94,12 @@ public class BookDAO extends BaseDAO {
   }
 
   /*강의 취소*/
-  int updateBook(long review, long boardPK) {
+  int updateBook(long memberPK, long boardPK) {
     PreparedStatement pstmt = null;
     int result = 0;
     try {
       pstmt = con.prepareStatement(BookSQL.UPDATE_BOOK);
-      pstmt.setLong(1, review);
+      pstmt.setLong(1, memberPK);
       pstmt.setLong(2, boardPK);
       result = pstmt.executeUpdate();
       if (result == 0) {
@@ -114,12 +112,12 @@ public class BookDAO extends BaseDAO {
   }
 
   /*강의 재예약*/
-  int reUpdateBook(long review, long boardPK) {
+  int reUpdateBook(long memberPK, long boardPK) {
     PreparedStatement pstmt = null;
     int result = 0;
     try {
       pstmt = con.prepareStatement(BookSQL.RE_UPDATE_BOOK);
-      pstmt.setLong(1, review);
+      pstmt.setLong(1, memberPK);
       pstmt.setLong(2, boardPK);
       result = pstmt.executeUpdate();
       if (result == 0) {
@@ -132,12 +130,12 @@ public class BookDAO extends BaseDAO {
   }
 
   /*강의 취소 여부*/
-  int getCancelBook(long review, long boardPK) {
+  int getCancelBook(long memberPK, long boardPK) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     try {
       pstmt = con.prepareStatement(BookSQL.GET_CANCEL_YN);
-      pstmt.setLong(1, review);
+      pstmt.setLong(1, memberPK);
       pstmt.setLong(2, boardPK);
       rs = pstmt.executeQuery();
       int cnt = -1;
@@ -152,7 +150,7 @@ public class BookDAO extends BaseDAO {
   }
 
   //public
-  public long selectBookPkFromBooked(ReviewRequestDTO dto, int review) {
+  public long selectBookPkFromBooked(ReviewRequestDTO dto, int memberPk) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     String sql = "select b.book_seq from book b join member m on b.member_seq = m.member_seq\n" +
@@ -161,8 +159,7 @@ public class BookDAO extends BaseDAO {
     try {
       pstmt = con.prepareStatement(sql);
       pstmt.setLong(1, dto.getBoardSeq());
-      pstmt.setLong(2, review);
-
+      pstmt.setLong(2, memberPk);
       rs = pstmt.executeQuery();
       if (rs.next()) result = rs.getLong("book_seq");
     } catch (SQLException e) {

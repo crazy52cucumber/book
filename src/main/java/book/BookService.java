@@ -18,8 +18,9 @@ public class BookService {
     return new BookResponseDTO(totalBookLimit, bookCnt);
   }
 
-  public int getBookUser(long review, long boardPk) {
-    int bookUser = bookDAO.getBookUser(review, boardPk);
+  public int getBookUser(long memberPk, long boardPk) {
+    int bookUser = bookDAO.getBookUser(memberPk, boardPk);
+    System.out.println("bookUser ?? => " + bookUser);
     return bookUser;
   }
 

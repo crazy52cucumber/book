@@ -101,7 +101,7 @@
                 <option class="option" value="naver.com">naver.com</option>
                 <option class="option" value="gmail.com">gmail.com</option>
             </select>
-            <button class="btn btn-outline-secondary" type="button" id="authSendBtn">인증하기</button>
+            <button class="btn btn-outline-secondary" type="button" id="authSendBtn">인증번호 받기</button>
         </div>
         <div class="msg miss-email text-danger hide">올바른 이메일 형식을 입력해주세요</div>
         <div class="msg input-email text-danger hide">이메일을 입력해주세요</div>
@@ -110,7 +110,7 @@
             <input type="text" class="form-control" id="authenticCode" name="authenticCode"
                    placeholder="인증번호"/>
             <label for="authenticCode">인증번호</label>
-            <button class="btn btn-outline-secondary" type="button" id="authConfirmBtn">인증하기
+            <button class="btn btn-outline-secondary" type="button" id="authConfirmBtn">인증번호 확인
             </button>
         </div>
         <div class="msg input-authCode text-success hide">인증이 완료되었습니다</div>

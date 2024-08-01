@@ -13,6 +13,10 @@
   <title>Title</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
           href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
           rel="stylesheet"
   />
@@ -188,7 +192,7 @@
         success: function (data) {
           let html = "";
           data.forEach(item => {
-            html += "<a href='#'>";
+            html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
             html += "<div class='main-card'>";
             html += "<h4 class='academy-item-name'>" + item.academy_name + "</h4>";
             html += "<ul class='main-ul'>";
@@ -227,7 +231,7 @@
         success: function (data) {
           let html = "";
           data.forEach(item => {
-            html += "<a href='#'>";
+            html += "<a href = " + "http://localhost:8080/board?seq=" + item.board_seq + "/>";
             html += "<div class='main-card'>";
             html += "<h4>" + item.academy_name + "</h4>";
             html += "<ul class='main-ul'>";

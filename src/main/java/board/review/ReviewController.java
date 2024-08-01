@@ -3,7 +3,6 @@ package board.review;
 import board.BoardResponseDTO;
 import board.BoardService;
 import board.util.DateTimeUtil;
-import book.BookResponseDTO;
 import book.BookService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -52,7 +51,7 @@ public class ReviewController extends HttpServlet {
         checkCookie(req, res);
       }
 
-      if (method[2].startsWith("write")) {
+      if (method[2].startsWith("add")) {
         moveToWrite(req, res);
       }
 
@@ -92,17 +91,6 @@ public class ReviewController extends HttpServlet {
     }
   }
 
-  private void checkDup(HttpServletRequest req, HttpServletResponse res, long boardPk) throws IOException {
-    System.out.println("너가 호출?");
-    PrintWriter out = res.getWriter();
-
-    HttpSession session = req.getSession(false);
-    Member member = (Member) session.getAttribute("member");
-    int result = bookService.getCancelBook(member.getSeq(), boardPk);
-    out.print("{\"result\":\"" + result + "\"}");
-    out.flush();
-  }
-
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -121,6 +109,20 @@ public class ReviewController extends HttpServlet {
       nfe.printStackTrace();
     }
   }
+
+  private void checkDup(HttpServletRequest req, HttpServletResponse res, long boardPk) throws IOException {
+    PrintWriter out = res.getWriter();
+
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int bookUser = bookService.getBookUser(member.getSeq(), boardPk);
+    if (bookUser == -1) {
+    }
+    System.out.println("result=> " + bookUser);
+    out.print("{\"result\":\"" + bookUser + "\"}");
+    out.flush();
+  }
+
 
   private void checkWrite(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
     System.out.println("너가 호출?");
