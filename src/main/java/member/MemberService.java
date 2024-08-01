@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MemberService {
 
@@ -72,11 +73,23 @@ public class MemberService {
   }
 
 
-  public Board reservedS(int memberSeq) {
+  public List<Board> reservedS(int memberSeq) {
     return dao.reserved(memberSeq);
   }
 
   public int modify(String email, String password) {
     return dao.modify(email, password);
+  }
+
+  public int countMyBookingS(int member_seq) {
+    return dao.countMyBooking(member_seq);
+  }
+
+  public int getRateS(int memberSeq) {
+    return dao.getRate(memberSeq);
+  }
+
+  public int getReviewsS(int memberSeq) {
+    return dao.getReview(memberSeq);
   }
 }

@@ -20,7 +20,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/member/member.do")
 public class MemberController extends HttpServlet {
@@ -139,86 +141,14 @@ public class MemberController extends HttpServlet {
             phoneCheck(req, res);
             break;
 
-          case "logout":logout(req,res);break;
+          case "logout":
+            logout(req, res);
+            break;
         }
       }
       //req.getRequestDispatcher("/").forward(req, res);
     }
     //req.getRequestDispatcher("/").forward(req, res);
-  }
-
-  private void reserved1(HttpServletRequest req, HttpServletResponse res) {
-    HttpSession session = req.getSession(false);
-    Member member = (Member) session.getAttribute("member");
-    int member_seq = member.getSeq();
-
-    String addressJson = "";
-    if (member_seq != -1) {
-      MemberService service = MemberService.getInstance();
-      Board reservedboard = service.reservedS(member_seq);
-      Date lDate = reservedboard.getlDate();
-      if (lDate != null) {
-        if (lDate.getTime() > System.currentTimeMillis()) {
-          addressJson
-                  = "{\"board_seq\":" + reservedboard.getBoard_seq()
-                  + ", \"academy_name\":\"" + reservedboard.getAcademy_name()
-                  + "\", \"addr\":\"" + reservedboard.getAddr()
-                  + "\", \"phone\":\"" + reservedboard.getPhone_num()
-                  + "\", \"addr\":\"" + reservedboard.getAddr()
-                  + "\", \"eDate\":\"" + reservedboard.geteDate()
-                  + "\", \"lDate\":\"" + reservedboard.getlDate()
-                  + "\", \"grade\":\"" + reservedboard.getGrade()
-                  + "\", \"subject\":\"" + reservedboard.getSubject()
-                  + "\", \"content\":\"" + reservedboard.getContent()
-                  + "\", \"bookLimit\":\"" + reservedboard.getBook_limit()
-                  + "\", \"valid\":\"" + reservedboard.getValid()
-                  + "\"}";
-        }
-      }
-    }
-    try {
-      res.setContentType("application/json:charset=utf-8");
-      PrintWriter pw = res.getWriter();
-      pw.print(addressJson);
-    } catch (IOException ie) {
-    }
-  }
-
-  private void reserved2(HttpServletRequest req, HttpServletResponse res) {
-    HttpSession session = req.getSession(false);
-    Member member = (Member) session.getAttribute("member");
-    int member_seq = member.getSeq();
-
-    String addressJson = "";
-    if (member_seq != -1) {
-      MemberService service = MemberService.getInstance();
-      Board reservedboard = service.reservedS(member_seq);
-      Date lDate = reservedboard.getlDate();
-      if (lDate != null) {
-        if (lDate.getTime() < System.currentTimeMillis()) {
-          addressJson
-                  = "{\"board_seq\":" + reservedboard.getBoard_seq()
-                  + ", \"academy_name\":\"" + reservedboard.getAcademy_name()
-                  + "\", \"addr\":\"" + reservedboard.getAddr()
-                  + "\", \"phone\":\"" + reservedboard.getPhone_num()
-                  + "\", \"addr\":\"" + reservedboard.getAddr()
-                  + "\", \"eDate\":\"" + reservedboard.geteDate()
-                  + "\", \"lDate\":\"" + reservedboard.getlDate()
-                  + "\", \"grade\":\"" + reservedboard.getGrade()
-                  + "\", \"subject\":\"" + reservedboard.getSubject()
-                  + "\", \"content\":\"" + reservedboard.getContent()
-                  + "\", \"bookLimit\":\"" + reservedboard.getBook_limit()
-                  + "\", \"valid\":\"" + reservedboard.getValid()
-                  + "\"}";
-        }
-      }
-    }
-    try {
-      res.setContentType("application/json:charset=utf-8");
-      PrintWriter pw = res.getWriter();
-      pw.print(addressJson);
-    } catch (IOException ie) {
-    }
   }
 
 
@@ -312,7 +242,7 @@ public class MemberController extends HttpServlet {
   }
 
   private void memberCheck(HttpServletRequest req, HttpServletResponse res)
-      throws IOException, ServletException {
+          throws IOException, ServletException {
     String email = req.getParameter("email");
     String password = req.getParameter("password");
     if (email != null && password != null) {
@@ -378,7 +308,7 @@ public class MemberController extends HttpServlet {
   }
 
   private void emailNameCheck(HttpServletRequest req, HttpServletResponse res)
-      throws IOException, ServletException {
+          throws IOException, ServletException {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     MemberService service = MemberService.getInstance();
@@ -393,15 +323,15 @@ public class MemberController extends HttpServlet {
   }
 
   private void authEmail(HttpServletRequest req, HttpServletResponse res)
-      throws Exception {
+          throws Exception {
     String email = req.getParameter("email");
     String code = null;
-    if(email !=null){
+    if (email != null) {
       MailService mailService = new MailService();
       code = mailService.sendEmail(email);
     }
 
-    String json = "{\"code\":\"" + code + "\",\"email\":\""+email+"\"}";
+    String json = "{\"code\":\"" + code + "\",\"email\":\"" + email + "\"}";
     res.setContentType("application/json;charset=UTF-8");
     res.setCharacterEncoding("UTF-8");
     PrintWriter out = res.getWriter();
@@ -530,18 +460,23 @@ public class MemberController extends HttpServlet {
     int member_seq = member.getSeq();
     MemberService service = MemberService.getInstance();
     ArrayList<Board> myBookingList = service.myBookingListS(member_seq);
+    int totalMyBooking = service.countMyBookingS(member_seq);
+    System.out.println("totalMyBooking: " + totalMyBooking);
+    int rate = service.getRateS(member_seq);
+    int reviews = service.getReviewsS(member_seq);
     req.setAttribute("myBookingList", myBookingList);
+    req.setAttribute("totalMyBooking", totalMyBooking);
 
     req.getRequestDispatcher("/WEB-INF/jsp/member/my_booking_list.jsp").forward(req, res);
   }
 
   private void findPwd(HttpServletRequest req, HttpServletResponse res)
-      throws IOException, ServletException {
+          throws IOException, ServletException {
     req.getRequestDispatcher("/WEB-INF/jsp/member/find_pwd.jsp").forward(req, res);
   }
 
   private void myPwd(HttpServletRequest req, HttpServletResponse res)
-      throws Exception {
+          throws Exception {
     String email = req.getParameter("email");
     String name = req.getParameter("name");
     Member member = null;
@@ -559,8 +494,9 @@ public class MemberController extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/jsp/member/my_pwd.jsp").forward(req, res);
     }
   }
+
   private void modifyPwd(HttpServletRequest req, HttpServletResponse res)
-      throws IOException, ServletException {
+          throws IOException, ServletException {
     String password = req.getParameter("password");
     String email = req.getParameter("hiddenEmail");
     MemberService service = MemberService.getInstance();
@@ -572,11 +508,119 @@ public class MemberController extends HttpServlet {
   private void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
     HttpSession session = req.getSession(false);
     if (session != null) {
-    session.invalidate();
+      session.invalidate();
       System.out.println("로그아웃");
-    }else {
+    } else {
       System.out.println("session is null");
     }
     res.sendRedirect("/");
+  }
+
+  private void reserved1(HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+    StringBuilder jsonBuilder = new StringBuilder();
+    jsonBuilder.append("[");
+
+    if (member_seq != -1) {
+      MemberService service = MemberService.getInstance();
+      List<Board> myReservedList = service.reservedS(member_seq);
+
+      if (myReservedList != null && !myReservedList.isEmpty()) {
+        boolean isFirst = true; // flag to handle commas between JSON objects
+        for (Board reservedboard : myReservedList) {
+          Date lDate = reservedboard.getlDate();
+          if (lDate != null) {
+            // Check if lDate is before the current time
+            if (lDate.getTime() > System.currentTimeMillis()) {
+              if (!isFirst) {
+                jsonBuilder.append(","); // Add comma before appending new JSON object
+              }
+              jsonBuilder.append("{")
+                      .append("\"board_seq\":").append(reservedboard.getBoard_seq()).append(",")
+                      .append("\"academy_name\":\"").append(reservedboard.getAcademy_name()).append("\",")
+                      .append("\"addr\":\"").append(reservedboard.getAddr()).append("\",")
+                      .append("\"phone\":\"").append(reservedboard.getPhone_num()).append("\",")
+                      .append("\"eDate\":\"").append(reservedboard.geteDate()).append("\",")
+                      .append("\"lDate\":\"").append(reservedboard.getlDate()).append("\",")
+                      .append("\"grade\":\"").append(reservedboard.getGrade()).append("\",")
+                      .append("\"subject\":\"").append(reservedboard.getSubject()).append("\",")
+                      .append("\"content\":\"").append(reservedboard.getContent()).append("\",")
+                      .append("\"bookLimit\":\"").append(reservedboard.getBook_limit()).append("\",")
+                      .append("\"valid\":\"").append(reservedboard.getValid()).append("\"")
+                      .append("}");
+              isFirst = false; // Ensure the comma is added only before subsequent objects
+            }
+          }
+        }
+      }
+    }
+
+    jsonBuilder.append("]");
+
+    try {
+      res.setContentType("application/json;charset=utf-8");
+      PrintWriter pw = res.getWriter();
+      pw.print(jsonBuilder.toString());
+      pw.flush(); // Ensure all data is written out
+      pw.close(); // Close the writer
+    } catch (IOException ie) {
+      ie.printStackTrace(); // Print exception stack trace for debugging
+    }
+  }
+
+  private void reserved2(HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession(false);
+    Member member = (Member) session.getAttribute("member");
+    int member_seq = member.getSeq();
+    StringBuilder jsonBuilder = new StringBuilder();
+    jsonBuilder.append("[");
+
+    if (member_seq != -1) {
+      MemberService service = MemberService.getInstance();
+      List<Board> myReservedList = service.reservedS(member_seq);
+
+      if (myReservedList != null && !myReservedList.isEmpty()) {
+        boolean isFirst = true; // flag to handle commas between JSON objects
+        for (Board reservedboard : myReservedList) {
+          Date lDate = reservedboard.getlDate();
+          if (lDate != null) {
+            // Check if lDate is before the current time
+            if (lDate.getTime() < System.currentTimeMillis()) {
+              if (!isFirst) {
+                jsonBuilder.append(","); // Add comma before appending new JSON object
+              }
+              jsonBuilder.append("{")
+                      .append("\"board_seq\":").append(reservedboard.getBoard_seq()).append(",")
+                      .append("\"academy_name\":\"").append(reservedboard.getAcademy_name()).append("\",")
+                      .append("\"addr\":\"").append(reservedboard.getAddr()).append("\",")
+                      .append("\"phone\":\"").append(reservedboard.getPhone_num()).append("\",")
+                      .append("\"eDate\":\"").append(reservedboard.geteDate()).append("\",")
+                      .append("\"lDate\":\"").append(reservedboard.getlDate()).append("\",")
+                      .append("\"grade\":\"").append(reservedboard.getGrade()).append("\",")
+                      .append("\"subject\":\"").append(reservedboard.getSubject()).append("\",")
+                      .append("\"content\":\"").append(reservedboard.getContent()).append("\",")
+                      .append("\"bookLimit\":\"").append(reservedboard.getBook_limit()).append("\",")
+                      .append("\"valid\":\"").append(reservedboard.getValid()).append("\"")
+                      .append("}");
+              isFirst = false; // Ensure the comma is added only before subsequent objects
+            }
+          }
+        }
+      }
+    }
+
+    jsonBuilder.append("]");
+
+    try {
+      res.setContentType("application/json;charset=utf-8");
+      PrintWriter pw = res.getWriter();
+      pw.print(jsonBuilder.toString());
+      pw.flush(); // Ensure all data is written out
+      pw.close(); // Close the writer
+    } catch (IOException ie) {
+      ie.printStackTrace(); // Print exception stack trace for debugging
+    }
   }
 }
