@@ -116,8 +116,8 @@
       </div>
     </a>
   </div>
-</div>
 <a href="/member/member.do?method=logout">로그아웃</a>
+</div>
 
 </body>
 </html>
