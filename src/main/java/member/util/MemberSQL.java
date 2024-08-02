@@ -19,5 +19,5 @@ public class MemberSQL {
 
   public static final String EMAILNAME = "select * from MEMBER where EMAIL = ? and NAME = ? and VALID=0";
 
-  public static final String MYREVIEW = "select BOARD_SEQ, TITLE, CDATE from book join review using (BOOK_SEQ) where VALID=0 and review.MEMBER_SEQ=?";
+  public static final String MYREVIEW = "select BOARD_SEQ, TITLE, CDATE from book join review using (BOOK_SEQ) where VALID=0 and review.MEMBER_SEQ=? order by review_seq";
 }
