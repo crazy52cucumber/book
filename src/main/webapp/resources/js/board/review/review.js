@@ -47,7 +47,8 @@ $('#submitBtn').click(async (e) => {
     }
     location.href = `${SERVER_IP}/board?seq=${boardPk}`
   } else {
-    const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
+    const reviewPk = location.href.substring(location.href.lastIndexOf("=") + 1);
+    console.log("reviewPk", reviewPk)
     data = await updateReviewByReviewPk(localStorage.getItem('boardPk'), reviewPk, object);
     let jsonData = JSON.parse(data);
     if (jsonData.result === "0") {
