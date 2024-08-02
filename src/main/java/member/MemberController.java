@@ -410,13 +410,13 @@ public class MemberController extends HttpServlet {
 
   //내 리뷰리스트 불러오기
   private void myReviewList(HttpServletRequest req, HttpServletResponse res)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member loginMember = (Member) session.getAttribute("member");
     int member_seq = loginMember.getSeq();
     //System.out.println(member_seq);
     MemberService service = MemberService.getInstance();
-    ArrayList<Review> myReviewList = service.myReviewListS(member_seq);
+    ArrayList<MemberDAO.MyReview> myReviewList = service.myReviewListS(member_seq);
     req.setAttribute("loginMember", loginMember);
     req.setAttribute("myReviewList", myReviewList);
 

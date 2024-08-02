@@ -1,11 +1,6 @@
 package member;
 
-import static member.MemberSQL.COUNT_MYBOOKING;
-import static member.MemberSQL.MODIFY_INFO;
-import static member.MemberSQL.MY_BOOKING;
-import static member.MemberSQL.MY_REVIEW;
-import static member.MemberSQL.RESERVED;
-import static member.MemberSQL.WITHDRAW;
+import static member.MemberSQL.*;
 import static member.util.BcryptEncoder.encode;
 import static member.util.BcryptEncoder.isPasswordMatch;
 import static member.util.MemberSQL.EMAILCHECK;
@@ -26,16 +21,16 @@ import dbutil.BaseDAO;
 import domain.Board;
 import domain.Member;
 import domain.Review;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class MemberDAO extends BaseDAO {
 
@@ -219,8 +214,8 @@ class MemberDAO extends BaseDAO {
   }
 
 
-  public ArrayList<Review> myReviewList(int member_seq) {
-    ArrayList<Review> myRelpyList = new ArrayList<>();
+  public ArrayList<MemberDAO.MyReview> myReviewList(int member_seq) {
+    ArrayList<MemberDAO.MyReview> myReviewList = new ArrayList<>();
     Connection con = null;
     PreparedStatement pstmt = null;
     String sql = MY_REVIEW;
@@ -231,25 +226,27 @@ class MemberDAO extends BaseDAO {
       pstmt.setInt(1, member_seq);
       rs = pstmt.executeQuery();
       while (rs.next()) {
-        int review_seq = rs.getInt(1);
-        int rate = rs.getInt(2);
-        String title = rs.getString(3);
-        String pros = rs.getString(4);
-        String cons = rs.getString(5);
-        String features = rs.getString(6);
-        String wishes = rs.getString(7);
-        Date cdate = rs.getDate(8);
-        int valid = rs.getInt(9);
-        int book_seq = rs.getInt(10);
+        //member_seq 1
+        String nickname = rs.getString(6);
+        int board_seq = rs.getInt(15);
+        int rate = rs.getInt(17);
+        String title = rs.getString(18);
+        String pros = rs.getString(19);
+        String cons = rs.getString(20);
+        String features = rs.getString(21);
+        String wishes = rs.getString(22);
+        Date createDate = rs.getDate(23);
+        String grade = rs.getString(33);
+        String subject = rs.getString(34);
+        String content = rs.getString(35);
+        //member_seq
 
 
-        System.out.println(review_seq);
-
-
-        Review myReview = new Review(review_seq, rate, title, pros, cons, features, wishes, cdate, valid, book_seq, member_seq);
-        myRelpyList.add(myReview);
+        System.out.println(rate);
+        MyReview myReview = new MyReview(member_seq, nickname, board_seq, rate, title, pros, cons, features, wishes, createDate, grade, subject, content);
+        myReviewList.add(myReview);
       }
-      return myRelpyList;
+      return myReviewList;
     } catch (SQLException se) {
       se.printStackTrace();
     } finally {
@@ -260,6 +257,25 @@ class MemberDAO extends BaseDAO {
       }
     }
     return null;
+  }
+
+  @AllArgsConstructor
+  @Getter
+  @Setter
+  public class MyReview {
+    private int member_seq;
+    private String nickname;
+    private int board_seq;
+    private int rate;
+    private String title;
+    private String pros;
+    private String cons;
+    private String features;
+    private String wishes;
+    private Date createDate;
+    private String grade;
+    private String subject;
+    private String content;
   }
 
   public ArrayList<Board> myBookingList(int member_seq) {
@@ -354,7 +370,7 @@ class MemberDAO extends BaseDAO {
         int valid = rs.getInt("valid");
 
         reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject,
-            content, bookLimit, valid);
+                content, bookLimit, valid);
         myReservedList.add(reservedBoard);
       }
       return myReservedList;
@@ -370,7 +386,8 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-  int modify(String email, String password){
+
+  int modify(String email, String password) {
     Connection con = null;
     PreparedStatement ps = null;
     String hashedPassword = encode(password);
@@ -378,9 +395,9 @@ class MemberDAO extends BaseDAO {
       con = getConnection();
       ps = con.prepareStatement(MODIFYPASSWORD);
       ps.setString(1, hashedPassword);
-      ps.setString(2,email);
+      ps.setString(2, email);
       return ps.executeUpdate();
-    }catch (SQLException se){
+    } catch (SQLException se) {
       System.out.println("[memberDAO] modify: Error: ]" + se.getMessage());
     }
     return FAILURE;
