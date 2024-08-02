@@ -55,6 +55,7 @@ a {
 
 .main-card {
     background-color: white;
+    border-bottom: 1px solid #b4b2b2;
 }
 
 .academy-item-name {
@@ -94,6 +95,7 @@ a {
     flex-wrap: wrap;
     justify-content: space-between;
     height: 50px;
+
 }
 .academy-rate{
     width: 50%;

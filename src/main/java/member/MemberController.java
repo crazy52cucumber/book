@@ -423,7 +423,7 @@ public class MemberController extends HttpServlet {
     int member_seq = loginMember.getSeq();
     //System.out.println(member_seq);
     MemberService service = MemberService.getInstance();
-    ArrayList<Review> myReviewList = service.myReviewListS(member_seq);
+    ArrayList<MemberDAO.MyReview> myReviewList = service.myReviewListS(member_seq);
     req.setAttribute("loginMember", loginMember);
     req.setAttribute("myReviewList", myReviewList);
 
