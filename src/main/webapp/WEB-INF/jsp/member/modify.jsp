@@ -12,25 +12,22 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <style>
-      html, body {
-          height: 100vh;
-          margin: 0;
-          display: flex;
-          justify-content: center;
-      }
 
-      main {
+      #modifyForm {
+          background-color: darkseagreen;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          align-self: center;
+          border-radius: 10px;
           width: 500px;
-          height: 100vh;
-          border: 1px solid #000;
-          box-sizing: border-box;
+          height: 400px;
       }
 
       form {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          border: 5px solid #000;
           width: 500px;
           height: 100vh;
           align-self: center;
