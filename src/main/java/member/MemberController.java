@@ -173,7 +173,7 @@ public class MemberController extends HttpServlet {
         Cookie loginCookie = new Cookie("mySeq", mySeq);
         loginCookie.setPath("/");
         loginCookie.setHttpOnly(true);
-        loginCookie.setSecure(true);
+        //loginCookie.setSecure(true);
         res.addCookie(loginCookie);
         session.setAttribute("member", member);
       }
@@ -204,6 +204,13 @@ public class MemberController extends HttpServlet {
       result = service.join(email, password, name, phone, nickname);
       if (result != FAILURE) {
         Member member = service.getMember(email);
+        System.out.println("member =>>" + member);
+
+        Cookie loginCookie = new Cookie("mySeq", member.getSeq() + "");
+        loginCookie.setPath("/");
+        loginCookie.setHttpOnly(true);
+        res.addCookie(loginCookie);
+
         HttpSession session = req.getSession();
         session.setAttribute("member", member);
       }
@@ -410,7 +417,7 @@ public class MemberController extends HttpServlet {
 
   //내 리뷰리스트 불러오기
   private void myReviewList(HttpServletRequest req, HttpServletResponse res)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     Member loginMember = (Member) session.getAttribute("member");
     int member_seq = loginMember.getSeq();

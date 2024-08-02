@@ -27,11 +27,7 @@ import domain.Board;
 import domain.Member;
 import domain.Review;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,9 +58,10 @@ class MemberDAO extends BaseDAO {
     PreparedStatement ps = null;
     try {
       con = getConnection();
-      ps = con.prepareStatement(GETMEMBER);
+      ps = con.prepareStatement(GETMEMBER, Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, email);
       rs = ps.executeQuery();
+
       Member member = null;
       if (rs.next()) {
         member = Member.builder()
@@ -354,7 +351,7 @@ class MemberDAO extends BaseDAO {
         int valid = rs.getInt("valid");
 
         reservedBoard = new Board(boardSeq, academyName, addr, phone, eDate, lDate, grade, subject,
-            content, bookLimit, valid);
+                content, bookLimit, valid);
         myReservedList.add(reservedBoard);
       }
       return myReservedList;
@@ -370,7 +367,8 @@ class MemberDAO extends BaseDAO {
     }
     return null;
   }
-  int modify(String email, String password){
+
+  int modify(String email, String password) {
     Connection con = null;
     PreparedStatement ps = null;
     String hashedPassword = encode(password);
@@ -378,9 +376,9 @@ class MemberDAO extends BaseDAO {
       con = getConnection();
       ps = con.prepareStatement(MODIFYPASSWORD);
       ps.setString(1, hashedPassword);
-      ps.setString(2,email);
+      ps.setString(2, email);
       return ps.executeUpdate();
-    }catch (SQLException se){
+    } catch (SQLException se) {
       System.out.println("[memberDAO] modify: Error: ]" + se.getMessage());
     }
     return FAILURE;
