@@ -102,6 +102,7 @@
 
   password.addEventListener('keydown', (evt) => {
     if (evt.key === 'Enter') {
+      evt.preventDefault();
       passwordCheck();
     }
   });
