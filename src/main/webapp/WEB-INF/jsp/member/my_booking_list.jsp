@@ -1,16 +1,25 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: user
+  Date: 2024-07-26
+  Time: 오전 10:17
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <html>
 <head>
   <title>Title</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
+          href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+          rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
 
@@ -175,10 +184,10 @@
 
     $("#danger-outlined").on("click", function () {
       $.ajax({
-        url     : "member.do?method=reserved2",
-        type    : "GET",
+        url: "member.do?method=reserved2",
+        type: "GET",
         dataType: "json",
-        success : function (data) {
+        success: function (data) {
           let html = "";
           data.forEach(item => {
             html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
@@ -193,11 +202,11 @@
             html += "<div class='academy-item-menus'>";
             html += "<div class='academy-rate'>";
             html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
-            html += "<span itemprop='rate'>0점</span>";
+            // html += "<span itemprop='rate'>0점</span>";
             html += "</div>";
             html += "<div class='academy-review'>";
             html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
-            html += "<span itemprop='review_count'>0 개</span>";
+            // html += "<span itemprop='review_count'>0 개</span>";
             html += "</div>";
             html += "</div>";
             html += "</div>";
@@ -205,22 +214,18 @@
           });
           $("#result-container").html(html);
         },
-        error   : function (data) {
+        error: function (data) {
           alert("예약된 강의가 없습니다");
         }
-        error   :
-            function (data) {
-              alert("예약된 강의가 없습니다");
-            }
       });
     });
 
     function fetchReservedData() {
       $.ajax({
-        url     : "member.do?method=reserved1",
-        type    : "GET",
+        url: "member.do?method=reserved1",
+        type: "GET",
         dataType: "json",
-        success : function (data) {
+        success: function (data) {
           let html = "";
           data.forEach(item => {
             html += "<a href='http://localhost:8080/board?seq=" + item.board_seq + "'>";
@@ -247,14 +252,9 @@
           });
           $("#result-container").html(html);
         },
-        error   : function (data) {
+        error: function (data) {
           alert("예약된 강의가 없습니다");
         }
-        ,
-        error:
-            function (data) {
-              alert("예약된 강의가 없습니다");
-            }
       });
     }
   });
