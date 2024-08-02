@@ -27,6 +27,12 @@ $('#submitBtn').click(async (e) => {
   const rate = $('#rate').val();
   const object = {};
   let data = '';
+
+  if (title.length === 0) {
+    alert("제목을 입력해주세요");
+    return;
+  }
+
   formData.append("title", title);
   formData.append("pros", pros);
   formData.append("cons", cons);

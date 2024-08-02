@@ -31,7 +31,7 @@
   <form name="login-form" id="loginForm" action="/member/member.do?method=match" method="post">
     <img class="mb-4" src="${pageContext.request.contextPath}/resources/imgs/logo.png"
          alt=""/>
-    <h1 class="h3 mb-3 fw-normal">강남땃쥐에 어서오세요</h1>
+    <h1 class="h3 mb-3 fw-normal">가산땃쥐에 어서오세요</h1>
     <div class="form-floating input-group mb-3">
       <input type="email" id="login-email" name="login-email" class="form-control"
              aria-label="Text input with dropdown button" placeholder="name@example.com">
@@ -50,7 +50,7 @@
     </div>
     <div class="login-password-msg text-danger hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
     <button id="login-btn" class="login btn btn-dark w-100 py-2" type="button">
-      강남땃쥐 마을 입장
+      가산땃쥐 마을 입장
     </button>
     <button id="cancel" class="login btn btn-outline-dark w-100 py-2" type="button">돌아가기
     </button>

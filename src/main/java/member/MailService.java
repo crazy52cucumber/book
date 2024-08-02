@@ -8,14 +8,15 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+
 import java.util.Properties;
 import java.util.Random;
 
 public class MailService {
 
   private final String host = "smtp.naver.com";
-  private final String from = "";
-  private final String password = "";
+  private final String from = "tovkdl@naver.com";
+  private final String password = "CU522J9PCQ5L";
 
   public String sendEmail(String to) throws Exception {
     String authenCode = null;
@@ -35,9 +36,9 @@ public class MailService {
     try {
       authenCode = makeAuthenticationCode();
       Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(from, "강남땃쥐"));
+      message.setFrom(new InternetAddress(from, "가산땃쥐"));
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-      message.setSubject("강남땃쥐 인증 번호입니다");
+      message.setSubject("가산땃쥐 인증 번호입니다");
       message.setText("인증번호는 [ " + authenCode + " ] 입니다.");
       Transport.send(message);
       System.out.println("NaverMail sent successfully");
@@ -53,12 +54,12 @@ public class MailService {
 
     int pwdLength = 8;
     final char[] pwdTable = {
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-        'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-        'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*',
-        '(', ')', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*',
+            '(', ')', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
     // System.currentTimeMillis(): 중복 방지 처리
     Random random = new Random(System.currentTimeMillis());
