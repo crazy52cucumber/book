@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/member.css"/>
 </head>
 <body>
-<div class="container">
+<main>
   <form action="/member/member.do?method=myPwd" method="post">
     <div class="form-floating input-group mb-3">
       <input type="email" id="email" name="email" class="form-control" aria-label="Text input with dropdown button"
@@ -34,7 +34,10 @@
       <button type="button" class="btn btn-outline-dark" id="cancel">취소</button>
     </fieldset>
   </form>
-</div>
+</main>
+
+
+
 <script src="${pageContext.request.contextPath}/resources/js/member/find_pwd.js"></script>
 </body>
 </html>
