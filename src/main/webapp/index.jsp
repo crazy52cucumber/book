@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-  <title>강남땃쥐</title>
+  <title>가산땃쥐</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <jsp:include page="/WEB-INF/jsp/inc/header_link.jsp"/>

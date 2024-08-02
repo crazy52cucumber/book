@@ -25,7 +25,7 @@
     <div class="header-logo">
       <div>
         <a href="/"> <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt=""></a>
-        <p>강남땃쥐</p>
+        <p>가산땃쥐</p>
       </div>
       <c:choose>
         <c:when test="${empty member}">
