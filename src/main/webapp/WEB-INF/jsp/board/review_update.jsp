@@ -19,7 +19,7 @@
     <c:otherwise>
       <header>
         <div class="header-logo">
-          <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt="">
+          <img src="${pageContext.request.contextPath}/resources/imgs/logo.png" alt="로고">
           <a href="/member/member.do?method=myPage">${member.nickname}</a>
         </div>
       </header>
@@ -29,7 +29,7 @@
 
     <div class="board-container">
       <div class="img-container">
-        <img src="" alt="">
+        <img class="a-image" src="${pageContext.request.contextPath}/resources/imgs/hb.jpg" alt="학원이미지">
       </div>
       <table>
         <tbody>

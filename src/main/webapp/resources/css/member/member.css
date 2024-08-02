@@ -1,65 +1,80 @@
-html, body {
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  justify-content: center;
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
-main{
-  width: 500px;
-  height: 100vh;
-  border: 1px solid #000;
-  box-sizing: border-box;
+
+main {
+    width: 500px;
+    height: 100vh;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    box-sizing: border-box;
+    background-color: #fff;
 }
+
+main:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border: 5px solid #000;
-  width: 500px;
-  height: 100vh;
-  align-self:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+    height: 100vh;
+    align-content: center;
 }
-select{
-  border: #dddddd 1px solid;
+
+select {
+    border: #dddddd 1px solid;
 }
 
 #modifyBtn {
-  cursor: pointer;
-  width: 16.3rem;
-  height: 3rem;
-  border: none;
-  border-radius: 20px;
+    cursor: pointer;
+    width: 16.3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 20px;
 }
 
 .hide {
-  display: none;
-  overflow: hidden;
+    display: none;
+    overflow: hidden;
 }
 
 .password {
-  position: relative;
+    position: relative;
 }
 
 .password .eyes {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto 2px;
-  height: 30px;
-  font-size: 22px;
-  cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto 2px;
+    height: 30px;
+    font-size: 22px;
+    cursor: pointer;
 }
 
 button {
-  margin-right: 5px;
+    margin-right: 5px;
 
 }
-.need-top{
-  margin-top: 16px;
+
+.need-top {
+    margin-top: 16px;
 }
-fieldset{
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
+
+fieldset {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
 }

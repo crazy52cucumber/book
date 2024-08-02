@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 @WebServlet(value = {"/",""},loadOnStartup = 1)
@@ -24,9 +25,18 @@ public class MainController extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res)
+    public void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        list(req,res);
+
+        String param = req.getParameter("");
+
+        if(param != null && param.isEmpty()) {
+            param = param.trim();
+            switch (param) {
+                case "search": search(req,res); break;
+            }
+        }else
+            list(req,res);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse res)
@@ -42,15 +52,19 @@ public class MainController extends HttpServlet {
         String view = "index.jsp";
         req.getRequestDispatcher(view).forward(req, res);
     }
+    private void search(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException{
+        String acd_name = req.getParameter("acd_name");
 
-    private void search(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
         MainService service = MainService.getInstance();
+        ArrayList<Main> list = service.searchAcademyS(acd_name);
+        int count = service.count_search_academy(acd_name);
 
-        String acd_name = req.getParameter("academy_name");
-        ArrayList<Main> list = service.searchS(acd_name);
+        req.setAttribute("list", list);
+        req.setAttribute("count", count);
 
-        String view = "autosearch.jsp";
-        RequestDispatcher rd = req.getRequestDispatcher(view);
-        rd.forward(req, res);
+        String view = "index.jsp";
+        req.getRequestDispatcher(view).forward(req, res);
     }
+
 }

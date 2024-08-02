@@ -23,8 +23,16 @@ public class MainService {
         return dao.count_academy();
     }
 
+    // Search용 service
     public ArrayList<Main> searchS(String acd_name) {
         return dao.search(acd_name);
+    }
+
+    public ArrayList<Main> searchAcademyS(String acd_name) {
+        return dao.searchAcademy(acd_name);
+    }
+    int count_search_academy(String acd_name){
+        return dao.count_search_academy(acd_name);
     }
 
 }

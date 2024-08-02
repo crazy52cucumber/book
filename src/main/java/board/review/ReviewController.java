@@ -59,8 +59,9 @@ public class ReviewController extends HttpServlet {
       }
 
       if (method[2].startsWith("update")) {
-        long reviewPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-        moveToUpdateReviewPage(req, res, reviewPk);
+        long reviewPk = Long.parseLong(req.getParameter("review"));
+        long boardPk = Long.parseLong(req.getParameter("board"));
+        moveToUpdateReviewPage(req, res, boardPk, reviewPk);
       }
 
       if (method[2].startsWith("remove")) {
@@ -95,13 +96,17 @@ public class ReviewController extends HttpServlet {
     String[] method = uri.split("/");
     System.out.println("uri: " + uri);
     try {
-      long pk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
-      if (method[2].startsWith("all"))
-        getReviewByBoardPkWithPaging(req, res, pk);
-      if (method[2].startsWith("add"))
-        addReview(req, res, pk);
+      if (method[2].startsWith("all")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        getReviewByBoardPkWithPaging(req, res, boardPk);
+      }
+      if (method[2].startsWith("add")) {
+        long boardPk = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
+        addReview(req, res, boardPk);
+      }
       if (method[2].startsWith("update")) {
-        updateReviewByReviewPk(req, res, pk);
+        long reviewPk = Long.parseLong(req.getParameter("review"));
+        updateReviewByReviewPk(req, res, reviewPk);
       }
     } catch (NumberFormatException nfe) {
       nfe.printStackTrace();
@@ -195,9 +200,12 @@ public class ReviewController extends HttpServlet {
     out.print(gson.toJson(dto));
   }
 
-  private void moveToUpdateReviewPage(HttpServletRequest req, HttpServletResponse res, long reviewPk) throws ServletException, IOException {
+  private void moveToUpdateReviewPage(HttpServletRequest req, HttpServletResponse res, long boardPk, long reviewPk) throws ServletException, IOException {
     ReviewResponseDTO dto = reviewService.getReviewByReviewPk(reviewPk);
     req.setAttribute("dto", dto);
+    BoardResponseDTO board = boardService.getBoardByBoardPk(boardPk);
+    req.setAttribute("board", board);
+    System.out.println("board => " + board);
     req.getRequestDispatcher("/WEB-INF/jsp/board/review_update.jsp").forward(req, res);
   }
 
@@ -205,7 +213,6 @@ public class ReviewController extends HttpServlet {
   private void moveToWrite(HttpServletRequest req, HttpServletResponse res, long boardPk) throws ServletException, IOException {
     BoardResponseDTO board = boardService.getBoardByBoardPk(boardPk);
     req.setAttribute("board", board);
-    System.out.println("board => " + board);
     req.getRequestDispatcher("/WEB-INF/jsp/board/review_write.jsp").forward(req, res);
   }
 

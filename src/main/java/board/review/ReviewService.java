@@ -62,7 +62,6 @@ public class ReviewService {
     return reviewDAO.deleteReviewByReviewPk(reviewPk);
   }
 
-  // todo viewpk 구하고 있으면 리뷰 ㄴ, 없으면 리뷰 o
   public int getReviewPkByMemberPk(long bookSeq, long bookUser) {
     return reviewDAO.selectReviewPkByMemberPk(bookSeq, bookUser);
   }
