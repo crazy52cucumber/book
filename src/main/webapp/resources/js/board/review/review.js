@@ -74,14 +74,15 @@ $('#updateBtn').click(async (e) => {
   const data = await checkWriter(writerPk);
   const obj = JSON.parse(data);
   if (obj.result === '1')
-    location.href = `/reviews/update?board=${localStorage.getItem("boardPk")}&review=${reviewPk}`;
+    location.href = `${SERVER_IP}/reviews/update?board=${localStorage.getItem("boardPk")}&review=${reviewPk}`;
   else alert('작성자가 아닙니다.')
 })
 
 // 삭제 버튼 클릭
 $('#deleteBtn').click(async e => {
+  e.stopPropagation();
   const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
-  const response = await $.get(`${SERVER_IP}/reviews/remove/${reviewPk}`);
+  const response = await $.get(`${SERVER_IP}/reviews/remove/${reviewPk.substring(reviewPk.lastIndexOf("=") + 1)}`);
   const obj = JSON.parse(response);
   if (obj.result === '1')
     location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`

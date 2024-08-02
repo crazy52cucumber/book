@@ -34,6 +34,11 @@ img {
     height: 30px;
 }
 
+img.a-image {
+    width: 150px;
+    height: 100px;
+}
+
 .header-logo {
     display: flex;
     justify-content: space-between;

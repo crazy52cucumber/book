@@ -27,7 +27,7 @@
 
     <div class="board-container">
       <div class="img-container">
-        <img src="" alt="">
+        <img class="a-image" src="${pageContext.request.contextPath}/resources/imgs/hb.jpg" alt="학원이미지">
       </div>
       <table>
         <tbody>
