@@ -1,7 +1,7 @@
 import {modal} from "./modal.js";
 import {checkCookie, checkValid, checkWrite} from "./content-api.js";
 import {viewTarget} from "./infinity_scroll.js";
-import {drwaReview} from "./draw.js";
+import {drawContent, drwaReview} from "./draw.js";
 import {getReviewsByBoardPk} from "./review/review-api.js";
 
 const boardPk = new URLSearchParams(location.search).get('seq');

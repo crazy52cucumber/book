@@ -4,7 +4,7 @@ import {drawContent} from "./draw.js";
 const modalCancleBtnEle = $('#modalCancle');
 
 export const modal = (item) => {
-  $(item).on('click', async (e) => {
+  $(item).click(async (e) => {
     const reviewPk = item.childNodes[1].className.split('-')[2];
     const data = await getReviewByReviewPk(reviewPk);
     const obj = JSON.parse(data);

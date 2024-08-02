@@ -38,8 +38,8 @@ public class MailService {
       Message message = new MimeMessage(session);
       message.setFrom(new InternetAddress(from, "가산땃쥐"));
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-      message.setSubject("가산땃쥐 인증 번호입니다");
-      message.setText("인증번호는 [ " + authenCode + " ] 입니다.");
+      message.setSubject("인증번호는 [ " + authenCode + " ] 입니다.");
+      message.setText("가산땃쥐");
       Transport.send(message);
       System.out.println("NaverMail sent successfully");
     } catch (MessagingException e) {
