@@ -32,7 +32,7 @@ public class MemberService {
     return dao.withdraw(seq);
   }
 
-  public ArrayList<Review> myReviewListS(int member_seq) {
+  public ArrayList<MemberDAO.MyReview> myReviewListS(int member_seq) {
     return dao.myReviewList(member_seq);
   }
 

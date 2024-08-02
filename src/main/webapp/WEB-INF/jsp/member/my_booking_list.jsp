@@ -201,11 +201,11 @@
             html += "</ul>";
             html += "<div class='academy-item-menus'>";
             html += "<div class='academy-rate'>";
-            html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
+            // html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
             // html += "<span itemprop='rate'>0점</span>";
             html += "</div>";
             html += "<div class='academy-review'>";
-            html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
+            // html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
             // html += "<span itemprop='review_count'>0 개</span>";
             html += "</div>";
             html += "</div>";
@@ -239,11 +239,11 @@
             html += "</ul>";
             html += "<div class='academy-item-menus'>";
             html += "<div class='academy-rate'>";
-            html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
+            // html += "<img src='/resources/imgs/star.png' class='academy-rate-img'/>";
             <%--html += "<span itemprop='rate'>${}점</span>";--%>
             html += "</div>";
             html += "<div class='academy-review'>";
-            html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
+            // html += "<img src='/resources/imgs/review.png' class='academy-count-img'/>";
             <%--html += "<span itemprop='review_count'>${}개</span>";--%>
             html += "</div>";
             html += "</div>";
