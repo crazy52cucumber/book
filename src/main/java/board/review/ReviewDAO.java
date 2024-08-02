@@ -152,6 +152,7 @@ public class ReviewDAO extends BaseDAO {
   }
 
   public Optional<ReviewResponseDTO> selectReviewByReviewPk(long reviewPk) {
+    System.out.println("reviewPk: " + reviewPk);
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     ReviewResponseDTO dto = null;
@@ -180,6 +181,7 @@ public class ReviewDAO extends BaseDAO {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    System.out.println("dto ㅠㅠ => " + dto);
     return Optional.ofNullable(dto);
   }
 
