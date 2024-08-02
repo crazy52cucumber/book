@@ -169,6 +169,27 @@
           padding: 10px;
       }
 
+      .none-review-form {
+          background-color: seagreen;
+          border-radius: 15px;
+          width: 500px;
+          height: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 15px;
+      }
+
+      .none-review {
+          background-color: white;
+          border-radius: 10px;
+          height: 100px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+      }
+
 
   </style>
 </head>
@@ -176,7 +197,9 @@
 <main>
   <div class="my-review-container">
     <c:if test="${empty myReviewList}">
-      <div class="review-form">작성한 리뷰가 없음</div>
+      <div class="none-review-form">
+        <div class="none-review">작성한 리뷰가 없음</div>
+      </div>
     </c:if>
     <c:forEach items="${myReviewList}" var="review">
 

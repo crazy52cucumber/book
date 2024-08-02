@@ -409,10 +409,7 @@ public class MemberController extends HttpServlet {
       service.withdrawS(member_seq);
     }
     req.setAttribute("flag", flag);
-
-    String view = "mainPage.jsp";
-    RequestDispatcher rd = req.getRequestDispatcher(view);
-    rd.forward(req, res);
+    res.sendRedirect("/");
   }
 
   //내 리뷰리스트 불러오기

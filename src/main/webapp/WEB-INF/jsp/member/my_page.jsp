@@ -51,6 +51,8 @@
           justify-content: left;
           margin-left: 50px;
           font-size: larger;
+          font-weight: bold;
+          color: white;
       }
 
       #ebtn {
@@ -66,6 +68,7 @@
           border-radius: 30px;
           width: 50px;
           height: 50px;
+          font-weight: bold;
       }
 
       a {

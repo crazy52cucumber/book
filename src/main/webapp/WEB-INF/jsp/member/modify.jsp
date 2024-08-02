@@ -79,6 +79,10 @@
           display: flex;
           justify-content: center;
       }
+
+      .form-control {
+          width: 350px;
+      }
   </style>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/member.css"/>
 </head>
@@ -111,9 +115,10 @@
     비밀번호 확인을 입력해주세요
   </div>
   <fieldset class="join">
-    <button type="button" class="btn btn-dark" id="modifyBtn">비밀번호 변경</button>
+    <button type="button" class="btn btn-dark" id="modifyBtn">정보수정</button>
     <button type="button" class="btn btn-outline-dark" id="cancel">취소</button>
   </fieldset>
+  <%--  <button type="button" class="withdraw" id="withdraw"><a href="member.do?method=withdraw">탈퇴</a></button>--%>
 </form>
 <script>
   const nickName = document.getElementById('nickname');
