@@ -38,9 +38,21 @@ img {
     display: flex;
     justify-content: space-between;
     line-height: 70px;
+    align-items: center;
+    max-width: 500px;
     width: 100%;
     margin: 0 auto;
 }
+
+.header-logo > div {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo P {
+    margin: 0;
+}
+
 
 @media screen and (min-width: 501px) {
     main {

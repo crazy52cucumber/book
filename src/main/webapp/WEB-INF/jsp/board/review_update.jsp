@@ -29,7 +29,7 @@
 
     <div class="board-container">
       <div class="img-container">
-        <img src="" alt="">
+        <img src="${pageContext.request.contextPath}/resources/imgs/hb.jpg" alt="">
       </div>
       <table>
         <tbody>

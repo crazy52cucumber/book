@@ -48,13 +48,13 @@ $('#submitBtn').click(async (e) => {
     location.href = `${SERVER_IP}/board?seq=${boardPk}`
   } else {
     const reviewPk = location.href.substring(location.href.lastIndexOf("/") + 1);
-    data = await updateReviewByReviewPk(boardPk, reviewPk, object);
+    data = await updateReviewByReviewPk(localStorage.getItem('boardPk'), reviewPk, object);
     let jsonData = JSON.parse(data);
     if (jsonData.result === "0") {
       alert("수정이 안됐습니다.")
       return;
     }
-    //location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
+    location.href = `${SERVER_IP}/board?seq=${localStorage.getItem('boardPk')}`
   }
 })
 
@@ -74,7 +74,7 @@ $('#updateBtn').click(async (e) => {
   const data = await checkWriter(writerPk);
   const obj = JSON.parse(data);
   if (obj.result === '1')
-    location.href = `/reviews/update/${reviewPk}`;
+    location.href = `/reviews/update?board=${localStorage.getItem("boardPk")}&review=${reviewPk}`;
   else alert('작성자가 아닙니다.')
 })
 
