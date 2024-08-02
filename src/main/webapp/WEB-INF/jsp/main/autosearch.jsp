@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function(){
@@ -15,14 +15,12 @@
                 .append("<a>" + item.label + "</a>")
                 .appendTo(ul);
         };
-
         $( "#academy_name" ).autocomplete({
             source : function( request, response ) {
                 $.ajax({
                     type: 'post',
-                    url: "main?m=search",
+                    url: "search?m=autocomplete",
                     dataType: "json",
-
                     data: {acd_name : $("#academy_name").val()},
                     success: function(data) {
                         response(
@@ -35,20 +33,40 @@
                             })
                         );
                     }
+                    ,error : function (){
+                    }
                 });
             },
             //조회를 위한 최소글자수
             minLength: 1,
-            select: function( event, ui ) {
-                // 만약 검색리스트에서 선택하였을때 선택한 데이터에 의한 이벤트발생
-                alert("선택된 아이템: " + ui.item.value);
+            select: function(target) {
+                const selected = document.getElementById("academy_name");
+                selected.innerText = target.innerText;
+
             }
         });
     })
+    $(function search(target){
+        $.ajax({
+            type: 'GET',
+            dataType: 'JSON',
+            url: "search?m=search",
+            date: {acd_name : $("#academy_name").val()},
+            error: function(err){
+                console.log(err);
+            },
+            success: function(data){
+                var checkWord = $("#academy_name").val();
+                console.log(checkWord);
+
+            }
+        })
+    });
+
+
+
 </script>
 
 <body onload="$('#academy_name').focus()">
-<center>
-    <input class="search-bar" type="text" placeholder="학원을 검색해주세요.">
-</center>
+   <input id = "academy_name" name = "acd_name" class="search-bar" type="text" placeholder="학원을 검색해주세요." size="50px">
 </body>
