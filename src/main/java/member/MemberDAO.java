@@ -178,6 +178,7 @@ class MemberDAO extends BaseDAO {
       pstmt.setInt(3, modifiedMember.getSeq());
       //System.out.println();
       int i = pstmt.executeUpdate();
+      System.out.println(i + " rows affected");
     } catch (SQLException se) {
       se.printStackTrace();
     } finally {
