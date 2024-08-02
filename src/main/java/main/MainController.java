@@ -32,7 +32,9 @@ public class MainController extends HttpServlet {
 
         if(param != null && param.isEmpty()) {
             param = param.trim();
-            switch (param) {}
+            switch (param) {
+                case "search": search(req,res); break;
+            }
         }else
             list(req,res);
     }
@@ -43,6 +45,20 @@ public class MainController extends HttpServlet {
 
         ArrayList<Main> list = service.mainPageS();
         int count = service.count_academyS();
+
+        req.setAttribute("list", list);
+        req.setAttribute("count", count);
+
+        String view = "index.jsp";
+        req.getRequestDispatcher(view).forward(req, res);
+    }
+    private void search(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException{
+        String acd_name = req.getParameter("acd_name");
+
+        MainService service = MainService.getInstance();
+        ArrayList<Main> list = service.searchAcademyS(acd_name);
+        int count = service.count_search_academy(acd_name);
 
         req.setAttribute("list", list);
         req.setAttribute("count", count);

@@ -34,7 +34,6 @@
                         );
                     }
                     ,error : function (){
-                        alert("검색 실패");
                     }
                 });
             },
@@ -69,7 +68,5 @@
 </script>
 
 <body onload="$('#academy_name').focus()">
-<form name="search-form" action="search?m=search" method="post">
-   <input id = "academy_name" name = "acd_name" class="search-bar" type="search" placeholder="학원을 검색해주세요." size="50px">
-</form>
+   <input id = "academy_name" name = "acd_name" class="search-bar" type="text" placeholder="학원을 검색해주세요." size="50px">
 </body>

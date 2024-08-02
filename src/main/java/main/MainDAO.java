@@ -155,15 +155,15 @@ public class MainDAO {
         try{
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, acd_name);
+            pstmt.setString(1, "%"+acd_name+"%");
             rs = pstmt.executeQuery();
             while(rs.next()) {
-                long board_seq = rs.getLong("br.board_seq");
-                String academy_name = rs.getString("br.academy_name");
-                String addr = rs.getString("br.addr");
-                String content = rs.getString("br.content");
-                int book_limit = rs.getInt("br.book_limit");
-                Date ldate = rs.getDate("br.ldate");
+                long board_seq = rs.getLong("board_seq");
+                String academy_name = rs.getString("academy_name");
+                String addr = rs.getString("addr");
+                String content = rs.getString("content");
+                int book_limit = rs.getInt("book_limit");
+                Date ldate = rs.getDate("ldate");
                 double rate = rs.getDouble("rate");
                 int review_count = rs.getInt("review_count");
 
@@ -194,7 +194,7 @@ public class MainDAO {
         int csa = 0;
         Connection con = null;
         PreparedStatement pstmt = null;
-        String sql = COUNT_ACADEMY;
+        String sql = COUNT_SEARCH_ACADEMY;
         ResultSet rs = null;
         try {
             con = ds.getConnection();
