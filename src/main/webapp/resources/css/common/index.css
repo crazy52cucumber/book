@@ -95,10 +95,17 @@ a {
     justify-content: space-between;
     height: 50px;
 }
+.academy-rate{
+    width: 50%;
+}
 
 .academy-rate-img {
     height: 20px;
     width: 20px;
+}
+.academy-review{
+    width: 50%;
+
 }
 
 .academy-count-img {
