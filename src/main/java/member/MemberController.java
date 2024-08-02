@@ -369,10 +369,10 @@ public class MemberController extends HttpServlet {
     Member member = (Member) session.getAttribute("member");
     int member_seq = member.getSeq();
     String email = member.getEmail();
-    String password = encode(req.getParameter("modifiedPassword"));
+    String password = encode(req.getParameter("password"));
     String name = member.getName();
     String phone = member.getPhone();
-    String nickname = req.getParameter("modifiedNickname");
+    String nickname = req.getParameter("nickname");
     System.out.println(nickname);
     System.out.println(password);
 
@@ -392,8 +392,9 @@ public class MemberController extends HttpServlet {
 
     MemberService service = MemberService.getInstance();
     service.modifyS(modifiedMember);
+    session.setAttribute("member", modifiedMember);
 
-    req.getRequestDispatcher("/WEB-INF/jsp/member/my_page.jsp").forward(req, res);
+    req.getRequestDispatcher("/").forward(req, res);
   }
 
   //회원 탈퇴

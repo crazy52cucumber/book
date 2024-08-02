@@ -160,9 +160,11 @@
         password.value,
         passwordRetype.value
     );
+    const isNicknameValid = validateNickname(nickName.value);
     if (
         isPasswordValid &&
-        isPasswordRetypeValid
+        isPasswordRetypeValid &&
+        isNicknameValid
     ) {
       modifyBtn.type = 'submit';
 
