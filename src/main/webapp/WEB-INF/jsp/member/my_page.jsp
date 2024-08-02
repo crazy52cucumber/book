@@ -70,6 +70,9 @@
 
       a {
           text-decoration: none;
+          color: white;
+          font-size: 20px;
+          font-weight: bold;
       }
 
       .a {
@@ -77,15 +80,23 @@
       }
 
       #home {
+          display: flex;
+          align-items: center;
           margin-left: 30px;
           background-color: darkseagreen;
           border-radius: 25px;
+          width: 100px;
+          height: 50px;
       }
 
       #logout {
+          display: flex;
+          align-items: center;
           margin-right: 30px;
           background-color: darkseagreen;
           border-radius: 25px;
+          width: 100px;
+          height: 50px;
       }
 
       .header {
@@ -104,9 +115,9 @@
 <body>
 <div id="container">
   <div class="header">
-    <a id="home" href="/"><img src="/resources/imgs/별.png"></a>
+    <a id="home" href="/">가산땃쥐</a>
     <a id="logout" href="/member/member.do?method=logout">
-      <img src="/resources/imgs/별.png">
+      로그아웃
     </a>
 
   </div>

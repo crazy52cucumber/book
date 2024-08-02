@@ -22,6 +22,10 @@
 
       }
 
+      #login-password {
+          margin-top: 150px;
+      }
+
       #login-btn {
           margin-top: 50px;
       }
@@ -46,13 +50,13 @@
 <main>
   <div class="main-container">
     <form id="passwordForm" action="/member/member.do?method=modifyForm" method="post">
-      <fieldset class="password">
-        <input type="password" id="login-password" name="password" placeholder="비밀번호 확인"/>
-      </fieldset>
-      <div class="login-password-msg hide">비밀번호가 잘못되었습니다. 비밀번호를 정확히 입력해 주세요.</div>
-      <fieldset>
-        <button id="login-btn" class="login button-disabled" type="button" disabled>확인</button>
-      </fieldset>
+
+      <input type="password" id="login-password" name="password" placeholder="비밀번호 확인"/>
+      <br/>
+      <div class="login-password-msg hide">비밀번호를 정확히 입력해 주세요.</div>
+
+      <button id="login-btn" class="login button-disabled" type="button" disabled>확인</button>
+
     </form>
   </div>
 </main>
